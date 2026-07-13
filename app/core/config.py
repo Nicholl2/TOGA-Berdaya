@@ -22,7 +22,14 @@ class Settings(BaseSettings):
     api_v1_str: str = "/api/v1"
     
     # Menghandle input CORS baik berupa string koma (di .env) maupun list asli
-    all_cors_origins: Annotated[List[str], BeforeValidator(parse_cors)] = ["*"]
+    all_cors_origins: Annotated[List[str], BeforeValidator(parse_cors)] = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:8080",
+        "http://localhost:8082"
+    ]
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

@@ -20,3 +20,7 @@ class UserRepository:
         await self.db.commit()
         await self.db.refresh(user)
         return user
+
+    async def get_all(self) -> list[User]:
+        result = await self.db.execute(select(User))
+        return list(result.scalars().all())

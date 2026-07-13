@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-body antialiased selection:bg-primary/20 selection:text-[#111827];
+    background-color: #FBFCF8;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    text-align: left;
+    border-inline: none;
+    display: block;
+    min-height: auto;
+  }
+
+  /* Custom scrollbars for Auralis premium light feel */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FBFCF8;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #E5E7EB;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1E6BFF;
+  }
+}
