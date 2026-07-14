@@ -1,0 +1,30 @@
+{
+  "navbar": {
+    "catalog": "Katalog",
+    "users": "Pengguna",
+    "monitoring": "Monitoring",
+    "login": "Login",
+    "logout": "Keluar"
+  },
+  "hero": {
+    "explore": "Jelajahi Katalog",
+    "monitoring_btn": "Agenda Monitoring"
+  },
+  "catalog": {
+    "title": "Katalog TOGA Berdaya",
+    "search_placeholder": "Cari tanaman obat...",
+    "download_booklet": "Unduh Booklet Fisik",
+    "no_plants_found": "Tidak ada tanaman ditemukan",
+    "search_try_again": "Coba gunakan kata kunci pencarian yang lain."
+  },
+  "tabs": {
+    "medical_benefit": "Khasiat Medis",
+    "poc_formula": "Formula POC",
+    "usage_instruction": "Aturan Pakai",
+    "history": "Sejarah"
+  },
+  "fab": {
+    "bedeng_map": "Peta Lokasi KKN"
+  },
+  "save_success": "Data berhasil disimpan ke database!"
+}

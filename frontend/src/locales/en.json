@@ -1,0 +1,30 @@
+{
+  "navbar": {
+    "catalog": "Catalog",
+    "users": "Users",
+    "monitoring": "Monitoring",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "hero": {
+    "explore": "Explore Catalog",
+    "monitoring_btn": "Monitoring Agenda"
+  },
+  "catalog": {
+    "title": "TOGA Berdaya Catalog",
+    "search_placeholder": "Search medicinal plants...",
+    "download_booklet": "Download Physical Booklet",
+    "no_plants_found": "No plants found",
+    "search_try_again": "Try using other search keywords."
+  },
+  "tabs": {
+    "medical_benefit": "Medical Benefits",
+    "poc_formula": "POC Formula",
+    "usage_instruction": "Usage Instructions",
+    "history": "History / Fun Fact"
+  },
+  "fab": {
+    "bedeng_map": "KKN Location Map"
+  },
+  "save_success": "Data successfully saved to database!"
+}

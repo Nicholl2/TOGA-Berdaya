@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { BrowserRouter, Routes, Route, Link, NavLink, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { 
   Lock, 
@@ -167,8 +168,11 @@ function ProtectedRoute({ token, children }) {
 }
 
 function Navbar({ token, user, logout }) {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const currentLanguage = i18n.language || 'id';
 
   return (
     <header className="w-full h-24 flex items-center justify-between px-8 max-w-7xl mx-auto z-40 relative bg-transparent font-sans">
@@ -189,7 +193,7 @@ function Navbar({ token, user, logout }) {
               : 'text-[#4B5563] font-normal hover:text-[#111827]')
           }
         >
-          Katalog
+          {t('navbar.catalog')}
         </NavLink>
 
         <NavLink 
@@ -201,7 +205,7 @@ function Navbar({ token, user, logout }) {
               : 'text-[#4B5563] font-normal hover:text-[#111827]')
           }
         >
-          Pengguna
+          {t('navbar.users')}
         </NavLink>
 
         <NavLink 
@@ -213,7 +217,7 @@ function Navbar({ token, user, logout }) {
               : 'text-[#4B5563] font-normal hover:text-[#111827]')
           }
         >
-          Monitoring
+          {t('navbar.monitoring')}
           <span className="text-[10px] text-[#1E6BFF] font-semibold align-super -mt-2 font-mono">(26)</span>
         </NavLink>
       </nav>
@@ -221,9 +225,27 @@ function Navbar({ token, user, logout }) {
       {/* Right Actions */}
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-1.5 text-[11px] font-bold font-mono tracking-wider">
-          <span className="text-[#111827] cursor-pointer hover:opacity-80">EN</span>
+          <span 
+            onClick={() => i18n.changeLanguage('en')}
+            className={`cursor-pointer transition-all duration-200 ${
+              currentLanguage.startsWith('en') 
+                ? 'text-[#1E6BFF] font-black' 
+                : 'text-[#4B5563] hover:text-[#111827] font-normal'
+            }`}
+          >
+            EN
+          </span>
           <span className="text-gray-300">|</span>
-          <span className="text-[#111827] cursor-pointer hover:opacity-80">ID</span>
+          <span 
+            onClick={() => i18n.changeLanguage('id')}
+            className={`cursor-pointer transition-all duration-200 ${
+              currentLanguage.startsWith('id') 
+                ? 'text-[#1E6BFF] font-black' 
+                : 'text-[#4B5563] hover:text-[#111827] font-normal'
+            }`}
+          >
+            ID
+          </span>
         </div>
         {token && user ? (
           <div className="flex items-center gap-4">
@@ -235,14 +257,14 @@ function Navbar({ token, user, logout }) {
             </div>
             <button 
               onClick={logout}
-              className="rounded-[28px] bg-[#10151C] text-white px-[22px] py-2.5 text-xs font-semibold hover:bg-red-600 transition-all duration-300 shadow-sm active:scale-95 flex items-center gap-1.5"
+              className="rounded-[28px] bg-[#10151C] text-white px-[22px] py-2.5 text-xs font-semibold hover:bg-red-600 transition-all duration-300 shadow-sm active:scale-95 flex items-center gap-1.5 cursor-pointer"
             >
-              <LogOut className="w-3.5 h-3.5" /> Keluar
+              <LogOut className="w-3.5 h-3.5" /> {t('navbar.logout')}
             </button>
           </div>
         ) : (
           <Link to="/login" className="rounded-[28px] bg-[#10151C] text-white px-[22px] py-2.5 text-xs font-semibold hover:bg-[#1E6BFF] transition-all duration-300 shadow-sm active:scale-95 flex items-center gap-1.5">
-            <Lock className="w-3.5 h-3.5" /> Login
+            <Lock className="w-3.5 h-3.5" /> {t('navbar.login')}
           </Link>
         )}
       </div>
@@ -251,6 +273,9 @@ function Navbar({ token, user, logout }) {
 }
 
 function LandingPage({ token, user, logout }) {
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'id';
+
   return (
     <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none">
       
@@ -267,20 +292,29 @@ function LandingPage({ token, user, logout }) {
           {/* KOLOM KIRI (Typography Raksasa & Actions) */}
           <div className="lg:col-span-5 flex flex-col justify-center text-left">
             <h1 className="font-sans text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tighter leading-[0.9] text-[#111827]">
-              <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> <br />
-              Knowledge Base for Kelurahan Tingkir Lor
+              {currentLang.startsWith('en') ? (
+                <>
+                  <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> <br />
+                  Knowledge Base for Kelurahan Tingkir Lor
+                </>
+              ) : (
+                <>
+                  Basis Pengetahuan <br />
+                  <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> Kelurahan Tingkir Lor
+                </>
+              )}
             </h1>
             
             <p className="mt-8 text-base md:text-[17px] text-[#4B5563] max-w-xl leading-relaxed font-normal">
-              Sebuah ekosistem digitalisasi Tanaman Obat Keluarga (TOGA) hasil kolaborasi lintas disiplin tim KKN Universitas Diponegoro untuk memberdayakan warga Tingkir Lor dalam kemandirian herba dan integrasi pengetahuan botani.
+              {t('hero_desc')}
             </p>
 
             <div className="mt-10 flex items-center gap-5">
               <Link to="/katalog" className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md shadow-primary/20 hover:opacity-95 active:scale-95 inline-flex items-center">
-                Jelajahi Katalog
+                {t('explore_catalog')}
               </Link>
-              <button className="bg-[#10151C] hover:bg-[#1E6BFF] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md active:scale-95">
-                Agenda Monitoring
+              <button className="bg-[#10151C] hover:bg-[#1E6BFF] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer">
+                {t('monitoring_agenda')}
               </button>
             </div>
           </div>
@@ -454,7 +488,7 @@ function LandingPage({ token, user, logout }) {
             <Compass className="w-5 h-5 animate-pulse" />
           </button>
           <div className="absolute right-14 px-2.5 py-1.5 bg-[#10151C] text-white text-[10px] font-bold font-mono uppercase tracking-wider rounded-[4px] shadow-md opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-1.5 transition-all duration-200 whitespace-nowrap">
-            Peta Bedeng
+            {t('fab.bedeng_map')}
           </div>
         </div>
 
@@ -1355,6 +1389,7 @@ function UsersPage({ token, user, logout }) {
 }
 
 function KatalogPage({ token, user, logout }) {
+  const { t } = useTranslation();
   const [plants, setPlants] = useState(fallbackPlants);
   const [selectedPlant, setSelectedPlant] = useState(fallbackPlants[0]);
   const [activeTab, setActiveTab] = useState('khasiat'); // 'khasiat', 'poc', 'aturan', 'sejarah'
@@ -1548,6 +1583,7 @@ function KatalogPage({ token, user, logout }) {
       });
 
       if (response.ok) {
+        alert(t('save_success'));
         const savedPlant = await response.json().catch(() => ({}));
         if (imageFile) {
           const reader = new FileReader();
@@ -1582,10 +1618,10 @@ function KatalogPage({ token, user, logout }) {
   };
 
   const tabLabels = {
-    khasiat: "Khasiat Medis",
-    poc: "Formula POC",
-    aturan: "Aturan Pakai",
-    sejarah: "Sejarah"
+    khasiat: t('tabs.medical_benefit'),
+    poc: t('tabs.poc_formula'),
+    aturan: t('tabs.usage_instruction'),
+    sejarah: t('tabs.history')
   };
 
   // Filter plants based on search term
@@ -1708,15 +1744,15 @@ function KatalogPage({ token, user, logout }) {
         <div className="w-full mt-10 mb-6">
           <div className="flex justify-between items-center mb-6 w-full">
             <p className="text-[11px] font-bold text-[#6B7280] tracking-widest uppercase font-mono">
-              Katalog TOGA Berdaya
+              {t('catalog.title')}
             </p>
             <div className="flex items-center gap-3">
               {token && user && (user.role === 'admin' || user.role === 'staff') && (
                 <button
                   onClick={handleAddNewPlant}
-                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-[28px] bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white text-xs font-semibold transition-all duration-200 shadow-sm active:scale-95"
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-[28px] bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white text-xs font-semibold transition-all duration-200 shadow-sm active:scale-95 cursor-pointer"
                 >
-                  <Plus className="w-3.5 h-3.5" /> Tambah Tanaman Baru
+                  <Plus className="w-3.5 h-3.5" /> {t('add_new_plant')}
                 </button>
               )}
               {/* Search Bar Premium */}
@@ -1724,7 +1760,7 @@ function KatalogPage({ token, user, logout }) {
                 <Search className="w-3.5 h-3.5 text-[#9CA3AF] mr-2 flex-shrink-0" />
                 <input
                   type="text"
-                  placeholder="Cari tanaman obat..."
+                  placeholder={t('catalog.search_placeholder')}
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
@@ -1739,8 +1775,8 @@ function KatalogPage({ token, user, logout }) {
           {filteredPlants.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 border border-dashed border-[#E5E7EB] rounded-[5px] bg-white w-full">
               <Leaf className="w-8 h-8 text-[#9CA3AF] mb-2 animate-pulse" />
-              <p className="text-sm font-semibold text-[#4B5563]">Tidak ada tanaman ditemukan</p>
-              <p className="text-xs text-[#9CA3AF] mt-1">Coba gunakan kata kunci pencarian yang lain.</p>
+              <p className="text-sm font-semibold text-[#4B5563]">{t('catalog.no_plants_found')}</p>
+              <p className="text-xs text-[#9CA3AF] mt-1">{t('catalog.search_try_again')}</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
