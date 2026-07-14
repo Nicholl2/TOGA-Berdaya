@@ -291,7 +291,7 @@ function LandingPage({ token, user, logout }) {
           
           {/* KOLOM KIRI (Typography Raksasa & Actions) */}
           <div className="lg:col-span-5 flex flex-col justify-center text-left">
-            <h1 className="font-sans text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tighter leading-[0.9] text-[#111827]">
+            <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] text-[#111827]">
               {currentLang.startsWith('en') ? (
                 <>
                   <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> <br />
@@ -305,7 +305,7 @@ function LandingPage({ token, user, logout }) {
               )}
             </h1>
             
-            <p className="mt-8 text-base md:text-[17px] text-[#4B5563] max-w-xl leading-relaxed font-normal">
+            <p className="mt-6 text-base text-[#4B5563] max-w-xl leading-relaxed font-normal">
               {t('hero.desc')}
             </p>
 
