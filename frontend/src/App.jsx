@@ -445,20 +445,31 @@ function LandingPage({ token, user, logout }) {
 
       {/* BOTTOM RIGHT CONTROLS */}
       <div className="fixed bottom-24 right-6 flex flex-col gap-3.5 z-40 select-none">
-        <button 
-          onClick={() => alert("Menampilkan Peta Lokasi Bedeng RW 1")}
-          className="w-11 h-11 rounded-full bg-[#10151C] text-white flex items-center justify-center shadow-lg hover:bg-[#1E6BFF] transition-all hover:scale-105 active:scale-95 border border-white/5"
-          title="Peta Bedeng"
-        >
-          <Compass className="w-5 h-5" />
-        </button>
-        <button 
-          onClick={() => alert("Mengunduh E-Booklet Pengetahuan TOGA")}
-          className="w-11 h-11 rounded-full bg-[#10151C] text-white flex items-center justify-center shadow-lg hover:bg-[#1E6BFF] transition-all hover:scale-105 active:scale-95 border border-white/5"
-          title="E-Booklet"
-        >
-          <BookOpen className="w-5 h-5" />
-        </button>
+        {/* Peta Bedeng Button */}
+        <div className="relative group flex items-center justify-end">
+          <button 
+            onClick={() => window.open("https://maps.google.com/?cid=8134177888513106590", "_blank", "noopener,noreferrer")}
+            className="w-11 h-11 rounded-full bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 border border-white/5 cursor-pointer"
+          >
+            <Compass className="w-5 h-5 animate-pulse" />
+          </button>
+          <div className="absolute right-14 px-2.5 py-1.5 bg-[#10151C] text-white text-[10px] font-bold font-mono uppercase tracking-wider rounded-[4px] shadow-md opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-1.5 transition-all duration-200 whitespace-nowrap">
+            Peta Bedeng
+          </div>
+        </div>
+
+        {/* E-Booklet Button */}
+        <div className="relative group flex items-center justify-end">
+          <button 
+            onClick={() => alert("Mengunduh E-Booklet Pengetahuan TOGA")}
+            className="w-11 h-11 rounded-full bg-[#10151C] hover:bg-[#1E6BFF] text-white flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 border border-white/5 cursor-pointer"
+          >
+            <BookOpen className="w-5 h-5" />
+          </button>
+          <div className="absolute right-14 px-2.5 py-1.5 bg-[#10151C] text-white text-[10px] font-bold font-mono uppercase tracking-wider rounded-[4px] shadow-md opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-1.5 transition-all duration-200 whitespace-nowrap">
+            E-Booklet
+          </div>
+        </div>
       </div>
 
     </div>
