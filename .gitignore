@@ -21,3 +21,5 @@ app/test_imports.py
 
 .DS_Store
 Thumbs.db
+
+dockerfile
