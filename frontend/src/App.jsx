@@ -1752,7 +1752,7 @@ function KatalogPage({ token, user, logout }) {
                   onClick={handleAddNewPlant}
                   className="flex items-center gap-1.5 px-4 py-1.5 rounded-[28px] bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white text-xs font-semibold transition-all duration-200 shadow-sm active:scale-95 cursor-pointer"
                 >
-                  <Plus className="w-3.5 h-3.5" /> {t('add_new_plant')}
+                  <Plus className="w-3.5 h-3.5" /> {t('Add New Plant')}
                 </button>
               )}
               {/* Search Bar Premium */}
