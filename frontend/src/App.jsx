@@ -1694,28 +1694,28 @@ function KatalogPage({ token, user, logout }) {
 
             {/* Actions */}
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <button 
+              <button
                 onClick={() => alert("Mengunduh E-Booklet Pengetahuan TOGA...")}
-                className="bg-[#10151C] hover:bg-[#1E6BFF] text-white px-6 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-all duration-300 shadow-md active:scale-98"
+                className="flex items-center gap-1.5 bg-[#10151C] hover:bg-[#1E6BFF] text-white px-6 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-all duration-200 active:scale-95 cursor-pointer"
               >
-                Unduh Booklet Fisik
+                {t('catalog.download_booklet')}
               </button>
 
               {token && user && (user.role === 'admin' || user.role === 'staff') && selectedPlant && (
                 <button
                   onClick={() => handleEditPlant(selectedPlant)}
-                  className="flex items-center gap-1.5 border border-[#E5E7EB] hover:bg-gray-50 text-[#4B5563] px-6 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-colors duration-200 active:scale-98"
+                  className="flex items-center gap-1.5 border border-[#E5E7EB] hover:bg-gray-50 text-[#4B5563] px-6 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-colors duration-200 active:scale-98 cursor-pointer"
                 >
-                  <Pencil className="w-3.5 h-3.5" /> Edit Tanaman
+                  <Pencil className="w-3.5 h-3.5" /> {t('catalog.edit_plant')}
                 </button>
               )}
 
               {token && user && user.role === 'admin' && selectedPlant && (
                 <button
                   onClick={() => handleDeletePlant(selectedPlant)}
-                  className="flex items-center gap-1.5 text-[#EF4444] hover:text-red-700 hover:bg-red-50 px-4 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-colors duration-200 active:scale-98"
+                  className="flex items-center gap-1.5 text-[#EF4444] hover:text-red-700 hover:bg-red-50 px-4 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-colors duration-200 active:scale-98 cursor-pointer"
                 >
-                  <Trash2 className="w-3.5 h-3.5" /> Hapus
+                  <Trash2 className="w-3.5 h-3.5" /> {t('catalog.delete_plant')}
                 </button>
               )}
             </div>
@@ -1813,15 +1813,19 @@ function KatalogPage({ token, user, logout }) {
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-6 bg-white border border-[#E5E7EB] px-4 py-3.5 rounded-[5px] shadow-[0_2px_8px_rgba(0,0,0,0.01)] animate-in fade-in duration-200">
               <div className="text-xs text-[#4B5563] font-mono">
-                Menampilkan <span className="font-bold text-[#111827]">{Math.min(filteredPlants.length, (currentPage - 1) * itemsPerPage + 1)}</span> - <span className="font-bold text-[#111827]">{Math.min(filteredPlants.length, currentPage * itemsPerPage)}</span> dari <span className="font-bold text-[#111827]">{filteredPlants.length}</span> Tanaman
+                {t('pagination.showing', {
+                  start: Math.min(filteredPlants.length, (currentPage - 1) * itemsPerPage + 1),
+                  end: Math.min(filteredPlants.length, currentPage * itemsPerPage),
+                  total: filteredPlants.length
+                })}
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="px-3.5 py-1.5 border border-[#E5E7EB] text-xs font-semibold rounded-[3px] text-[#4B5563] bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 uppercase tracking-wider font-mono"
+                  className="px-3.5 py-1.5 border border-[#E5E7EB] text-xs font-semibold rounded-[3px] text-[#4B5563] bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 uppercase tracking-wider font-mono cursor-pointer"
                 >
-                  Sebelumnya
+                  {t('pagination.prev')}
                 </button>
                 <span className="text-xs font-bold text-[#111827] font-mono px-3">
                   {currentPage} / {totalPages}
@@ -1829,9 +1833,9 @@ function KatalogPage({ token, user, logout }) {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="px-3.5 py-1.5 border border-[#E5E7EB] text-xs font-semibold rounded-[3px] text-[#4B5563] bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 uppercase tracking-wider font-mono"
+                  className="px-3.5 py-1.5 border border-[#E5E7EB] text-xs font-semibold rounded-[3px] text-[#4B5563] bg-white hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 uppercase tracking-wider font-mono cursor-pointer"
                 >
-                  Selanjutnya
+                  {t('pagination.next')}
                 </button>
               </div>
             </div>

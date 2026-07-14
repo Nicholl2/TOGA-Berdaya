@@ -17,13 +17,20 @@
     "search_placeholder": "Search medicinal plants...",
     "download_booklet": "Download Physical Booklet",
     "no_plants_found": "No plants found",
-    "search_try_again": "Try using other search keywords."
+    "search_try_again": "Try using other search keywords.",
+    "edit_plant": "Edit Plant",
+    "delete_plant": "Delete"
   },
   "tabs": {
     "medical_benefit": "Medical Benefits",
     "poc_formula": "POC Formula",
     "usage_instruction": "Usage Instructions",
     "history": "History / Fun Fact"
+  },
+  "pagination": {
+    "showing": "Showing {{start}} - {{end}} of {{total}} Plants",
+    "prev": "PREVIOUS",
+    "next": "NEXT"
   },
   "fab": {
     "bedeng_map": "KKN Location Map"

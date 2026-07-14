@@ -17,13 +17,20 @@
     "search_placeholder": "Cari tanaman obat...",
     "download_booklet": "Unduh Booklet Fisik",
     "no_plants_found": "Tidak ada tanaman ditemukan",
-    "search_try_again": "Coba gunakan kata kunci pencarian yang lain."
+    "search_try_again": "Coba gunakan kata kunci pencarian yang lain.",
+    "edit_plant": "Edit Tanaman",
+    "delete_plant": "Hapus"
   },
   "tabs": {
     "medical_benefit": "Khasiat Medis",
     "poc_formula": "Formula POC",
     "usage_instruction": "Aturan Pakai",
     "history": "Sejarah"
+  },
+  "pagination": {
+    "showing": "Menampilkan {{start}} - {{end}} dari {{total}} Tanaman",
+    "prev": "SEBELUMNYA",
+    "next": "SELANJUTNYA"
   },
   "fab": {
     "bedeng_map": "Peta Lokasi KKN"
