@@ -34,6 +34,7 @@ async def create_plant(
     medical_benefit: str = Form(...),
     historical_funfact: Optional[str] = Form(None),
     poc_dosage_guideline: str = Form(...),
+    latin_name: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
     current_user: User = Depends(check_role([UserRole.admin, UserRole.staff])),
     db: AsyncSession = Depends(get_db)
@@ -43,7 +44,8 @@ async def create_plant(
         type=type,
         medical_benefit=medical_benefit,
         historical_funfact=historical_funfact,
-        poc_dosage_guideline=poc_dosage_guideline
+        poc_dosage_guideline=poc_dosage_guideline,
+        latin_name=latin_name
     )
     plant_service = PlantService(db)
     return await plant_service.create(plant_in)
@@ -56,6 +58,7 @@ async def update_plant(
     medical_benefit: Optional[str] = Form(None),
     historical_funfact: Optional[str] = Form(None),
     poc_dosage_guideline: Optional[str] = Form(None),
+    latin_name: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
     current_user: User = Depends(check_role([UserRole.admin, UserRole.staff])),
     db: AsyncSession = Depends(get_db)
@@ -72,6 +75,8 @@ async def update_plant(
         update_data["historical_funfact"] = historical_funfact
     if poc_dosage_guideline is not None:
         update_data["poc_dosage_guideline"] = poc_dosage_guideline
+    if latin_name is not None:
+        update_data["latin_name"] = latin_name
 
     plant_in = PlantUpdate(**update_data)
     plant_service = PlantService(db)

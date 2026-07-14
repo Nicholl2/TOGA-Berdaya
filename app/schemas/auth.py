@@ -12,3 +12,7 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: Optional[str] = None
     role: Optional[str] = None
+
+class ResetPasswordRequest(BaseModel):
+    username: str = Field(..., min_length=3, max_length=100)
+    new_password: str = Field(..., min_length=6, max_length=255)

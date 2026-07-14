@@ -5,6 +5,7 @@ from app.models.plant import PlantType
 
 class PlantBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
+    latin_name: Optional[str] = Field(default=None)
     type: PlantType = Field(default=PlantType.toga)
     medical_benefit: str = Field(...)
     historical_funfact: Optional[str] = Field(default=None)
@@ -15,6 +16,7 @@ class PlantCreate(PlantBase):
 
 class PlantUpdate(BaseModel):
     name: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    latin_name: Optional[str] = Field(default=None)
     type: Optional[PlantType] = Field(default=None)
     medical_benefit: Optional[str] = Field(default=None)
     historical_funfact: Optional[str] = Field(default=None)

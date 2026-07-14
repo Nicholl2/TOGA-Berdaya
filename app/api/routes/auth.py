@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.models.user import User, UserRole
 from app.api.dependencies import check_role, get_current_user
 from app.services.auth_service import AuthService
-from app.schemas.auth import Token, LoginRequest
+from app.schemas.auth import Token, LoginRequest, ResetPasswordRequest
 from app.schemas.user import UserCreate, UserResponse, UserUpdate
 
 router = APIRouter()
@@ -87,3 +87,22 @@ async def update_user(
         target_user.role = user_in.role
 
     return await user_repo.update(target_user)
+
+@router.post("/reset-password")
+async def reset_password(
+    req: ResetPasswordRequest,
+    db: AsyncSession = Depends(get_db)
+):
+    from app.repositories.user_repo import UserRepository
+    user_repo = UserRepository(db)
+    user = await user_repo.get_by_username(req.username)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Username tidak ditemukan"
+        )
+    
+    # Simpan password baru setelah di-hash
+    user.password_hash = AuthService.hash_password(req.new_password)
+    await user_repo.update(user)
+    return {"message": "Password berhasil diubah"}

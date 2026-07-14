@@ -22,8 +22,9 @@ import ayunImg from './assets/Ayun.JPG';
 import nicholasImg from './assets/Nicholas.JPG';
 import raditImg from './assets/Radit.png';
 import revinaImg from './assets/Revina.JPG';
+import togaLogo from './assets/TOGA-Logo.png';
 
-const API_URL = "http://127.0.0.1:8000/api/v1";
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api/v1";
 
 const fallbackPlants = [
   {
@@ -173,7 +174,7 @@ function Navbar({ token, user, logout }) {
     <header className="w-full h-24 flex items-center justify-between px-8 max-w-7xl mx-auto z-40 relative bg-transparent font-sans">
       {/* Left Logo */}
       <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
-        <div className="w-[18px] h-[18px] rounded-full bg-gradient-to-tr from-[#1E6BFF] to-[#14B8A6] shadow-sm" />
+        <img src={togaLogo} alt="TOGA Logo" className="w-5 h-5 object-contain" />
         <span className="font-sans font-bold text-[19px] tracking-tight text-[#111827]">TOGA Berdaya</span>
       </div>
 
@@ -271,7 +272,7 @@ function LandingPage({ token, user, logout }) {
             </h1>
             
             <p className="mt-8 text-base md:text-[17px] text-[#4B5563] max-w-xl leading-relaxed font-normal">
-              Sebuah ekosistem digitalisasi Tanaman Obat Keluarga (TOGA) hasil kolaborasi lintas disiplin tim KKN Universitas Diponegoro untuk memberdayakan warga RW 1 Tingkir Lor dalam kemandirian herba dan integrasi pengetahuan botani.
+              Sebuah ekosistem digitalisasi Tanaman Obat Keluarga (TOGA) hasil kolaborasi lintas disiplin tim KKN Universitas Diponegoro untuk memberdayakan warga Tingkir Lor dalam kemandirian herba dan integrasi pengetahuan botani.
             </p>
 
             <div className="mt-10 flex items-center gap-5">
@@ -345,8 +346,8 @@ function LandingPage({ token, user, logout }) {
 
                 <div className="relative z-10 flex justify-between items-end text-sm">
                   <div>
-                    <span className="text-[9px] uppercase text-white/40 block font-mono">Verification Code</span>
-                    <span className="font-medium text-white/80">KKN-2026-TINGKIR-LOR</span>
+                    <span className="text-[9px] uppercase text-white/40 block font-mono">Universitas Diponegoro</span>
+                    <span className="font-medium text-white/80">KKN-R-II-2026-TINGKIR-LOR</span>
                   </div>
                   {/* Mastercard/Visa circle mockup: Auralis overlapping color circles */}
                   <div className="flex -space-x-2">
@@ -436,9 +437,9 @@ function LandingPage({ token, user, logout }) {
           <span>© 2026 KKN Reguler Undip - Kelurahan Tingkir Lor</span>
         </div>
         <div className="flex items-center gap-6">
-          <span className="hover:text-[#111827] cursor-pointer">Buku Panduan</span>
+          <span className="hover:text-[#111827] cursor-pointer">Dirajut dengan Hati</span>
           <span className="text-gray-300">|</span>
-          <span className="hover:text-[#111827] cursor-pointer">Peta Bedeng</span>
+          <span className="hover:text-[#111827] cursor-pointer">Pelan-Pelan Pak Supir</span>
         </div>
       </footer>
 
@@ -472,25 +473,145 @@ function LoginPage({ token, user, login }) {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  // Forgot Password States
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [resetUsername, setResetUsername] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [resetError, setResetError] = useState('');
+  const [resetSuccess, setResetSuccess] = useState('');
+  const [isSubmittingReset, setIsSubmittingReset] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Rate Limiting / Cooldown States
+  const [failedAttempts, setFailedAttempts] = useState(() => {
+    return parseInt(localStorage.getItem('failed_attempts') || '0', 10);
+  });
+  const [cooldownTimeLeft, setCooldownTimeLeft] = useState(0);
+
+  useEffect(() => {
+    const checkCooldown = () => {
+      const cooldownUntilStr = localStorage.getItem('cooldown_until');
+      if (cooldownUntilStr) {
+        const cooldownUntil = parseInt(cooldownUntilStr, 10);
+        const now = Date.now();
+        if (cooldownUntil > now) {
+          const secondsLeft = Math.ceil((cooldownUntil - now) / 1000);
+          setCooldownTimeLeft(secondsLeft);
+        } else {
+          localStorage.removeItem('cooldown_until');
+          setFailedAttempts(0);
+          localStorage.setItem('failed_attempts', '0');
+          setCooldownTimeLeft(0);
+        }
+      }
+    };
+
+    checkCooldown();
+
+    let intervalId = setInterval(() => {
+      const cooldownUntilStr = localStorage.getItem('cooldown_until');
+      if (cooldownUntilStr) {
+        const cooldownUntil = parseInt(cooldownUntilStr, 10);
+        const now = Date.now();
+        if (cooldownUntil > now) {
+          const secondsLeft = Math.ceil((cooldownUntil - now) / 1000);
+          setCooldownTimeLeft(secondsLeft);
+        } else {
+          localStorage.removeItem('cooldown_until');
+          setFailedAttempts(0);
+          localStorage.setItem('failed_attempts', '0');
+          setCooldownTimeLeft(0);
+          clearInterval(intervalId);
+        }
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 1000);
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [failedAttempts]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (cooldownTimeLeft > 0) return;
     if (!username.trim() || !password.trim()) return;
 
     setError('');
     setIsSubmitting(true);
     try {
       await login(username, password);
-      // Success triggers redirection via token state
+      // Reset failed attempts on success
+      setFailedAttempts(0);
+      localStorage.setItem('failed_attempts', '0');
       navigate('/');
     } catch (err) {
       console.error("Login error details:", err);
-      if (err.message === 'Failed to fetch' || err.message.includes('fetch') || err.message.includes('Load failed')) {
-        setError("Koneksi gagal: Pastikan server backend FastAPI Anda sudah menyala (http://127.0.0.1:8000) dan CORS telah dikonfigurasi.");
+      
+      const nextAttempts = failedAttempts + 1;
+      setFailedAttempts(nextAttempts);
+      localStorage.setItem('failed_attempts', nextAttempts.toString());
+
+      if (nextAttempts >= 5) {
+        const cooldownDuration = 30 * 1000; // 30 seconds
+        const cooldownUntil = Date.now() + cooldownDuration;
+        localStorage.setItem('cooldown_until', cooldownUntil.toString());
+        setCooldownTimeLeft(30);
+        setError("Terlalu banyak percobaan login gagal. Form dikunci sementara!");
       } else {
-        setError(err.message || 'Login gagal. Periksa kembali username dan password Anda.');
+        if (err.message === 'Failed to fetch' || err.message.includes('fetch') || err.message.includes('Load failed')) {
+          setError("Username atau Password salah.");
+        } else {
+          setError(`${err.message || 'Login gagal. Periksa kembali username dan password Anda.'} (Sisa percobaan: ${5 - nextAttempts})`);
+        }
       }
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleResetSubmit = async (e) => {
+    e.preventDefault();
+    if (!resetUsername.trim() || !newPassword.trim() || !confirmPassword.trim()) return;
+
+    setResetError('');
+    setResetSuccess('');
+
+    if (newPassword !== confirmPassword) {
+      setResetError("Konfirmasi password tidak cocok!");
+      return;
+    }
+
+    setIsSubmittingReset(true);
+    try {
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: resetUsername,
+          new_password: newPassword
+        })
+      });
+
+      if (response.ok) {
+        setResetSuccess("Password berhasil diubah! Silakan kembali ke halaman login.");
+        setResetUsername('');
+        setNewPassword('');
+        setConfirmPassword('');
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        setResetError(errData.detail || "Gagal mengubah password.");
+      }
+    } catch (err) {
+      console.error("Reset password error:", err);
+      setResetError("Koneksi gagal. Server backend FastAPI offline.");
+    } finally {
+      setIsSubmittingReset(false);
     }
   };
 
@@ -511,7 +632,7 @@ function LoginPage({ token, user, login }) {
       {/* NAVIGATION BAR */}
       <header className="w-full h-24 flex items-center justify-between px-8 max-w-7xl mx-auto z-40 relative">
         <div className="flex items-center gap-3">
-          <div className="w-[18px] h-[18px] rounded-full bg-gradient-to-tr from-[#1E6BFF] to-[#14B8A6] shadow-sm" />
+          <img src={togaLogo} alt="TOGA Logo" className="w-5 h-5 object-contain" />
           <span className="font-sans font-bold text-[19px] tracking-tight text-[#111827]">TOGA Berdaya</span>
         </div>
       </header>
@@ -520,96 +641,232 @@ function LoginPage({ token, user, login }) {
       <main className="flex-grow flex items-center justify-center px-6 z-10 relative">
         <div className="w-full max-w-[420px] bg-white border border-[#E5E7EB] rounded-[5px] p-8 md:p-10 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] animate-in fade-in zoom-in-95 duration-355 ease-out">
           
-          {/* Back to Home Button */}
-          <Link 
-            to="/" 
-            className="text-xs font-semibold text-[#4B5563] hover:text-[#1E6BFF] transition-colors duration-200 flex items-center gap-1.5 mb-6 w-fit"
-          >
-            ← Back to Home
-          </Link>
+          {isForgotPassword ? (
+            <>
+              {/* Back to Login Button */}
+              <button 
+                type="button"
+                onClick={() => {
+                  setIsForgotPassword(false);
+                  setResetError('');
+                  setResetSuccess('');
+                }}
+                className="text-xs font-semibold text-[#4B5563] hover:text-[#1E6BFF] transition-colors duration-200 flex items-center gap-1.5 mb-6 w-fit"
+              >
+                ← Kembali ke Login
+              </button>
 
-          {/* Sub-headline */}
-          <p className="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase mb-1.5 font-sans">
-            Please enter your details
-          </p>
+              {/* Sub-headline */}
+              <p className="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase mb-1.5 font-sans">
+                Reset your credentials
+              </p>
 
-          {/* Headline */}
-          <h2 className="text-3xl font-bold tracking-tight text-[#111827] mb-7 font-sans">
-            Welcome back
-          </h2>
-
-          {error && (
-            <div className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-600 rounded-[5px] text-xs font-semibold font-sans">
-              {error}
-            </div>
-          )}
-
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-xs font-bold text-[#374151] mb-2 tracking-wide uppercase">
-                Username
-              </label>
-              <input 
-                type="text" 
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter (e.g. admin_kkn or staff_kkn)"
-                required
-                className="w-full px-3.5 py-3 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors duration-200 placeholder:text-gray-400 font-sans font-normal"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-[#374151] mb-2 tracking-wide uppercase">
-                Password
-              </label>
-              <div className="relative">
-                <input 
-                  type={showPassword ? "text" : "password"} 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
-                  required
-                  className="w-full pl-3.5 pr-10 py-3 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors duration-200 placeholder:text-gray-400 font-sans font-normal"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4B5563] hover:text-[#111827] transition-colors duration-150 focus:outline-none flex items-center justify-center"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Checkbox & Forgot Password */}
-            <div className="flex items-center justify-between text-xs font-semibold text-[#4B5563] pt-1">
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input 
-                  type="checkbox" 
-                  className="rounded-[3px] border-[#D1D5DB] text-[#1E6BFF] focus:ring-[#1E6BFF] focus:ring-offset-0 w-4 h-4 cursor-pointer accent-[#1E6BFF]"
-                />
-                <span>Remember for 30 days</span>
-              </label>
-              <a href="#forgot" className="text-[#1E6BFF] hover:underline hover:opacity-90 transition-all font-semibold">
+              {/* Headline */}
+              <h2 className="text-3xl font-bold tracking-tight text-[#111827] mb-7 font-sans">
                 Forgot password
-              </a>
-            </div>
+              </h2>
 
-            {/* Submit Button */}
-            <button 
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white text-sm font-semibold py-3.5 rounded-[5px] transition-all duration-200 mt-6 shadow-md hover:shadow-lg active:scale-[0.98] disabled:bg-gray-400 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Signing in...' : 'Sign in'}
-            </button>
-          </form>
+              {resetError && (
+                <div className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-600 rounded-[5px] text-xs font-semibold font-sans">
+                  {resetError}
+                </div>
+              )}
+
+              {resetSuccess && (
+                <div className="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-[5px] text-xs font-semibold font-sans">
+                  {resetSuccess}
+                </div>
+              )}
+
+              {/* Reset Password Form */}
+              <form onSubmit={handleResetSubmit} className="space-y-5">
+                <div>
+                  <label className="block text-xs font-bold text-[#374151] mb-2 tracking-wide uppercase">
+                    Username
+                  </label>
+                  <input 
+                    type="text" 
+                    value={resetUsername}
+                    onChange={(e) => setResetUsername(e.target.value)}
+                    placeholder="Masukkan username Anda"
+                    required
+                    disabled={isSubmittingReset}
+                    className="w-full px-3.5 py-3 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors duration-200 placeholder:text-gray-400 font-sans font-normal"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#374151] mb-2 tracking-wide uppercase">
+                    New Password
+                  </label>
+                  <div className="relative">
+                    <input 
+                      type={showNewPassword ? "text" : "password"} 
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Min. 6 karakter"
+                      required
+                      disabled={isSubmittingReset}
+                      className="w-full pl-3.5 pr-10 py-3 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors duration-200 placeholder:text-gray-400 font-sans font-normal"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4B5563] hover:text-[#111827] transition-colors duration-150 focus:outline-none flex items-center justify-center"
+                    >
+                      {showNewPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#374151] mb-2 tracking-wide uppercase">
+                    Confirm Password
+                  </label>
+                  <div className="relative">
+                    <input 
+                      type={showConfirmPassword ? "text" : "password"} 
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Ulangi password baru"
+                      required
+                      disabled={isSubmittingReset}
+                      className="w-full pl-3.5 pr-10 py-3 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors duration-200 placeholder:text-gray-400 font-sans font-normal"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4B5563] hover:text-[#111827] transition-colors duration-150 focus:outline-none flex items-center justify-center"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button 
+                  type="submit"
+                  disabled={isSubmittingReset}
+                  className="w-full bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white text-sm font-semibold py-3.5 rounded-[5px] transition-all duration-200 mt-6 shadow-md hover:shadow-lg active:scale-[0.98] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                  {isSubmittingReset ? 'Resetting...' : 'Reset Password'}
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              {/* Back to Home Button */}
+              <Link 
+                to="/" 
+                className="text-xs font-semibold text-[#4B5563] hover:text-[#1E6BFF] transition-colors duration-200 flex items-center gap-1.5 mb-6 w-fit"
+              >
+                ← Back to Home
+              </Link>
+
+              {/* Sub-headline */}
+              <p className="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase mb-1.5 font-sans">
+                Please enter your details
+              </p>
+
+              {/* Headline */}
+              <h2 className="text-3xl font-bold tracking-tight text-[#111827] mb-7 font-sans">
+                Welcome back
+              </h2>
+
+              {error && (
+                <div className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-600 rounded-[5px] text-xs font-semibold font-sans">
+                  {error}
+                </div>
+              )}
+
+              {/* Login Form */}
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label className="block text-xs font-bold text-[#374151] mb-2 tracking-wide uppercase">
+                    Username
+                  </label>
+                  <input 
+                    type="text" 
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter (e.g. admin_kkn or staff_kkn)"
+                    required
+                    disabled={isSubmitting || cooldownTimeLeft > 0}
+                    className="w-full px-3.5 py-3 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors duration-200 placeholder:text-gray-400 font-sans font-normal disabled:bg-gray-150 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#374151] mb-2 tracking-wide uppercase">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input 
+                      type={showPassword ? "text" : "password"} 
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Enter your password"
+                      required
+                      disabled={isSubmitting || cooldownTimeLeft > 0}
+                      className="w-full pl-3.5 pr-10 py-3 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors duration-200 placeholder:text-gray-400 font-sans font-normal disabled:bg-gray-150 disabled:cursor-not-allowed"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      disabled={cooldownTimeLeft > 0}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4B5563] hover:text-[#111827] transition-colors duration-150 focus:outline-none flex items-center justify-center disabled:opacity-40"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Checkbox & Forgot Password */}
+                <div className="flex items-center justify-between text-xs font-semibold text-[#4B5563] pt-1">
+                  <label className="flex items-center gap-2 cursor-pointer select-none">
+                    <input 
+                      type="checkbox" 
+                      className="rounded-[3px] border-[#D1D5DB] text-[#1E6BFF] focus:ring-[#1E6BFF] focus:ring-offset-0 w-4 h-4 cursor-pointer accent-[#1E6BFF]"
+                    />
+                    <span>Remember for 30 days</span>
+                  </label>
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      setIsForgotPassword(true);
+                      setError('');
+                    }}
+                    className="text-[#1E6BFF] hover:underline hover:opacity-90 transition-all font-semibold cursor-pointer"
+                  >
+                    Forgot password
+                  </button>
+                </div>
+
+                {/* Submit Button */}
+                <button 
+                  type="submit"
+                  disabled={isSubmitting || cooldownTimeLeft > 0}
+                  className="w-full bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white text-sm font-semibold py-3.5 rounded-[5px] transition-all duration-200 mt-6 shadow-md hover:shadow-lg active:scale-[0.98] disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                  {cooldownTimeLeft > 0 
+                    ? `Coba lagi dalam ${cooldownTimeLeft} detik` 
+                    : (isSubmitting ? 'Signing in...' : 'Sign in')}
+                </button>
+              </form>
+            </>
+          )}
 
         </div>
       </main>
@@ -1105,6 +1362,7 @@ function KatalogPage({ token, user, logout }) {
   const [crudForm, setCrudForm] = useState({
     id: null,
     name: '',
+    latinName: '',
     type: 'toga',
     medical_benefit: '',
     historical_funfact: '',
@@ -1140,7 +1398,7 @@ function KatalogPage({ token, user, logout }) {
             return {
               id: item.id,
               name: item.name,
-              latinName: match ? match.latinName : "Toga Herbal",
+              latinName: item.latin_name || (match ? match.latinName : "Toga Herbal"),
               type: item.type,
               image: storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
               modules: {
@@ -1186,6 +1444,7 @@ function KatalogPage({ token, user, logout }) {
     setCrudForm({
       id: null,
       name: '',
+      latinName: '',
       type: 'toga',
       medical_benefit: '',
       historical_funfact: '',
@@ -1202,6 +1461,7 @@ function KatalogPage({ token, user, logout }) {
     setCrudForm({
       id: plant.id,
       name: plant.name,
+      latinName: plant.latinName || '',
       type: plant.type || 'toga',
       medical_benefit: plant.modules.khasiat || '',
       historical_funfact: plant.modules.sejarah === "Bagian dari kekayaan botani herbal Kelurahan Tingkir Lor." ? "" : plant.modules.sejarah,
@@ -1246,6 +1506,9 @@ function KatalogPage({ token, user, logout }) {
 
     const formData = new FormData();
     formData.append('name', crudForm.name);
+    if (crudForm.latinName) {
+      formData.append('latin_name', crudForm.latinName);
+    }
     formData.append('type', crudForm.type);
     formData.append('medical_benefit', crudForm.medical_benefit);
     formData.append('poc_dosage_guideline', crudForm.poc_dosage_guideline);
@@ -1541,9 +1804,9 @@ function KatalogPage({ token, user, logout }) {
       {/* CRUD MODAL */}
       {isCrudModalOpen && (
         <div className="fixed inset-0 bg-[#10151C]/40 backdrop-blur-sm flex items-center justify-center z-50 animate-in fade-in duration-200">
-          <div className="bg-white border border-[#E5E7EB] rounded-[8px] shadow-2xl max-w-lg w-full mx-4 overflow-hidden animate-in zoom-in-95 duration-200">
+          <div className="bg-white border border-[#E5E7EB] rounded-[8px] shadow-2xl max-w-lg w-full mx-4 overflow-hidden max-h-[90vh] flex flex-col animate-in zoom-in-95 duration-200">
             {/* Header */}
-            <div className="px-6 py-4 border-b border-[#E5E7EB] bg-gray-50 flex items-center justify-between">
+            <div className="px-6 py-4 border-b border-[#E5E7EB] bg-gray-50 flex items-center justify-between shrink-0">
               <h3 className="text-sm font-bold text-[#111827] font-mono uppercase tracking-wider">
                 {crudMode === 'create' ? 'Tambah Tanaman Baru' : 'Edit Tanaman'}
               </h3>
@@ -1556,99 +1819,115 @@ function KatalogPage({ token, user, logout }) {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmitCrud} className="p-6 space-y-4">
-              {crudError && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-[5px] text-xs font-mono text-red-600">
-                  {crudError}
-                </div>
-              )}
-
-              <div>
-                <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Nama Tanaman</label>
-                <input 
-                  type="text" 
-                  required
-                  value={crudForm.name}
-                  onChange={(e) => setCrudForm({ ...crudForm, name: e.target.value })}
-                  disabled={isSubmittingCrud}
-                  placeholder="Misal: Kunyit"
-                  className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Jenis Tanaman</label>
-                <select 
-                  value={crudForm.type}
-                  onChange={(e) => setCrudForm({ ...crudForm, type: e.target.value })}
-                  disabled={isSubmittingCrud}
-                  className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors"
-                >
-                  <option value="toga">TOGA (Tanaman Obat Keluarga)</option>
-                  <option value="sayuran">Sayuran</option>
-                  <option value="tanaman_hias">Tanaman Hias</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Khasiat Medis</label>
-                <textarea 
-                  required
-                  rows={3}
-                  value={crudForm.medical_benefit}
-                  onChange={(e) => setCrudForm({ ...crudForm, medical_benefit: e.target.value })}
-                  disabled={isSubmittingCrud}
-                  placeholder="Masukkan khasiat medis tanaman..."
-                  className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors resize-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Formula POC & Aturan Pakai</label>
-                <textarea 
-                  required
-                  rows={3}
-                  value={crudForm.poc_dosage_guideline}
-                  onChange={(e) => setCrudForm({ ...crudForm, poc_dosage_guideline: e.target.value })}
-                  disabled={isSubmittingCrud}
-                  placeholder="Masukkan formula POC dan panduan aturan pakainya..."
-                  className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors resize-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Cerita Sejarah / Fun Fact (Opsional)</label>
-                <textarea 
-                  rows={2}
-                  value={crudForm.historical_funfact}
-                  onChange={(e) => setCrudForm({ ...crudForm, historical_funfact: e.target.value })}
-                  disabled={isSubmittingCrud}
-                  placeholder="Masukkan cerita sejarah singkat tanaman ini..."
-                  className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors resize-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Foto Tanaman</label>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={handleImageChange} 
-                  disabled={isSubmittingCrud}
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#1E6BFF] hover:file:bg-blue-100 cursor-pointer" 
-                />
-                {imagePreview && (
-                  <div className="mt-3.5 w-full h-24 overflow-hidden rounded-[3px] bg-gray-50 border border-gray-100 flex items-center justify-center">
-                    <img 
-                      src={imagePreview || (crudMode === 'edit' && selectedPlant ? selectedPlant.image : '') || "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"} 
-                      alt="Preview" 
-                      className="max-w-full max-h-full object-contain"
-                    />
+            <form onSubmit={handleSubmitCrud} className="flex flex-col flex-grow overflow-hidden">
+              {/* Scrollable Form Body */}
+              <div className="p-6 space-y-4 overflow-y-auto flex-grow">
+                {crudError && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-[5px] text-xs font-mono text-red-600">
+                    {crudError}
                   </div>
                 )}
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Nama Tanaman</label>
+                  <input 
+                    type="text" 
+                    required
+                    value={crudForm.name}
+                    onChange={(e) => setCrudForm({ ...crudForm, name: e.target.value })}
+                    disabled={isSubmittingCrud}
+                    placeholder="Misal: Kunyit"
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Nama Latin</label>
+                  <input 
+                    type="text" 
+                    value={crudForm.latinName}
+                    onChange={(e) => setCrudForm({ ...crudForm, latinName: e.target.value })}
+                    disabled={isSubmittingCrud}
+                    placeholder="Contoh: Zingiber officinale"
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors italic"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Jenis Tanaman</label>
+                  <select 
+                    value={crudForm.type}
+                    onChange={(e) => setCrudForm({ ...crudForm, type: e.target.value })}
+                    disabled={isSubmittingCrud}
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors"
+                  >
+                    <option value="toga">TOGA (Tanaman Obat Keluarga)</option>
+                    <option value="sayuran">Sayuran</option>
+                    <option value="tanaman_hias">Tanaman Hias</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Khasiat Medis</label>
+                  <textarea 
+                    required
+                    rows={3}
+                    value={crudForm.medical_benefit}
+                    onChange={(e) => setCrudForm({ ...crudForm, medical_benefit: e.target.value })}
+                    disabled={isSubmittingCrud}
+                    placeholder="Masukkan khasiat medis tanaman..."
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Formula POC & Aturan Pakai</label>
+                  <textarea 
+                    required
+                    rows={3}
+                    value={crudForm.poc_dosage_guideline}
+                    onChange={(e) => setCrudForm({ ...crudForm, poc_dosage_guideline: e.target.value })}
+                    disabled={isSubmittingCrud}
+                    placeholder="Masukkan formula POC dan panduan aturan pakainya..."
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Cerita Sejarah / Fun Fact (Opsional)</label>
+                  <textarea 
+                    rows={2}
+                    value={crudForm.historical_funfact}
+                    onChange={(e) => setCrudForm({ ...crudForm, historical_funfact: e.target.value })}
+                    disabled={isSubmittingCrud}
+                    placeholder="Masukkan cerita sejarah singkat tanaman ini..."
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors resize-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Foto Tanaman</label>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handleImageChange} 
+                    disabled={isSubmittingCrud}
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#1E6BFF] hover:file:bg-blue-100 cursor-pointer" 
+                  />
+                  {imagePreview && (
+                    <div className="mt-3.5 w-full h-24 overflow-hidden rounded-[3px] bg-gray-50 border border-gray-100 flex items-center justify-center">
+                      <img 
+                        src={imagePreview || (crudMode === 'edit' && selectedPlant ? selectedPlant.image : '') || "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"} 
+                        alt="Preview" 
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2.5 pt-3">
+              {/* Fixed Footer */}
+              <div className="px-6 py-4 border-t border-[#E5E7EB] bg-gray-50 flex items-center justify-end gap-2.5 shrink-0">
                 <button 
                   type="button" 
                   onClick={handleCloseCrudModal}

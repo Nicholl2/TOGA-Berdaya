@@ -20,6 +20,7 @@ class Plant(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    latin_name: Mapped[Optional[str]] = mapped_column(String(150), nullable=True)
     type: Mapped[PlantType] = mapped_column(
         Enum(PlantType, name="plant_type", inherit_schema=True),
         default=PlantType.toga,
