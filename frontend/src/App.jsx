@@ -1520,7 +1520,7 @@ function KatalogPage({ token, user, logout }) {
     }
 
     try {
-      let url = `${API_URL}/plants/`;
+      let url = `${API_URL}/plants`;
       let method = 'POST';
 
       if (crudMode === 'edit') {

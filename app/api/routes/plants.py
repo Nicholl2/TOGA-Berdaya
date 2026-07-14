@@ -11,7 +11,7 @@ from app.schemas.plant import PlantCreate, PlantUpdate, PlantResponse
 
 router = APIRouter()
 
-@router.get("/", response_model=List[PlantResponse])
+@router.get("", response_model=List[PlantResponse])
 async def get_all_plants(
     type: Optional[PlantType] = Query(None),
     db: AsyncSession = Depends(get_db)
@@ -27,7 +27,7 @@ async def get_plant_by_id(
     plant_service = PlantService(db)
     return await plant_service.get_by_id(id)
 
-@router.post("/", response_model=PlantResponse, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=PlantResponse, status_code=status.HTTP_201_CREATED)
 async def create_plant(
     name: str = Form(...),
     type: str = Form(...),
