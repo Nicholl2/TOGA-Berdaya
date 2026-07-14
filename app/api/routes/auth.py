@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
@@ -6,7 +6,7 @@ from app.models.user import User, UserRole
 from app.api.dependencies import check_role, get_current_user
 from app.services.auth_service import AuthService
 from app.schemas.auth import Token, LoginRequest
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
 
 router = APIRouter()
 
@@ -45,3 +45,45 @@ async def get_users(
     from app.repositories.user_repo import UserRepository
     user_repo = UserRepository(db)
     return await user_repo.get_all()
+
+@router.put("/users/{user_id}", response_model=UserResponse)
+async def update_user(
+    user_id: int,
+    user_in: UserUpdate,
+    current_user: User = Depends(check_role([UserRole.admin])),
+    db: AsyncSession = Depends(get_db)
+):
+    from app.repositories.user_repo import UserRepository
+    user_repo = UserRepository(db)
+    target_user = await user_repo.get_by_id(user_id)
+    if not target_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Pengguna tidak ditemukan"
+        )
+    
+    # Validasi agar admin tidak bisa mengedit akun admin lain atau dirinya sendiri
+    if target_user.role == UserRole.admin or target_user.id == current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin tidak diperkenankan mengedit akun admin lain atau dirinya sendiri"
+        )
+
+    # Lakukan update data
+    if user_in.username is not None:
+        # Cek jika username baru sudah terpakai oleh user lain
+        existing = await user_repo.get_by_username(user_in.username)
+        if existing and existing.id != user_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Username sudah terdaftar"
+            )
+        target_user.username = user_in.username
+    
+    if user_in.password is not None:
+        target_user.password_hash = AuthService.hash_password(user_in.password)
+        
+    if user_in.role is not None:
+        target_user.role = user_in.role
+
+    return await user_repo.update(target_user)

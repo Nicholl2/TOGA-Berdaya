@@ -17,3 +17,8 @@ class UserResponse(UserBase):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = Field(default=None, min_length=3, max_length=100)
+    password: Optional[str] = Field(default=None, min_length=6, max_length=255)
+    role: Optional[UserRole] = Field(default=None)
