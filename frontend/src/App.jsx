@@ -1420,6 +1420,18 @@ function KatalogPage({ token, user, logout }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // 1MB validation check
+      if (file.size > 1024 * 1024) {
+        alert("Berkas terlalu besar! Ukuran gambar maksimal adalah 1MB.");
+        e.target.value = ""; // reset DOM element
+        setImageFile(null);
+        if (imagePreview && imagePreview.startsWith('blob:')) {
+          URL.revokeObjectURL(imagePreview);
+        }
+        setImagePreview(null);
+        return;
+      }
+
       setImageFile(file);
       // Revoke the old object URL if any to prevent memory leaks
       if (imagePreview && imagePreview.startsWith('blob:')) {
@@ -1429,6 +1441,18 @@ function KatalogPage({ token, user, logout }) {
     } else {
       setImageFile(null);
       setImagePreview(null);
+    }
+  };
+
+  const handleClearImage = () => {
+    setImageFile(null);
+    if (imagePreview && imagePreview.startsWith('blob:')) {
+      URL.revokeObjectURL(imagePreview);
+    }
+    setImagePreview(null);
+    const fileInput = document.getElementById("plant-image-input");
+    if (fileInput) {
+      fileInput.value = "";
     }
   };
 
@@ -1957,8 +1981,12 @@ function KatalogPage({ token, user, logout }) {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Foto Tanaman</label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-[10px] font-bold text-[#4B5563] uppercase tracking-wider font-mono">Foto Tanaman</label>
+                    <span className="text-[9px] font-semibold text-amber-600 font-sans italic">* Ukuran gambar maksimal 1MB</span>
+                  </div>
                   <input 
+                    id="plant-image-input"
                     type="file" 
                     accept="image/*" 
                     onChange={handleImageChange} 
@@ -1966,12 +1994,20 @@ function KatalogPage({ token, user, logout }) {
                     className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#1E6BFF] hover:file:bg-blue-100 cursor-pointer" 
                   />
                   {imagePreview && (
-                    <div className="mt-3.5 w-full h-24 overflow-hidden rounded-[3px] bg-gray-50 border border-gray-100 flex items-center justify-center">
+                    <div className="mt-3.5 w-full h-24 overflow-hidden rounded-[3px] bg-gray-50 border border-gray-100 flex items-center justify-center relative group">
                       <img 
                         src={imagePreview || (crudMode === 'edit' && selectedPlant ? selectedPlant.image : '') || "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"} 
                         alt="Preview" 
                         className="max-w-full max-h-full object-contain"
                       />
+                      <button
+                        type="button"
+                        onClick={handleClearImage}
+                        className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-[#10151C]/75 hover:bg-[#EF4444] text-white flex items-center justify-center text-xs font-bold transition-colors duration-150 shadow-md focus:outline-none cursor-pointer"
+                        title="Hapus gambar"
+                      >
+                        ✕
+                      </button>
                     </div>
                   )}
                 </div>
