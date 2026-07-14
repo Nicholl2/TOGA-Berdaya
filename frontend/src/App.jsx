@@ -1551,11 +1551,11 @@ function KatalogPage({ token, user, logout }) {
         handleCloseCrudModal();
       } else {
         const data = await response.json().catch(() => ({}));
-        setCrudError(data.detail || "Gagal menyimpan perubahan. Koneksi server sibuk, silakan coba beberapa saat lagi.");
+        setCrudError(data.detail || `Server error (${response.status}): Gagal menyimpan perubahan.`);
       }
     } catch (err) {
       console.error("Error submitting plant:", err);
-      setCrudError("Gagal menyimpan perubahan. Koneksi server sibuk, silakan coba beberapa saat lagi.");
+      setCrudError(`Koneksi error: ${err.message || "Gagal menyimpan perubahan."}`);
     } finally {
       setIsSubmittingCrud(false);
     }
