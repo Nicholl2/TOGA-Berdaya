@@ -306,15 +306,15 @@ function LandingPage({ token, user, logout }) {
             </h1>
             
             <p className="mt-8 text-base md:text-[17px] text-[#4B5563] max-w-xl leading-relaxed font-normal">
-              {t('hero_desc')}
+              {t('hero.desc')}
             </p>
 
             <div className="mt-10 flex items-center gap-5">
               <Link to="/katalog" className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md shadow-primary/20 hover:opacity-95 active:scale-95 inline-flex items-center">
-                {t('explore_catalog')}
+                {t('hero.explore')}
               </Link>
               <button className="bg-[#10151C] hover:bg-[#1E6BFF] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer">
-                {t('monitoring_agenda')}
+                {t('hero.monitoring_btn')}
               </button>
             </div>
           </div>

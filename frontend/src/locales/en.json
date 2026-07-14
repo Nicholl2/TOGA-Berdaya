@@ -7,6 +7,8 @@
     "logout": "Logout"
   },
   "hero": {
+    "title": "Digital Knowledge Base for Kelurahan Tingkir Lor",
+    "desc": "A digital ecosystem for Family Medicinal Plants (TOGA) built from a cross-disciplinary collaboration by the KKN team of Diponegoro University to empower Tingkir Lor residents in herbal self-reliance and botanical knowledge integration.",
     "explore": "Explore Catalog",
     "monitoring_btn": "Monitoring Agenda"
   },
