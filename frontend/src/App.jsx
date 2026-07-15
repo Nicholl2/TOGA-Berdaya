@@ -1692,7 +1692,7 @@ function KatalogPage({ token, user, logout }) {
                 name: item.name,
                 latinName: item.latin_name || (match ? match.latinName : "Toga Herbal"),
                 type: item.type,
-                image: storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
+                image: item.image_url || storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
                 modules: {
                   khasiat: item.medical_benefit,
                   poc: match ? match.modules.poc : "Formula POC khusus TOGA.",
@@ -1737,7 +1737,7 @@ function KatalogPage({ token, user, logout }) {
               name: item.name,
               latinName: item.latin_name || (match ? match.latinName : "Toga Herbal"),
               type: item.type,
-              image: storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
+              image: item.image_url || storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
               modules: {
                 khasiat: item.medical_benefit,
                 poc: match ? match.modules.poc : "Formula POC khusus TOGA.",
@@ -2057,6 +2057,7 @@ function KatalogPage({ token, user, logout }) {
                 src={selectedPlant.image} 
                 alt={selectedPlant.name}
                 className="max-w-full max-h-full object-contain rounded-[20px] shadow-2xl border-4 border-white bg-white"
+                onError={(e) => { e.target.src = togaLogo; }}
               />
             </div>
           </div>
@@ -2119,6 +2120,7 @@ function KatalogPage({ token, user, logout }) {
                       src={plant.image} 
                       alt={plant.name}
                       className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+                      onError={(e) => { e.target.src = togaLogo; }}
                     />
                   </div>
 
@@ -2300,7 +2302,7 @@ function KatalogPage({ token, user, logout }) {
                     id="plant-image-input"
                     type="file" 
                     accept="image/*" 
-                    onChange={handleImageChange} 
+                  onChange={handleImageChange} 
                     disabled={isSubmittingCrud}
                     className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-[5px] file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#1E6BFF] hover:file:bg-blue-100 cursor-pointer" 
                   />
@@ -2310,6 +2312,7 @@ function KatalogPage({ token, user, logout }) {
                         src={imagePreview || (crudMode === 'edit' && selectedPlant ? selectedPlant.image : '') || "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"} 
                         alt="Preview" 
                         className="max-w-full max-h-full object-contain"
+                        onError={(e) => { e.target.src = togaLogo; }}
                       />
                       <button
                         type="button"
