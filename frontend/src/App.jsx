@@ -340,7 +340,7 @@ function Navbar({ token, user, logout }) {
           to="/#monitoring" 
           className={({ isActive }) => 
             `flex flex-col items-center justify-center gap-1 transition-colors duration-150 ` + 
-            (isActive && location.hash === '#monitoring' ? 'text-[#1E6BFF] font-bold' : 'text-gray-500 hover:text-[#111827]')
+            (isActive && location.hash === '#monitoring' ? 'font-bold text-blue-600' : 'text-gray-500 hover:text-[#111827]')
           }
         >
           <Cpu className="w-4.5 h-4.5" />
@@ -403,81 +403,83 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
     <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none pb-20 md:pb-0">
       
       {/* Mobile App-like Onboarding & Splash Screen (Visible on mobile/tablet screens only) */}
-      <div className="lg:hidden fixed inset-0 bg-[#FBFCF8] z-50 flex flex-col items-center justify-between py-16 px-6 font-sans">
-        {showSplash ? (
-          /* Splash Screen Loading View */
-          <div className="flex-grow flex flex-col items-center justify-center w-full px-6 my-auto animate-in fade-in duration-300">
-            {/* Logo */}
-            <img 
-              src={togaLogo} 
-              alt="TOGA Berdaya Logo" 
-              className="w-36 h-36 object-contain animate-pulse"
-            />
-            {/* Title */}
-            <h2 className="text-3xl font-bold tracking-tight text-[#111827] mt-6 font-sans text-center">
-              TOGA Berdaya
-            </h2>
-            <p className="text-[10px] text-gray-400 mt-1 font-mono tracking-widest text-center">
-              TINGKIR LOR DIGITAL REGISTER
-            </p>
-
-            {/* Progress Bar Container */}
-            <div className="w-full mt-10">
-              <div className="w-full bg-gray-100 rounded-full h-2.5 max-w-xs mx-auto">
-                <div 
-                  className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] h-2.5 rounded-full transition-all duration-75"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <div className="text-xs text-gray-500 flex justify-between max-w-xs mx-auto mt-2 font-mono">
-                <span>Memuat aplikasi...</span>
-                <span>{progress}%</span>
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* Onboarding Welcome View */
-          <>
-            {/* Skip button at top right */}
-            <div className="w-full flex justify-end animate-in fade-in duration-350">
-              <button 
-                onClick={() => navigate('/katalog')} 
-                className="text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors uppercase tracking-wider font-mono"
-              >
-                Skip
-              </button>
-            </div>
-
-            {/* Logo in the middle with pulse animation */}
-            <div className="flex-grow flex items-center justify-center animate-in fade-in duration-350">
+      {location.hash !== '#monitoring' && (
+        <div className="lg:hidden fixed inset-0 bg-[#FBFCF8] z-50 flex flex-col items-center justify-between py-16 px-6 font-sans">
+          {showSplash ? (
+            /* Splash Screen Loading View */
+            <div className="flex-grow flex flex-col items-center justify-center w-full px-6 my-auto animate-in fade-in duration-300">
+              {/* Logo */}
               <img 
                 src={togaLogo} 
                 alt="TOGA Berdaya Logo" 
-                className="w-48 h-48 animate-pulse object-contain"
+                className="w-36 h-36 object-contain animate-pulse"
               />
-            </div>
+              {/* Title */}
+              <h2 className="text-3xl font-bold tracking-tight text-[#111827] mt-6 font-sans text-center">
+                TOGA Berdaya
+              </h2>
+              <p className="text-[10px] text-gray-400 mt-1 font-mono tracking-widest text-center">
+                TINGKIR LOR DIGITAL REGISTER
+              </p>
 
-            {/* Text and Get Started Button at bottom */}
-            <div className="w-full flex flex-col items-center gap-8 mb-8 animate-in fade-in duration-350">
-              <div className="space-y-2">
-                <h1 className="text-2xl font-bold tracking-tight text-[#111827] text-center leading-snug">
-                  Katalog Tanaman Obat Keluarga
-                </h1>
-                <p className="text-xs text-gray-500 text-center max-w-[280px] mx-auto leading-relaxed">
-                  Mulai jelajahi khasiat herbal dan panduan penanaman TOGA desa kita secara interaktif.
-                </p>
+              {/* Progress Bar Container */}
+              <div className="w-full mt-10">
+                <div className="w-full bg-gray-100 rounded-full h-2.5 max-w-xs mx-auto">
+                  <div 
+                    className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] h-2.5 rounded-full transition-all duration-75"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <div className="text-xs text-gray-500 flex justify-between max-w-xs mx-auto mt-2 font-mono">
+                  <span>Memuat aplikasi...</span>
+                  <span>{progress}%</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Onboarding Welcome View */
+            <>
+              {/* Skip button at top right */}
+              <div className="w-full flex justify-end animate-in fade-in duration-350">
+                <button 
+                  onClick={() => navigate('/katalog')} 
+                  className="text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors uppercase tracking-wider font-mono"
+                >
+                  Skip
+                </button>
               </div>
 
-              <button 
-                onClick={() => navigate('/katalog')}
-                className="w-14 h-14 rounded-full bg-gradient-to-r from-[#14B8A6] to-[#1E6BFF] text-white flex items-center justify-center shadow-lg hover:shadow-xl hover:opacity-95 transition-all duration-200 active:scale-95 cursor-pointer"
-              >
-                <span className="text-xl font-bold font-mono">→</span>
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+              {/* Logo in the middle with pulse animation */}
+              <div className="flex-grow flex items-center justify-center animate-in fade-in duration-350">
+                <img 
+                  src={togaLogo} 
+                  alt="TOGA Berdaya Logo" 
+                  className="w-48 h-48 animate-pulse object-contain"
+                />
+              </div>
+
+              {/* Text and Get Started Button at bottom */}
+              <div className="w-full flex flex-col items-center gap-8 mb-8 animate-in fade-in duration-350">
+                <div className="space-y-2">
+                  <h1 className="text-2xl font-bold tracking-tight text-[#111827] text-center leading-snug">
+                    Katalog Tanaman Obat Keluarga
+                  </h1>
+                  <p className="text-xs text-gray-500 text-center max-w-[280px] mx-auto leading-relaxed">
+                    Mulai jelajahi khasiat herbal dan panduan penanaman TOGA desa kita secara interaktif.
+                  </p>
+                </div>
+
+                <button 
+                  onClick={() => navigate('/katalog')}
+                  className="w-14 h-14 rounded-full bg-gradient-to-r from-[#14B8A6] to-[#1E6BFF] text-white flex items-center justify-center shadow-lg hover:shadow-xl hover:opacity-95 transition-all duration-200 active:scale-95 cursor-pointer"
+                >
+                  <span className="text-xl font-bold font-mono">→</span>
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
       {/* Decorative Top Accent Line */}
       <div className="h-[3px] bg-gradient-to-r from-[#1E6BFF] via-[#14B8A6] to-[#1E6BFF] w-full z-50 absolute top-0 left-0" />
 

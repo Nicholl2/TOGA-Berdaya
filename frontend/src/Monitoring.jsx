@@ -17,7 +17,7 @@ export default function Monitoring() {
   }, []);
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center min-h-[60vh] bg-[#FBFCF8] overflow-hidden rounded-2xl border border-gray-100 p-6 md:p-12">
+    <div className="relative w-full flex flex-col items-center justify-center min-h-[70vh] md:min-h-[60vh] bg-[#FBFCF8] overflow-hidden rounded-2xl border border-gray-100 px-4 py-8 md:p-12">
       {/* Background Decorative Glow (Premium Accent) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[500px] md:h-[500px] bg-gradient-to-tr from-[#1E6BFF]/5 via-[#14B8A6]/5 to-transparent rounded-full blur-[80px] pointer-events-none -z-10" />
 
@@ -56,9 +56,9 @@ export default function Monitoring() {
         </div>
       </div>
 
-      {/* Cute Easter Egg Footer (Pojok Kanan Bawah) */}
+      {/* Cute Easter Egg Footer (Pojok Kanan Bawah - Responsive Mobile/Desktop Position) */}
       {easterEgg && (
-        <span className="absolute bottom-6 right-6 text-xs text-gray-400 italic tracking-wide select-none pointer-events-none">
+        <span className="absolute bottom-20 right-4 md:bottom-6 md:right-6 text-[10px] md:text-xs text-gray-400 italic tracking-wide select-none pointer-events-none">
           {easterEgg}
         </span>
       )}
