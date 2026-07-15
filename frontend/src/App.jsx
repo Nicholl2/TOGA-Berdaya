@@ -1511,6 +1511,7 @@ function KatalogPage({ token, user, logout }) {
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -1552,11 +1553,57 @@ function KatalogPage({ token, user, logout }) {
   };
 
   const fetchPlants = async () => {
+    const loadCachedData = () => {
+      const cached = localStorage.getItem('toga_plants_cache');
+      if (cached) {
+        try {
+          const data = JSON.parse(cached);
+          if (data && data.length > 0) {
+            const mapped = data.map((item) => {
+              const match = fallbackPlants.find(f => f.name.toLowerCase() === item.name.toLowerCase());
+              const storedImage = localStorage.getItem(`plant_image_${item.id}`);
+              return {
+                id: item.id,
+                name: item.name,
+                latinName: item.latin_name || (match ? match.latinName : "Toga Herbal"),
+                type: item.type,
+                image: storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
+                modules: {
+                  khasiat: item.medical_benefit,
+                  poc: match ? match.modules.poc : "Formula POC khusus TOGA.",
+                  aturan: item.poc_dosage_guideline,
+                  sejarah: item.historical_funfact || "Bagian dari kekayaan botani herbal Kelurahan Tingkir Lor."
+                }
+              };
+            });
+            setPlants(mapped);
+            setSelectedPlant((prev) => {
+              if (prev) {
+                const updated = mapped.find(p => p.id === prev.id);
+                return updated || mapped[0];
+              }
+              return mapped[0];
+            });
+          }
+        } catch (e) {
+          console.error("Failed to parse cached plants:", e);
+        }
+      }
+    };
+
+    if (!navigator.onLine) {
+      setIsOffline(true);
+      loadCachedData();
+      return;
+    }
+
     try {
       const response = await fetch(`${API_URL}/plants`);
       if (response.ok) {
         const data = await response.json();
+        setIsOffline(false);
         if (data && data.length > 0) {
+          localStorage.setItem('toga_plants_cache', JSON.stringify(data));
           const mapped = data.map((item) => {
             const match = fallbackPlants.find(f => f.name.toLowerCase() === item.name.toLowerCase());
             const storedImage = localStorage.getItem(`plant_image_${item.id}`);
@@ -1586,14 +1633,34 @@ function KatalogPage({ token, user, logout }) {
           setPlants([]);
           setSelectedPlant(null);
         }
+      } else {
+        throw new Error("Failed to fetch plants");
       }
     } catch (err) {
       console.error("API offline, using fallback data:", err);
+      setIsOffline(true);
+      loadCachedData();
     }
   };
 
   useEffect(() => {
     fetchPlants();
+
+    const handleOnline = () => {
+      setIsOffline(false);
+      fetchPlants();
+    };
+    const handleOffline = () => {
+      setIsOffline(true);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, []);
 
   const handleCloseCrudModal = () => {
@@ -1763,6 +1830,13 @@ function KatalogPage({ token, user, logout }) {
       
       {/* Decorative Top Accent Line */}
       <div className="h-[3px] bg-gradient-to-r from-[#1E6BFF] via-[#14B8A6] to-[#1E6BFF] w-full z-50 absolute top-0 left-0" />
+
+      {isOffline && (
+        <div className="w-full bg-[#EF4444] text-white text-center py-2 px-4 text-xs font-semibold font-mono z-50 shadow-sm flex items-center justify-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          Anda sedang dalam Mode Offline. Data mungkin bukan yang terbaru.
+        </div>
+      )}
 
       {/* Shared Navbar */}
       <Navbar token={token} user={user} logout={logout} />
