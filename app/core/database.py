@@ -7,7 +7,13 @@ from app.core.config import settings
 engine = create_async_engine(
     settings.DATABASE_URL,
     echo=True,  # Set False pas production biar ga menuhin log, tapi pas dev ini ngebantu banget ngintip query SQL-nya
-    future=True
+    future=True,
+    pool_pre_ping=True,
+    pool_recycle=1800,
+    connect_args={
+        "timeout": 30,  # 30 detik untuk batas waktu pembentukan koneksi awal ( Neon cold-start )
+        "command_timeout": 30  # 30 detik batas waktu eksekusi query
+    }
 )
 
 # Buat session factory async

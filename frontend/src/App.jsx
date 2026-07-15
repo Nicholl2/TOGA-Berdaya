@@ -1722,8 +1722,14 @@ function KatalogPage({ token, user, logout }) {
       return;
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // Batas toleransi 10 detik untuk Neon DB cold-start
+
     try {
-      const response = await fetch(`${API_URL}/plants`);
+      const response = await fetch(`${API_URL}/plants`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
       if (response.ok) {
         const data = await response.json();
         setIsOffline(false);
