@@ -143,6 +143,8 @@ async def seed_plants():
                 
                 if existing:
                     # Jalur update jika data dengan nama tersebut sudah ada di tabel Neon
+                    existing.latin_name = p.get("latinName")
+                    existing.image_url = p.get("image")
                     existing.medical_benefit = p["modules"]["khasiat"]
                     existing.historical_funfact = p["modules"]["sejarah"]
                     existing.poc_dosage_guideline = combined_poc
@@ -152,6 +154,8 @@ async def seed_plants():
                 # Jalur insert baru
                 new_plant = Plant(
                     name=p["name"],
+                    latin_name=p.get("latinName"),
+                    image_url=p.get("image"),
                     type=PlantType.toga,
                     medical_benefit=p["modules"]["khasiat"],
                     historical_funfact=p["modules"]["sejarah"],

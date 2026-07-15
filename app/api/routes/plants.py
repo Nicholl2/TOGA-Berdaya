@@ -8,6 +8,7 @@ from app.models.plant import PlantType
 from app.api.dependencies import check_role
 from app.services.plant_service import PlantService
 from app.schemas.plant import PlantCreate, PlantUpdate, PlantResponse
+from app.utils.cloudinary import upload_image_to_cloudinary
 
 router = APIRouter()
 
@@ -39,13 +40,18 @@ async def create_plant(
     current_user: User = Depends(check_role([UserRole.admin, UserRole.staff])),
     db: AsyncSession = Depends(get_db)
 ):
+    image_url = None
+    if image and image.filename:
+        image_url = await upload_image_to_cloudinary(image)
+
     plant_in = PlantCreate(
         name=name,
         type=type,
         medical_benefit=medical_benefit,
         historical_funfact=historical_funfact,
         poc_dosage_guideline=poc_dosage_guideline,
-        latin_name=latin_name
+        latin_name=latin_name,
+        image_url=image_url
     )
     plant_service = PlantService(db)
     return await plant_service.create(plant_in)
@@ -77,6 +83,10 @@ async def update_plant(
         update_data["poc_dosage_guideline"] = poc_dosage_guideline
     if latin_name is not None:
         update_data["latin_name"] = latin_name
+
+    if image and image.filename:
+        image_url = await upload_image_to_cloudinary(image)
+        update_data["image_url"] = image_url
 
     plant_in = PlantUpdate(**update_data)
     plant_service = PlantService(db)

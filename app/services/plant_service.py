@@ -36,7 +36,8 @@ class PlantService:
             medical_benefit=plant_in.medical_benefit,
             historical_funfact=plant_in.historical_funfact,
             poc_dosage_guideline=plant_in.poc_dosage_guideline,
-            latin_name=plant_in.latin_name
+            latin_name=plant_in.latin_name,
+            image_url=plant_in.image_url
         )
         return await self.plant_repo.create(db_plant)
 

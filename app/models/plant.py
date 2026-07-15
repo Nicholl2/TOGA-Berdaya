@@ -29,6 +29,7 @@ class Plant(Base):
     medical_benefit: Mapped[str] = mapped_column(Text, nullable=False)
     historical_funfact: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     poc_dosage_guideline: Mapped[str] = mapped_column(Text, nullable=False)
+    image_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),

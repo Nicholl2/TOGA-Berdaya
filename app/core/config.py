@@ -1,5 +1,5 @@
 # app/core/config.py
-from typing import List
+from typing import List, Optional
 from pydantic import BeforeValidator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing_extensions import Annotated
@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
     PORT: int = 8080
     
+    # Cloudinary Configurations
+    CLOUDINARY_CLOUD_NAME: Optional[str] = None
+    CLOUDINARY_API_KEY: Optional[str] = None
+    CLOUDINARY_API_SECRET: Optional[str] = None
+    
     # Prefix untuk API versioning lu
     api_v1_str: str = "/api/v1"
     
@@ -31,6 +36,6 @@ class Settings(BaseSettings):
         "http://localhost:8082"
     ]
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
 settings = Settings()
