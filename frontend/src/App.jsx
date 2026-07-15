@@ -1508,7 +1508,8 @@ function KatalogPage({ token, user, logout }) {
     type: 'toga',
     medical_benefit: '',
     historical_funfact: '',
-    poc_dosage_guideline: ''
+    poc_dosage_guideline: '',
+    poc_formula: ''
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -1681,7 +1682,8 @@ function KatalogPage({ token, user, logout }) {
       type: 'toga',
       medical_benefit: '',
       historical_funfact: '',
-      poc_dosage_guideline: ''
+      poc_dosage_guideline: '',
+      poc_formula: ''
     });
     setImageFile(null);
     setImagePreview(null);
@@ -1698,7 +1700,8 @@ function KatalogPage({ token, user, logout }) {
       type: plant.type || 'toga',
       medical_benefit: plant.modules.khasiat || '',
       historical_funfact: plant.modules.sejarah === "Bagian dari kekayaan botani herbal Kelurahan Tingkir Lor." ? "" : plant.modules.sejarah,
-      poc_dosage_guideline: plant.modules.aturan || ''
+      poc_dosage_guideline: plant.modules.aturan || '',
+      poc_formula: plant.modules.poc || ''
     });
     setImageFile(null);
     setImagePreview(plant.image || null);
@@ -1744,7 +1747,7 @@ function KatalogPage({ token, user, logout }) {
     }
     formData.append('type', crudForm.type);
     formData.append('medical_benefit', crudForm.medical_benefit);
-    formData.append('poc_formula', 'Formula POC Khusus TOGA');
+    formData.append('poc_formula', crudForm.poc_formula);
     formData.append('usage_instruction', crudForm.poc_dosage_guideline);
     // Keep backend compatibility with poc_dosage_guideline
     formData.append('poc_dosage_guideline', crudForm.poc_dosage_guideline);
@@ -2132,10 +2135,11 @@ function KatalogPage({ token, user, logout }) {
                   <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Formula POC</label>
                   <input 
                     type="text" 
-                    value="Formula POC Khusus TOGA"
-                    readOnly
-                    disabled
-                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-gray-100 text-gray-500 focus:outline-none cursor-not-allowed font-sans"
+                    value={crudForm.poc_formula}
+                    onChange={(e) => setCrudForm({ ...crudForm, poc_formula: e.target.value })}
+                    disabled={isSubmittingCrud}
+                    placeholder="Formula POC Khusus TOGA"
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors font-sans"
                   />
                 </div>
 
