@@ -24,6 +24,7 @@ import nicholasImg from './assets/Nicholas.JPG';
 import raditImg from './assets/Radit.png';
 import revinaImg from './assets/Revina.JPG';
 import togaLogo from './assets/TOGA-Logo.png';
+import loadingGif from './assets/Loading.gif';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api/v1";
 
@@ -313,8 +314,8 @@ function Navbar({ token, user, logout }) {
         <NavLink 
           to="/katalog" 
           className={({ isActive }) => 
-            `flex flex-col items-center justify-center gap-1 text-[#4B5563] transition-colors duration-150 ` + 
-            (isActive ? 'text-[#1E6BFF] font-bold' : 'hover:text-[#111827]')
+            `flex flex-col items-center justify-center gap-1 transition-colors duration-150 ` + 
+            (isActive ? 'text-[#1E6BFF] font-bold' : 'text-gray-500 hover:text-[#111827]')
           }
         >
           <BookOpen className="w-4.5 h-4.5" />
@@ -325,8 +326,8 @@ function Navbar({ token, user, logout }) {
           <NavLink 
             to="/users" 
             className={({ isActive }) => 
-              `flex flex-col items-center justify-center gap-1 text-[#4B5563] transition-colors duration-150 ` + 
-              (isActive ? 'text-[#1E6BFF] font-bold' : 'hover:text-[#111827]')
+              `flex flex-col items-center justify-center gap-1 transition-colors duration-150 ` + 
+              (isActive ? 'text-[#1E6BFF] font-bold' : 'text-gray-500 hover:text-[#111827]')
             }
           >
             <Shield className="w-4.5 h-4.5" />
@@ -337,8 +338,8 @@ function Navbar({ token, user, logout }) {
         <NavLink 
           to="/#monitoring" 
           className={({ isActive }) => 
-            `flex flex-col items-center justify-center gap-1 text-[#4B5563] transition-colors duration-150 ` + 
-            (isActive && location.hash === '#monitoring' ? 'text-[#1E6BFF] font-bold' : 'hover:text-[#111827]')
+            `flex flex-col items-center justify-center gap-1 transition-colors duration-150 ` + 
+            (isActive && location.hash === '#monitoring' ? 'text-[#1E6BFF] font-bold' : 'text-gray-500 hover:text-[#111827]')
           }
         >
           <Cpu className="w-4.5 h-4.5" />
@@ -348,7 +349,7 @@ function Navbar({ token, user, logout }) {
         {token && user ? (
           <button 
             onClick={logout}
-            className="flex flex-col items-center justify-center gap-1 text-[#4B5563] hover:text-[#EF4444] transition-colors duration-150 cursor-pointer"
+            className="flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-[#EF4444] transition-colors duration-150 cursor-pointer"
           >
             <LogOut className="w-4.5 h-4.5" />
             <span className="text-[9px] font-semibold uppercase tracking-wider font-mono">{t('navbar.logout')}</span>
@@ -356,7 +357,7 @@ function Navbar({ token, user, logout }) {
         ) : (
           <Link 
             to="/login" 
-            className="flex flex-col items-center justify-center gap-1 text-[#4B5563] hover:text-[#1E6BFF] transition-colors duration-150"
+            className="flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-[#1E6BFF] transition-colors duration-150"
           >
             <Lock className="w-4.5 h-4.5" />
             <span className="text-[9px] font-semibold uppercase tracking-wider font-mono">{t('navbar.login')}</span>
@@ -367,13 +368,115 @@ function Navbar({ token, user, logout }) {
   );
 }
 
-function LandingPage({ token, user, logout }) {
+function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || 'id';
+  const navigate = useNavigate();
+
+  // Splash Screen States
+  const [progress, setProgress] = useState(0);
+  const [showSplash, setShowSplash] = useState(!hasLoaded);
+
+  useEffect(() => {
+    if (hasLoaded || !showSplash) return;
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setShowSplash(false);
+            setHasLoaded(true);
+          }, 200); // transisi halus
+          return 100;
+        }
+        const increment = Math.floor(Math.random() * 8) + 5; // acak 5-12%
+        return Math.min(prev + increment, 100);
+      });
+    }, 60);
+
+    return () => clearInterval(interval);
+  }, [showSplash, hasLoaded, setHasLoaded]);
 
   return (
     <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none pb-20 md:pb-0">
       
+      {/* Mobile App-like Onboarding & Splash Screen (Visible on mobile/tablet screens only) */}
+      <div className="lg:hidden fixed inset-0 bg-[#FBFCF8] z-50 flex flex-col items-center justify-between py-16 px-6 font-sans">
+        {showSplash ? (
+          /* Splash Screen Loading View */
+          <div className="flex-grow flex flex-col items-center justify-center w-full px-6 my-auto animate-in fade-in duration-300">
+            {/* Logo */}
+            <img 
+              src={togaLogo} 
+              alt="TOGA Berdaya Logo" 
+              className="w-36 h-36 object-contain animate-pulse"
+            />
+            {/* Title */}
+            <h2 className="text-3xl font-bold tracking-tight text-[#111827] mt-6 font-sans text-center">
+              TOGA Berdaya
+            </h2>
+            <p className="text-[10px] text-gray-400 mt-1 font-mono tracking-widest text-center">
+              TINGKIR LOR DIGITAL REGISTER
+            </p>
+
+            {/* Progress Bar Container */}
+            <div className="w-full mt-10">
+              <div className="w-full bg-gray-100 rounded-full h-2.5 max-w-xs mx-auto">
+                <div 
+                  className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] h-2.5 rounded-full transition-all duration-75"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <div className="text-xs text-gray-500 flex justify-between max-w-xs mx-auto mt-2 font-mono">
+                <span>Memuat aplikasi...</span>
+                <span>{progress}%</span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Onboarding Welcome View */
+          <>
+            {/* Skip button at top right */}
+            <div className="w-full flex justify-end animate-in fade-in duration-350">
+              <button 
+                onClick={() => navigate('/katalog')} 
+                className="text-sm font-medium text-gray-400 hover:text-gray-600 transition-colors uppercase tracking-wider font-mono"
+              >
+                Skip
+              </button>
+            </div>
+
+            {/* Logo in the middle with pulse animation */}
+            <div className="flex-grow flex items-center justify-center animate-in fade-in duration-350">
+              <img 
+                src={togaLogo} 
+                alt="TOGA Berdaya Logo" 
+                className="w-48 h-48 animate-pulse object-contain"
+              />
+            </div>
+
+            {/* Text and Get Started Button at bottom */}
+            <div className="w-full flex flex-col items-center gap-8 mb-8 animate-in fade-in duration-350">
+              <div className="space-y-2">
+                <h1 className="text-2xl font-bold tracking-tight text-[#111827] text-center leading-snug">
+                  Katalog Tanaman Obat Keluarga
+                </h1>
+                <p className="text-xs text-gray-500 text-center max-w-[280px] mx-auto leading-relaxed">
+                  Mulai jelajahi khasiat herbal dan panduan penanaman TOGA desa kita secara interaktif.
+                </p>
+              </div>
+
+              <button 
+                onClick={() => navigate('/katalog')}
+                className="w-14 h-14 rounded-full bg-gradient-to-r from-[#14B8A6] to-[#1E6BFF] text-white flex items-center justify-center shadow-lg hover:shadow-xl hover:opacity-95 transition-all duration-200 active:scale-95 cursor-pointer"
+              >
+                <span className="text-xl font-bold font-mono">→</span>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+
       {/* Decorative Top Accent Line */}
       <div className="h-[3px] bg-gradient-to-r from-[#1E6BFF] via-[#14B8A6] to-[#1E6BFF] w-full z-50 absolute top-0 left-0" />
 
@@ -414,8 +517,17 @@ function LandingPage({ token, user, logout }) {
             </div>
           </div>
 
-          {/* KOLOM KANAN (Scale Up Floating Cards & Expanded Avatars) */}
-          <div className="lg:col-span-7 relative flex justify-end items-center h-[600px] lg:h-[680px] z-10 select-none pr-8">
+          {/* Mobile Hero Illustration (Visible on Mobile/Tablet only) */}
+          <div className="lg:hidden w-full max-w-sm mx-auto mt-6 px-4">
+            <img 
+              src={togaLogo} 
+              alt="TOGA Berdaya Logo" 
+              className="max-h-[250px] object-contain mx-auto"
+            />
+          </div>
+
+          {/* KOLOM KANAN (Scale Up Floating Cards & Expanded Avatars - Desktop Only) */}
+          <div className="hidden lg:flex lg:col-span-7 relative justify-end items-center h-[600px] lg:h-[680px] z-10 select-none pr-8">
             {/* Expanded background glow */}
             <div className="w-[650px] h-[650px] bg-gradient-to-tr from-[#1E6BFF]/5 via-[#14B8A6]/5 to-transparent rounded-full blur-[130px] absolute -right-16 -top-16 -z-10 pointer-events-none" />
 
@@ -560,14 +672,14 @@ function LandingPage({ token, user, logout }) {
       </section>
 
       {/* FOOTER */}
-      <footer className="w-full h-20 flex items-center justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono">
-        <div className="flex items-center gap-2">
+      <footer className="w-full py-8 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-center md:justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono gap-3 md:gap-0 text-center md:text-left">
+        <div className="flex items-center justify-center md:justify-start gap-2">
           <Leaf className="w-4 h-4 text-[#14B8A6]" />
           <span>© 2026 KKN Reguler Undip - Kelurahan Tingkir Lor</span>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
           <span className="hover:text-[#111827] cursor-pointer">Dirajut dengan Hati</span>
-          <span className="text-gray-300">|</span>
+          <span className="hidden md:inline text-gray-300">|</span>
           <span className="hover:text-[#111827] cursor-pointer">Pelan-Pelan Pak Supir</span>
         </div>
       </footer>
@@ -2228,10 +2340,43 @@ function KatalogPage({ token, user, logout }) {
   );
 }
 
+function PageTransitionLoader() {
+  const location = useLocation();
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  useEffect(() => {
+    // Jangan picu loading GIF jika berpindah kembali ke Home / Landing Page
+    if (location.pathname === '/') {
+      setIsNavigating(false);
+      return;
+    }
+
+    setIsNavigating(true);
+    const timer = setTimeout(() => {
+      setIsNavigating(false);
+    }, 450); // loading duration 450ms
+
+    return () => clearTimeout(timer);
+  }, [location.pathname, location.hash]);
+
+  if (!isNavigating) return null;
+
+  return (
+    <div className="fixed inset-0 bg-[#eef2f7]/90 backdrop-blur-md flex items-center justify-center z-[100] animate-in fade-in duration-200">
+      <img 
+        src={loadingGif} 
+        alt="Loading..." 
+        className="w-48 h-48 md:w-64 md:h-64 object-contain mix-blend-multiply"
+      />
+    </div>
+  );
+}
+
 export default function App() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false); // Pengunci Splash Screen
 
   const loadProfile = async (authToken) => {
     if (!authToken) {
@@ -2325,8 +2470,9 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <PageTransitionLoader />
       <Routes>
-        <Route path="/" element={<LandingPage token={token} user={user} logout={logout} />} />
+        <Route path="/" element={<LandingPage token={token} user={user} logout={logout} hasLoaded={hasLoaded} setHasLoaded={setHasLoaded} />} />
         <Route path="/login" element={<LoginPage token={token} user={user} login={login} />} />
         <Route path="/katalog" element={<KatalogPage token={token} user={user} logout={logout} />} />
         <Route 
