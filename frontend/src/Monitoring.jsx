@@ -54,14 +54,14 @@ export default function Monitoring() {
         <div className="w-full bg-gray-100/80 rounded-full h-1 mt-8 max-w-[200px] overflow-hidden">
           <div className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] h-full w-[65%] rounded-full animate-pulse" />
         </div>
-      </div>
 
-      {/* Cute Easter Egg Footer (Pojok Kanan Bawah - Responsive Mobile/Desktop Position) */}
-      {easterEgg && (
-        <span className="absolute bottom-20 right-4 md:bottom-6 md:right-6 text-[10px] md:text-xs text-gray-400 italic tracking-wide select-none pointer-events-none">
-          {easterEgg}
-        </span>
-      )}
+        {/* Cute Easter Egg Text (Centered directly below the design line with proportional margin) */}
+        {easterEgg && (
+          <p className="text-center text-xs text-gray-400 italic tracking-wide mt-6 block w-full select-none pointer-events-none">
+            {easterEgg}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
