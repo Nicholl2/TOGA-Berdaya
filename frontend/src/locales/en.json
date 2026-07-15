@@ -46,5 +46,10 @@
       "created_by": "CREATED BY",
       "action": "ACTION"
     }
+  },
+  "monitoring": {
+    "status": "Under Development",
+    "title": "Under Development",
+    "subtitle": "The KKN agenda monitoring feature is currently being prepared for you."
   }
 }

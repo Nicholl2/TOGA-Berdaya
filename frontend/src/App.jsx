@@ -25,6 +25,7 @@ import raditImg from './assets/Radit.png';
 import revinaImg from './assets/Revina.JPG';
 import togaLogo from './assets/TOGA-Logo.png';
 import loadingGif from './assets/Loading.gif';
+import Monitoring from './Monitoring';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api/v1";
 
@@ -372,6 +373,7 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || 'id';
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Splash Screen States
   const [progress, setProgress] = useState(0);
@@ -476,200 +478,207 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
           </>
         )}
       </div>
-
       {/* Decorative Top Accent Line */}
       <div className="h-[3px] bg-gradient-to-r from-[#1E6BFF] via-[#14B8A6] to-[#1E6BFF] w-full z-50 absolute top-0 left-0" />
 
       {/* Shared Navbar */}
       <Navbar token={token} user={user} logout={logout} />
 
-      {/* HERO SECTION (Split Grid 2 Kolom, Scaled Up for Large Displays) */}
-      <section className="w-full max-w-[90%] xl:max-w-[85%] mx-auto flex-grow flex items-center z-10 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center w-full py-12 lg:py-0">
-          
-          {/* KOLOM KIRI (Typography Raksasa & Actions) */}
-          <div className="lg:col-span-5 flex flex-col justify-center text-left">
-            <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] text-[#111827]">
-              {currentLang.startsWith('en') ? (
-                <>
-                  <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> <br />
-                  Knowledge Base for Kelurahan Tingkir Lor
-                </>
-              ) : (
-                <>
-                  Basis Pengetahuan <br />
-                  <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> Kelurahan Tingkir Lor
-                </>
-              )}
-            </h1>
+      {/* HERO SECTION / MONITORING CONTAINER */}
+      {location.hash === '#monitoring' ? (
+        <section className="w-full max-w-[90%] xl:max-w-[85%] mx-auto flex-grow flex items-center justify-center z-10 relative py-12">
+          <Monitoring />
+        </section>
+      ) : (
+        <section className="w-full max-w-[90%] xl:max-w-[85%] mx-auto flex-grow flex items-center z-10 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center w-full py-12 lg:py-0">
             
-            <p className="mt-6 text-base text-[#4B5563] max-w-xl leading-relaxed font-normal">
-              {t('hero.desc')}
-            </p>
-
-            <div className="mt-10 flex items-center gap-5">
-              <Link to="/katalog" className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md shadow-primary/20 hover:opacity-95 active:scale-95 inline-flex items-center">
-                {t('hero.explore')}
-              </Link>
-              <button className="bg-[#10151C] hover:bg-[#1E6BFF] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer">
-                {t('hero.monitoring_btn')}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Hero Illustration (Visible on Mobile/Tablet only) */}
-          <div className="lg:hidden w-full max-w-sm mx-auto mt-6 px-4">
-            <img 
-              src={togaLogo} 
-              alt="TOGA Berdaya Logo" 
-              className="max-h-[250px] object-contain mx-auto"
-            />
-          </div>
-
-          {/* KOLOM KANAN (Scale Up Floating Cards & Expanded Avatars - Desktop Only) */}
-          <div className="hidden lg:flex lg:col-span-7 relative justify-end items-center h-[600px] lg:h-[680px] z-10 select-none pr-8">
-            {/* Expanded background glow */}
-            <div className="w-[650px] h-[650px] bg-gradient-to-tr from-[#1E6BFF]/5 via-[#14B8A6]/5 to-transparent rounded-full blur-[130px] absolute -right-16 -top-16 -z-10 pointer-events-none" />
-
-            {/* CARD STACK COMPOSITION (Scaled Up 1.3x) */}
-            <div className="relative w-[520px] h-[330px] mr-16">
+            {/* KOLOM KIRI (Typography Raksasa & Actions) */}
+            <div className="lg:col-span-5 flex flex-col justify-center text-left">
+              <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] text-[#111827]">
+                {currentLang.startsWith('en') ? (
+                  <>
+                    <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> <br />
+                    Knowledge Base for Kelurahan Tingkir Lor
+                  </>
+                ) : (
+                  <>
+                    Basis Pengetahuan <br />
+                    <span className="bg-gradient-to-r from-[#1E6BFF] via-[#2d7fff] to-[#14B8A6] bg-clip-text text-transparent font-semibold">Digital</span> Kelurahan Tingkir Lor
+                  </>
+                )}
+              </h1>
               
-              {/* CARD 1: Glowing Blue Gradient Card (Tilted left, resized) */}
-              <div className="absolute top-[-40px] left-[-40px] w-[520px] h-[330px] rounded-[22px] bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] text-white p-8 shadow-2xl rotate-[-8deg] border border-white/10 flex flex-col justify-between z-10 transition-transform duration-500 hover:scale-102">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-[10px] font-mono uppercase tracking-wider text-white/70">Toga Digital Register</p>
-                    <h3 className="text-base font-semibold tracking-wide mt-0.5">Zingiber officinale</h3>
-                  </div>
-                  <Cpu className="w-6 h-6 text-white/80" />
-                </div>
-                
-                <div className="font-mono text-2xl tracking-widest my-3 select-all text-white/95">
-                  Pelan-Pelan Pak Supir
-                </div>
+              <p className="mt-6 text-base text-[#4B5563] max-w-xl leading-relaxed font-normal">
+                {t('hero.desc')}
+              </p>
 
-                <div className="flex justify-between items-end text-sm">
-                  <div>
-                    <span className="text-[9px] uppercase text-white/60 block font-mono">Botanist</span>
-                    <span className="font-medium text-sm">Tim KKN Undip</span>
-                  </div>
-                  <div>
-                    <span className="text-[9px] uppercase text-white/60 block font-mono">Family</span>
-                    <span className="font-medium text-sm">Zingiberaceae</span>
-                  </div>
-                </div>
+              <div className="mt-10 flex items-center gap-5">
+                <Link to="/katalog" className="bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md shadow-primary/20 hover:opacity-95 active:scale-95 inline-flex items-center">
+                  {t('hero.explore')}
+                </Link>
+                <button 
+                  onClick={() => navigate('/#monitoring')}
+                  className="bg-[#10151C] hover:bg-[#1E6BFF] text-white font-semibold px-8 py-4 rounded-lg text-xs font-mono uppercase tracking-wider transition-all shadow-md active:scale-95 cursor-pointer"
+                >
+                  {t('hero.monitoring_btn')}
+                </button>
               </div>
+            </div>
 
-              {/* CARD 2: Dark Charcoal Card (Tilted right, resized, overlays card 1) */}
-              <div className="absolute top-[60px] right-[-40px] w-[520px] h-[330px] rounded-[22px] bg-[#10151C] text-white p-8 shadow-2xl rotate-[6deg] border border-[#1C2531] overflow-hidden flex flex-col justify-between z-20 transition-transform duration-500 hover:scale-102">
-                {/* Botanical Image Overlay */}
-                <div className="absolute inset-0 opacity-[0.24] pointer-events-none mix-blend-luminosity">
+            {/* Mobile Hero Illustration (Visible on Mobile/Tablet only) */}
+            <div className="lg:hidden w-full max-w-sm mx-auto mt-6 px-4">
+              <img 
+                src={togaLogo} 
+                alt="TOGA Berdaya Logo" 
+                className="max-h-[250px] object-contain mx-auto"
+              />
+            </div>
+
+            {/* KOLOM KANAN (Scale Up Floating Cards & Expanded Avatars - Desktop Only) */}
+            <div className="hidden lg:flex lg:col-span-7 relative justify-end items-center h-[600px] lg:h-[680px] z-10 select-none pr-8">
+              {/* Expanded background glow */}
+              <div className="w-[650px] h-[650px] bg-gradient-to-tr from-[#1E6BFF]/5 via-[#14B8A6]/5 to-transparent rounded-full blur-[130px] absolute -right-16 -top-16 -z-10 pointer-events-none" />
+
+              {/* CARD STACK COMPOSITION (Scaled Up 1.3x) */}
+              <div className="relative w-[520px] h-[330px] mr-16">
+                
+                {/* CARD 1: Glowing Blue Gradient Card (Tilted left, resized) */}
+                <div className="absolute top-[-40px] left-[-40px] w-[520px] h-[330px] rounded-[22px] bg-gradient-to-r from-[#1E6BFF] to-[#14B8A6] text-white p-8 shadow-2xl rotate-[-8deg] border border-white/10 flex flex-col justify-between z-10 transition-transform duration-500 hover:scale-102">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-[10px] font-mono uppercase tracking-wider text-white/70">Toga Digital Register</p>
+                      <h3 className="text-base font-semibold tracking-wide mt-0.5">Zingiber officinale</h3>
+                    </div>
+                    <Cpu className="w-6 h-6 text-white/80" />
+                  </div>
+                  
+                  <div className="font-mono text-2xl tracking-widest my-3 select-all text-white/95">
+                    Pelan-Pelan Pak Supir
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="text-left">
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-white/70">Kelembaban</p>
+                      <p className="text-sm font-semibold font-mono">68%</p>
+                    </div>
+                    <div className="text-left">
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-white/70">Suhu Bedeng</p>
+                      <p className="text-sm font-semibold font-mono">27.4°C</p>
+                    </div>
+                    <div className="text-left">
+                      <p className="text-[9px] font-mono uppercase tracking-wider text-white/70">Status Pompa</p>
+                      <p className="text-sm font-semibold font-mono text-[#4ADE80] animate-pulse">AUTO-ON</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CARD 2: Dark Tech Slate Card (Offset right, behind, flat) */}
+                <div className="absolute top-[40px] right-[-40px] w-[520px] h-[330px] rounded-[22px] bg-[#10151C] text-white p-8 shadow-2xl border border-gray-800 flex flex-col justify-between z-20 transition-all duration-300 hover:scale-102 hover:border-[#1E6BFF]/30">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <span className="text-[9px] font-bold font-mono tracking-widest uppercase text-[#1E6BFF] bg-[#1E6BFF]/10 px-2 py-0.5 rounded-[4px]">
+                        Node Sensor #01
+                      </span>
+                      <h3 className="text-lg font-bold mt-2 font-mono">TINGKIR-LOR-SYS</h3>
+                    </div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#14B8A6] animate-ping" />
+                  </div>
+
+                  <div className="space-y-3.5 my-4">
+                    <div className="flex justify-between items-center text-xs font-mono pb-2 border-b border-gray-800/80">
+                      <span className="text-gray-400">Tegangan Solar Panel</span>
+                      <span className="font-semibold text-white">4.21 V</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs font-mono pb-2 border-b border-gray-800/80">
+                      <span className="text-gray-400">Kesehatan Tanah (N-P-K)</span>
+                      <span className="font-semibold text-[#14B8A6]">Optimal (Sangat Subur)</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs font-mono">
+                      <span className="text-gray-400">Pembaluan Terakhir</span>
+                      <span className="font-semibold text-gray-300">Baru saja (Real-time)</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[10px] font-mono text-gray-500">
+                    <span>RSSI: -64dBm</span>
+                    <span>Firmware v2.4-stable</span>
+                  </div>
+                </div>
+
+                {/* FLOATING AVATARS COMPOSITION (KKN MEMBERS WITH ACADEMIC ROLES - Expanded Offsets) */}
+                
+                {/* 1. Allya (Bioteknologi) - Top Left of Card 1 */}
+                <div className="absolute top-[-110px] left-[-90px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
                   <img 
-                    src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=600" 
-                    alt="Herb background" 
-                    className="w-full h-full object-cover" 
+                    src={allyaImg} 
+                    alt="Allya" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
                   />
-                </div>
-                
-                <div className="relative z-10 flex items-start justify-between">
-                  <div>
-                    <p className="text-[10px] font-mono uppercase tracking-wider text-white/50">Bedeng Data Archive</p>
-                    <h3 className="text-base font-semibold tracking-wide mt-0.5">Kelurahan Tingkir Lor</h3>
-                  </div>
-                  <div className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Allya</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Bioteknologi</div>
                   </div>
                 </div>
-                
-                <div className="relative z-10 font-mono text-2xl tracking-widest my-3 text-white/90">
-                  01286 01285 47219 47722
-                </div>
 
-                <div className="relative z-10 flex justify-between items-end text-sm">
-                  <div>
-                    <span className="text-[9px] uppercase text-white/40 block font-mono">Universitas Diponegoro</span>
-                    <span className="font-medium text-white/80">KKN-R-II-2026-TINGKIR-LOR</span>
-                  </div>
-                  {/* Mastercard/Visa circle mockup: Auralis overlapping color circles */}
-                  <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full bg-[#1E6BFF] opacity-95" />
-                    <div className="w-8 h-8 rounded-full bg-[#14B8A6] opacity-95" />
+                {/* 2. Nicholas (Teknik Komputer) - Right of Card 1 */}
+                <div className="absolute top-[0px] right-[-170px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={nicholasImg} 
+                    alt="Nicholas" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Nicholas</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Teknik Komputer</div>
                   </div>
                 </div>
-              </div>
 
-              {/* FLOATING AVATARS COMPOSITION (KKN MEMBERS WITH ACADEMIC ROLES - Expanded Offsets) */}
-              
-              {/* 1. Allya (Bioteknologi) - Top Left of Card 1 */}
-              <div className="absolute top-[-110px] left-[-90px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
-                <img 
-                  src={allyaImg} 
-                  alt="Allya" 
-                  className="w-7 h-7 rounded-full object-cover border border-gray-155" 
-                />
-                <div className="text-left leading-tight">
-                  <div className="text-[11px] font-bold text-[#111827]">Allya</div>
-                  <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Bioteknologi</div>
+                {/* 3. Revina (Teknologi Pangan) - Left Middle */}
+                <div className="absolute top-[110px] left-[-180px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={revinaImg} 
+                    alt="Revina" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Revina</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Teknologi Pangan</div>
+                  </div>
                 </div>
-              </div>
 
-              {/* 2. Nicholas (Teknik Komputer) - Right of Card 1 */}
-              <div className="absolute top-[0px] right-[-170px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
-                <img 
-                  src={nicholasImg} 
-                  alt="Nicholas" 
-                  className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                {/* 4. Ayun (Keperawatan) - Left side of Card 2 */}
+                <div className="absolute top-[230px] left-[-80px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={ayunImg} 
+                    alt="Ayun" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
                 />
-                <div className="text-left leading-tight">
-                  <div className="text-[11px] font-bold text-[#111827]">Nicholas</div>
-                  <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Teknik Komputer</div>
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Ayun</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Keperawatan</div>
+                  </div>
                 </div>
-              </div>
 
-              {/* 3. Revina (Teknologi Pangan) - Left Middle */}
-              <div className="absolute top-[110px] left-[-180px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
-                <img 
-                  src={revinaImg} 
-                  alt="Revina" 
-                  className="w-7 h-7 rounded-full object-cover border border-gray-155" 
-                />
-                <div className="text-left leading-tight">
-                  <div className="text-[11px] font-bold text-[#111827]">Revina</div>
-                  <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Teknologi Pangan</div>
+                {/* 5. Radit (Sejarah) - Bottom Right */}
+                <div className="absolute bottom-[-130px] right-[-70px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={raditImg} 
+                    alt="Radit" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Radit</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Sejarah</div>
+                  </div>
                 </div>
-              </div>
 
-              {/* 4. Ayun (Keperawatan) - Left side of Card 2 */}
-              <div className="absolute top-[230px] left-[-80px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
-                <img 
-                  src={ayunImg} 
-                  alt="Ayun" 
-                  className="w-7 h-7 rounded-full object-cover border border-gray-155" 
-                />
-                <div className="text-left leading-tight">
-                  <div className="text-[11px] font-bold text-[#111827]">Ayun</div>
-                  <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Keperawatan</div>
-                </div>
               </div>
-
-              {/* 5. Radit (Sejarah) - Bottom Right */}
-              <div className="absolute bottom-[-130px] right-[-70px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
-                <img 
-                  src={raditImg} 
-                  alt="Radit" 
-                  className="w-7 h-7 rounded-full object-cover border border-gray-155" 
-                />
-                <div className="text-left leading-tight">
-                  <div className="text-[11px] font-bold text-[#111827]">Radit</div>
-                  <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Sejarah</div>
-                </div>
-              </div>
-
             </div>
-          </div>
 
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       {/* FOOTER */}
       <footer className="w-full py-8 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-center md:justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono gap-3 md:gap-0 text-center md:text-left">

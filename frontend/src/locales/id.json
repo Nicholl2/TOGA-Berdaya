@@ -46,5 +46,10 @@
       "created_by": "DIBUAT OLEH",
       "action": "AKSI"
     }
+  },
+  "monitoring": {
+    "status": "Dalam Pengembangan",
+    "title": "Halaman Masih dalam Pengembangan",
+    "subtitle": "Fitur monitoring agenda KKN sedang dipersiapkan untuk Anda."
   }
 }
