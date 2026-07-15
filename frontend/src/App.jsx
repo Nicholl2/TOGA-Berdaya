@@ -1744,6 +1744,9 @@ function KatalogPage({ token, user, logout }) {
     }
     formData.append('type', crudForm.type);
     formData.append('medical_benefit', crudForm.medical_benefit);
+    formData.append('poc_formula', 'Formula POC Khusus TOGA');
+    formData.append('usage_instruction', crudForm.poc_dosage_guideline);
+    // Keep backend compatibility with poc_dosage_guideline
     formData.append('poc_dosage_guideline', crudForm.poc_dosage_guideline);
     if (crudForm.historical_funfact) {
       formData.append('historical_funfact', crudForm.historical_funfact);
@@ -2126,14 +2129,25 @@ function KatalogPage({ token, user, logout }) {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Formula POC & Aturan Pakai</label>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Formula POC</label>
+                  <input 
+                    type="text" 
+                    value="Formula POC Khusus TOGA"
+                    readOnly
+                    disabled
+                    className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-gray-100 text-gray-500 focus:outline-none cursor-not-allowed font-sans"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-[#4B5563] mb-1.5 uppercase tracking-wider font-mono">Aturan Pakai</label>
                   <textarea 
                     required
                     rows={3}
                     value={crudForm.poc_dosage_guideline}
                     onChange={(e) => setCrudForm({ ...crudForm, poc_dosage_guideline: e.target.value })}
                     disabled={isSubmittingCrud}
-                    placeholder="Masukkan formula POC dan panduan aturan pakainya..."
+                    placeholder="Masukkan panduan aturan pakainya..."
                     className="w-full px-3 py-2 border border-[#D1D5DB] rounded-[5px] text-sm bg-white text-[#111827] focus:outline-none focus:border-[#1E6BFF] focus:ring-1 focus:ring-[#1E6BFF] transition-colors resize-none"
                   />
                 </div>
