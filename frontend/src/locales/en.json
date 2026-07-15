@@ -35,5 +35,16 @@
   "fab": {
     "bedeng_map": "KKN Location Map"
   },
-  "save_success": "Data successfully saved to database!"
+  "save_success": "Data successfully saved to database!",
+  "users": {
+    "title": "User Management",
+    "subtitle": "List of registered users in the TOGA Berdaya system with different access permission levels.",
+    "add_user": "Add New User",
+    "table": {
+      "username": "USERNAME",
+      "role": "ROLE",
+      "created_by": "CREATED BY",
+      "action": "ACTION"
+    }
+  }
 }

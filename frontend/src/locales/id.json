@@ -35,5 +35,16 @@
   "fab": {
     "bedeng_map": "Peta Lokasi KKN"
   },
-  "save_success": "Data berhasil disimpan ke database!"
+  "save_success": "Data berhasil disimpan ke database!",
+  "users": {
+    "title": "Manajemen Pengguna",
+    "subtitle": "Daftar pengguna terdaftar di sistem TOGA Berdaya dengan tingkat izin akses yang berbeda.",
+    "add_user": "Tambah Pengguna Baru",
+    "table": {
+      "username": "USERNAME",
+      "role": "ROLE",
+      "created_by": "DIBUAT OLEH",
+      "action": "AKSI"
+    }
+  }
 }

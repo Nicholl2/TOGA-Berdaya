@@ -1024,6 +1024,7 @@ function LoginPage({ token, user, login }) {
 }
 
 function UsersPage({ token, user, logout }) {
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [isTableLoading, setIsTableLoading] = useState(true);
   const [fetchError, setFetchError] = useState('');
@@ -1194,10 +1195,10 @@ function UsersPage({ token, user, logout }) {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-[#111827] font-sans">
-              Manajemen Pengguna
+              {t('users.title')}
             </h1>
             <p className="text-sm text-[#4B5563] mt-1.5">
-              Daftar pengguna terdaftar di sistem TOGA Berdaya dengan tingkat izin akses yang berbeda.
+              {t('users.subtitle')}
             </p>
           </div>
 
@@ -1208,7 +1209,7 @@ function UsersPage({ token, user, logout }) {
                 onClick={handleAddClick}
                 className="bg-[#1E6BFF] hover:bg-[#1a5cd4] text-white px-5 py-3 rounded-[5px] text-xs font-semibold transition-all duration-200 shadow-sm active:scale-95 flex items-center gap-1.5 animate-in fade-in slide-in-from-right-4 duration-300"
               >
-                <Plus className="w-4 h-4" /> Tambah Pengguna Baru
+                <Plus className="w-4 h-4" /> {t('users.add_user')}
               </button>
             ) : (
               <div className="flex items-center gap-2 bg-[#FBFCF8] border border-[#E5E7EB] px-4 py-2.5 rounded-[5px]">
@@ -1236,10 +1237,10 @@ function UsersPage({ token, user, logout }) {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#FBFCF8] border-b border-[#E5E7EB] text-[11px] font-bold text-[#6B7280] uppercase tracking-wider font-mono">
-                  <th className="px-6 py-4">Username</th>
-                  <th className="px-6 py-4">Role</th>
-                  <th className="px-6 py-4">Dibuat Oleh</th>
-                  <th className="px-6 py-4 text-right">Aksi</th>
+                  <th className="px-6 py-4">{t('users.table.username')}</th>
+                  <th className="px-6 py-4">{t('users.table.role')}</th>
+                  <th className="px-6 py-4">{t('users.table.created_by')}</th>
+                  <th className="px-6 py-4 text-right">{t('users.table.action')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E5E7EB] font-sans">
