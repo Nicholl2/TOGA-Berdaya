@@ -17,7 +17,6 @@ export default function PanduanInfo({ token, user, logout }) {
   const [activeSubTab, setActiveSubTab] = useState('poc'); // 'poc' or 'toga'
 
   const language = i18n.language?.startsWith('en') ? 'en' : 'id';
-  const setLanguage = (lang) => i18n.changeLanguage(lang);
 
   const content = {
     id: {
@@ -290,23 +289,6 @@ export default function PanduanInfo({ token, user, logout }) {
 
       {/* MAIN CONTENT AREA */}
       <main className="max-w-3xl mx-auto px-4 py-8">
-        
-        {/* Switch Language Panel */}
-        <div className="flex justify-end space-x-2 text-xs font-semibold font-mono tracking-wider mb-6">
-          <button 
-            onClick={() => setLanguage('en')} 
-            className={`${language === 'en' ? 'text-[#1E6BFF] font-bold' : 'text-gray-400 hover:text-gray-600'} cursor-pointer transition-colors`}
-          >
-            EN
-          </button>
-          <span className="text-gray-300">|</span>
-          <button 
-            onClick={() => setLanguage('id')} 
-            className={`${language === 'id' ? 'text-[#1E6BFF] font-bold' : 'text-gray-400 hover:text-gray-600'} cursor-pointer transition-colors`}
-          >
-            ID
-          </button>
-        </div>
 
         {/* HERO SECTION */}
         <div className="text-center mb-10">
