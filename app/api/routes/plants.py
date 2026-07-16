@@ -35,6 +35,7 @@ async def create_plant(
     medical_benefit: str = Form(...),
     historical_funfact: Optional[str] = Form(None),
     poc_dosage_guideline: str = Form(...),
+    formula_poc: Optional[str] = Form(None),
     latin_name: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
     current_user: User = Depends(check_role([UserRole.admin, UserRole.staff])),
@@ -50,6 +51,7 @@ async def create_plant(
         medical_benefit=medical_benefit,
         historical_funfact=historical_funfact,
         poc_dosage_guideline=poc_dosage_guideline,
+        formula_poc=formula_poc,
         latin_name=latin_name,
         image_url=image_url
     )
@@ -64,6 +66,7 @@ async def update_plant(
     medical_benefit: Optional[str] = Form(None),
     historical_funfact: Optional[str] = Form(None),
     poc_dosage_guideline: Optional[str] = Form(None),
+    formula_poc: Optional[str] = Form(None),
     latin_name: Optional[str] = Form(None),
     image: Optional[UploadFile] = File(None),
     current_user: User = Depends(check_role([UserRole.admin, UserRole.staff])),
@@ -81,6 +84,8 @@ async def update_plant(
         update_data["historical_funfact"] = historical_funfact
     if poc_dosage_guideline is not None:
         update_data["poc_dosage_guideline"] = poc_dosage_guideline
+    if formula_poc is not None:
+        update_data["formula_poc"] = formula_poc
     if latin_name is not None:
         update_data["latin_name"] = latin_name
 

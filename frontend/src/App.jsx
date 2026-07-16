@@ -1695,7 +1695,7 @@ function KatalogPage({ token, user, logout }) {
                 image: item.image_url || storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
                 modules: {
                   khasiat: item.medical_benefit,
-                  poc: match ? match.modules.poc : "Formula POC khusus TOGA.",
+                  poc: item.formula_poc || (match ? match.modules.poc : "Formula POC khusus TOGA."),
                   aturan: item.poc_dosage_guideline,
                   sejarah: item.historical_funfact || "Bagian dari kekayaan botani herbal Kelurahan Tingkir Lor."
                 }
@@ -1746,7 +1746,7 @@ function KatalogPage({ token, user, logout }) {
               image: item.image_url || storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
               modules: {
                 khasiat: item.medical_benefit,
-                poc: match ? match.modules.poc : "Formula POC khusus TOGA.",
+                poc: item.formula_poc || (match ? match.modules.poc : "Formula POC khusus TOGA."),
                 aturan: item.poc_dosage_guideline,
                 sejarah: item.historical_funfact || "Bagian dari kekayaan botani herbal Kelurahan Tingkir Lor."
               }
@@ -1876,6 +1876,7 @@ function KatalogPage({ token, user, logout }) {
     }
     formData.append('type', crudForm.type);
     formData.append('medical_benefit', crudForm.medical_benefit);
+    formData.append('formula_poc', crudForm.poc_formula);
     formData.append('poc_formula', crudForm.poc_formula);
     formData.append('usage_instruction', crudForm.poc_dosage_guideline);
     // Keep backend compatibility with poc_dosage_guideline

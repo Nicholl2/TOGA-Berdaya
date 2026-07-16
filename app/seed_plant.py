@@ -138,8 +138,9 @@ async def seed_plants():
                 result = await session.execute(select(Plant).where(Plant.name == p["name"]))
                 existing = result.scalar_one_or_none()
                 
-                # Menggabungkan modul panduan poc dan aturan pakai untuk kolom DB tunggal
-                combined_poc = f"{p['modules']['poc']}\n\nAturan Pakai: {p['modules']['aturan']}"
+                # Simpan formula poc dan aturan pakai secara terpisah
+                poc_val = p["modules"]["poc"]
+                aturan_val = p["modules"]["aturan"]
                 
                 if existing:
                     # Jalur update jika data dengan nama tersebut sudah ada di tabel Neon
@@ -147,7 +148,8 @@ async def seed_plants():
                     existing.image_url = p.get("image")
                     existing.medical_benefit = p["modules"]["khasiat"]
                     existing.historical_funfact = p["modules"]["sejarah"]
-                    existing.poc_dosage_guideline = combined_poc
+                    existing.poc_dosage_guideline = aturan_val
+                    existing.formula_poc = poc_val
                     print(f"🔄 Mengupdate data untuk: {p['name']}")
                     continue
                 
@@ -159,7 +161,8 @@ async def seed_plants():
                     type=PlantType.toga,
                     medical_benefit=p["modules"]["khasiat"],
                     historical_funfact=p["modules"]["sejarah"],
-                    poc_dosage_guideline=combined_poc
+                    poc_dosage_guideline=aturan_val,
+                    formula_poc=poc_val
                 )
                 session.add(new_plant)
                 print(f"   + Menambahkan ke DB: {p['name']}")

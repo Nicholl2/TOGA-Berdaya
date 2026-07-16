@@ -10,6 +10,7 @@ class PlantBase(BaseModel):
     medical_benefit: str = Field(...)
     historical_funfact: Optional[str] = Field(default=None)
     poc_dosage_guideline: str = Field(...)
+    formula_poc: Optional[str] = Field(default=None)
     image_url: Optional[str] = Field(default=None)
 
 class PlantCreate(PlantBase):
@@ -22,6 +23,7 @@ class PlantUpdate(BaseModel):
     medical_benefit: Optional[str] = Field(default=None)
     historical_funfact: Optional[str] = Field(default=None)
     poc_dosage_guideline: Optional[str] = Field(default=None)
+    formula_poc: Optional[str] = Field(default=None)
     image_url: Optional[str] = Field(default=None)
 
 class PlantResponse(PlantBase):
