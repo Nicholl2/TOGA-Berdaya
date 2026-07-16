@@ -407,7 +407,7 @@ export default function PanduanInfo({ token, user, logout }) {
                       {idx === 0 && (
                         <img 
                           src="/assets/panduan_poc_step1.jpg" 
-                          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=800&auto=format&fit=crop&q=60"; }}
+                          onError={(e) => { e.target.src = "https://www.asterra.id/wp-content/uploads/2024/11/steptodown.com913473-1-scaled.jpg"; }}
                           alt="Step 1" 
                           className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
                         />
@@ -415,7 +415,7 @@ export default function PanduanInfo({ token, user, logout }) {
                       {idx === 2 && (
                         <img 
                           src="/assets/panduan_poc_step3.jpg" 
-                          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592150621744-aca64f48394a?w=800&auto=format&fit=crop&q=60"; }}
+                          onError={(e) => { e.target.src = "https://rricoid-assets.obs.ap-southeast-4.myhuaweicloud.com/berita/Biak/o/1744760344090-CUCIAN_BERAS_-_istockphoto/61g4gtwk5k7vumj.jpeg"; }}
                           alt="Step 3" 
                           className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
                         />
@@ -423,7 +423,7 @@ export default function PanduanInfo({ token, user, logout }) {
                       {idx === 5 && (
                         <img 
                           src="/assets/panduan_poc_step6.jpg" 
-                          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800&auto=format&fit=crop&q=60"; }}
+                          onError={(e) => { e.target.src = "https://infoparlemen.com/wp-content/uploads/2022/02/0602-BDG-GBKP-Bandung-Timur-Sukseskan-Sasaran-Pelayanan-Kreatif-Merawat-Lingkungan-3.jpg"; }}
                           alt="Step 6" 
                           className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
                         />
