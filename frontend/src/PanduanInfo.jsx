@@ -168,7 +168,7 @@ export default function PanduanInfo({ onBack }) {
                     </p>
                     <img 
                       src="/assets/panduan_poc_step1.jpg" 
-                      onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=800&auto=format&fit=crop&q=60"; }}
+                      onError={(e) => { e.target.src = "https://www.asterra.id/wp-content/uploads/2024/11/manfaat-sampah-organik-3-scaled.jpg"; }}
                       alt="Cacah Sampah Organik" 
                       className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
                     />
@@ -200,7 +200,7 @@ export default function PanduanInfo({ onBack }) {
                     </p>
                     <img 
                       src="/assets/panduan_poc_step3.jpg" 
-                      onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592150621744-aca64f48394a?w=800&auto=format&fit=crop&q=60"; }}
+                      onError={(e) => { e.target.src = "https://sumeks.disway.id/upload/1dc58d8f919bb2c4bbf305133c7eada1.jpg"; }}
                       alt="Pencampuran Larutan EM4 dan Molase" 
                       className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
                     />
@@ -245,7 +245,7 @@ export default function PanduanInfo({ onBack }) {
                     </p>
                     <img 
                       src="/assets/panduan_poc_step6.jpg" 
-                      onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800&auto=format&fit=crop&q=60"; }}
+                      onError={(e) => { e.target.src = "https://www.researchgate.net/publication/362630579/figure/fig1/AS:11431281104178258@1669971060913/Gambar-3-a-Desain-Wadah-Fermentasi-Sampah-menjadi-Pupuk-Organik-b-Produk-cair-yang.jpg"; }}
                       alt="Sistem Selang Pembuangan Gas POC" 
                       className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
                     />
