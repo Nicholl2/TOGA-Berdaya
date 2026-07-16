@@ -1,5 +1,7 @@
 # app/core/config.py
 from typing import List, Optional
+import os
+from pathlib import Path
 from pydantic import BeforeValidator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing_extensions import Annotated
@@ -36,6 +38,10 @@ class Settings(BaseSettings):
         "http://localhost:8082"
     ]
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=os.path.join(Path(__file__).resolve().parent.parent.parent, ".env"),
+        env_file_encoding="utf-8",
+        extra="ignore"
+    )
 
 settings = Settings()
