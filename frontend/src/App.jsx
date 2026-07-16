@@ -14,7 +14,8 @@ import {
   Shield,
   Search,
   Eye,
-  EyeOff
+  EyeOff,
+  Droplets
 } from 'lucide-react';
 
 // KKN Student Profile Images
@@ -26,6 +27,7 @@ import revinaImg from './assets/Revina.JPG';
 import togaLogo from './assets/TOGA-Logo.png';
 import loadingGif from './assets/Loading.gif';
 import Monitoring from './Monitoring';
+import PanduanInfo from './PanduanInfo';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api/v1";
 
@@ -222,6 +224,18 @@ function Navbar({ token, user, logout }) {
             {t('navbar.monitoring')}
             <span className="text-[10px] text-[#1E6BFF] font-semibold align-super -mt-2 font-mono">(26)</span>
           </NavLink>
+
+          <NavLink 
+            to="/panduan" 
+            className={({ isActive }) => 
+              `transition-all duration-200 uppercase tracking-wider font-mono text-[11px] relative py-1 ` +
+              (isActive 
+                ? 'text-[#111827] font-bold after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-[#1E6BFF] after:rounded-full' 
+                : 'text-[#4B5563] font-normal hover:text-[#111827]')
+            }
+          >
+            {t('navbar.panduan')}
+          </NavLink>
         </nav>
 
         {/* Right Actions */}
@@ -345,6 +359,17 @@ function Navbar({ token, user, logout }) {
         >
           <Cpu className="w-4.5 h-4.5" />
           <span className="text-[9px] font-semibold uppercase tracking-wider font-mono">{t('navbar.monitoring')}</span>
+        </NavLink>
+
+        <NavLink 
+          to="/panduan" 
+          className={({ isActive }) => 
+            `flex flex-col items-center justify-center gap-1 transition-colors duration-150 ` + 
+            (isActive ? 'text-[#1E6BFF] font-bold' : 'text-gray-500 hover:text-[#111827]')
+          }
+        >
+          <Droplets className="w-4.5 h-4.5" />
+          <span className="text-[9px] font-semibold uppercase tracking-wider font-mono">{t('navbar.panduan')}</span>
         </NavLink>
 
         {token && user ? (
@@ -2521,6 +2546,7 @@ export default function App() {
         <Route path="/" element={<LandingPage token={token} user={user} logout={logout} hasLoaded={hasLoaded} setHasLoaded={setHasLoaded} />} />
         <Route path="/login" element={<LoginPage token={token} user={user} login={login} />} />
         <Route path="/katalog" element={<KatalogPage token={token} user={user} logout={logout} />} />
+        <Route path="/panduan" element={<PanduanInfo onBack={() => window.history.back()} />} />
         <Route 
           path="/users" 
           element={
