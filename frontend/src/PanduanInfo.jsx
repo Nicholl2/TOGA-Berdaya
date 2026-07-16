@@ -1,125 +1,384 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
-  ChevronLeft, 
   Droplets, 
-  Flame, 
-  CheckCircle2, 
-  XCircle, 
   Scale, 
   Beaker, 
   Timer, 
   Info,
   Sparkles,
-  Heart,
-  Calendar,
-  BookOpen
+  BookOpen,
+  Calendar
 } from 'lucide-react';
+import Navbar from './Navbar';
 
-export default function PanduanInfo({ onBack }) {
+export default function PanduanInfo({ token, user, logout }) {
+  const { t: tGlobal, i18n } = useTranslation();
   const [activeSubTab, setActiveSubTab] = useState('poc'); // 'poc' or 'toga'
 
-  return (
-    <div className="min-h-screen bg-[#FBFCF8] text-[#1F2937] font-sans antialiased selection:bg-[#E0F2FE] selection:text-[#0369A1]">
-      
-      {/* HEADER BAR */}
-      <header className="sticky top-0 bg-[#FBFCF8]/80 backdrop-blur-md border-b border-[#E5E7EB]/60 z-50">
-        <div className="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
-          <button 
-            onClick={onBack}
-            className="flex items-center gap-2 text-sm font-semibold text-[#4B5563] hover:text-[#111827] transition-colors duration-200 group cursor-pointer"
-          >
-            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-200" />
-            <span>Kembali</span>
-          </button>
-          <span className="text-xs font-mono font-bold tracking-widest text-[#14B8A6] uppercase">
-            Panduan Edukasi
-          </span>
-        </div>
-      </header>
+  const language = i18n.language?.startsWith('en') ? 'en' : 'id';
+  const setLanguage = (lang) => i18n.changeLanguage(lang);
 
-      {/* HERO SECTION */}
-      <section className="bg-gradient-to-b from-[#ECFDF5] to-[#FBFCF8] py-8 border-b border-gray-100">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D1FAE5] text-[#065F46] text-xs font-bold font-mono tracking-wide uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5" /> KKN UNDIP Tingkir Lor 2026
+  const content = {
+    id: {
+      badge: "KKN UNDIP TINGKIR LOR 2026",
+      title: "Panduan TOGA & Pupuk Organik Cair",
+      subtitle: "Basis pengetahuan praktis untuk budidaya Tanaman Obat Keluarga dan mandiri pupuk organik di pekarangan rumah desa.",
+      btnPoc: "PANDUAN POC",
+      btnToga: "PENGOLAHAN TOGA",
+      pocDesc: "Pupuk Organik Cair (POC) merupakan pupuk berbentuk cairan yang berasal dari dekomposisi bahan-bahan organik dengan bantuan mikroorganisme. Penggunaan POC terbukti meningkatkan kesuburan tanah secara alami, menyuburkan perakaran, serta aman dan ramah lingkungan untuk tanaman TOGA dan sayuran warga.",
+      
+      // Alat & Bahan
+      toolsTitle: "Alat & Bahan Pembuatan",
+      toolsHeader: "Alat Utama:",
+      materialsHeader: "Bahan Baku:",
+      toolsList: [
+        "Botol plastik besar (wadah fermentasi)",
+        "Botol plastik kecil (tempat keluar gas)",
+        "Selang plastik ukuran kecil",
+        "Lem tembak & isi lem tembak",
+        "Gelas ukur & sendok takar",
+        "Wadah besar (ember) & pengaduk",
+        "Timbangan dapur"
+      ],
+      materialsList: [
+        "Sampah organik (sisa buah / sayur)",
+        "EM4 Pertanian (starter mikroba)",
+        "Molase / tetes tebu (sumber nutrisi mikroba)",
+        "Air bersih / Air cucian beras"
+      ],
+
+      // Takaran
+      formulaTitle: "Formulasi Perbandingan Takaran",
+      formulaSmall: "Skala Kecil (1 kg):",
+      formulaSmallDesc: "1 kg Sampah organik + 20 ml EM4 + 20 ml Molase + 2 Liter air.",
+      formulaMedium: "Skala Sedang (5 kg):",
+      formulaMediumDesc: "5 kg Sampah organik + 100 ml EM4 + 100 ml Molase + 10 Liter air.",
+      importantNote: "PENTING: Selalu sisakan ruang kosong sekitar 20 - 25% dari kapasitas wadah botol fermentasi agar gas hasil fermentasi memiliki ruang dan wadah tidak meledak.",
+
+      // Langkah Pembuatan
+      stepsTitle: "Langkah-Langkah Pembuatan POC",
+      steps: [
+        {
+          title: "Pencacahan Sampah Organik",
+          desc: "Cacah sampah organik (sisa potongan sayur atau kulit buah) menjadi potongan-potongan kecil. Semakin kecil ukuran cacahan, semakin cepat proses dekomposisi terjadi."
+        },
+        {
+          title: "Pengisian Botol Wadah Utama",
+          desc: "Masukkan cacahan sampah organik yang sudah dipotong tadi ke dalam wadah botol plastik fermentasi berukuran besar."
+        },
+        {
+          title: "Pembuatan Larutan Nutrisi",
+          desc: "Di dalam wadah terpisah (ember), masukkan air cucian beras, EM4, dan Molase. Aduk menggunakan pengaduk secara merata hingga seluruh bahan larut dan tercampur sempurna."
+        },
+        {
+          title: "Penyatuan Bahan",
+          desc: "Tuangkan campuran larutan air, EM4, dan Molase tersebut secara perlahan ke dalam botol utama yang telah berisi sampah organik."
+        },
+        {
+          title: "Pemasangan Selang Gas",
+          desc: "Lubangi bagian tengah tutup botol besar (wadah fermentasi) dan tutup botol kecil (botol gas pembuangan) menggunakan paku atau solder. Masukkan selang plastik kecil ke lubang tutup botol besar, lalu gunakan lem tembak untuk merekatkan selang agar tidak ada kebocoran gas."
+        },
+        {
+          title: "Menghubungkan Botol Pembuangan",
+          desc: "Isi botol kecil dengan air bersih. Masukkan ujung selang lainnya yang berasal dari botol besar ke dalam botol kecil tersebut hingga tercelup air, kemudian tutup kedua botol tersebut."
+        },
+        {
+          title: "Proses Fermentasi & Pengocokan",
+          desc: "Letakkan instalasi botol POC di tempat yang teduh, sejuk, dan tidak terpapar oleh sinar matahari langsung. Selama minggu pertama, lakukan pengocokan wadah secara berkala perlahan agar proses fermentasi menyebar secara merata."
+        },
+        {
+          title: "Penyaringan & Penggunaan",
+          desc: "Setelah didiamkan selama 2-3 minggu, POC siap digunakan. Saring cairan menggunakan kain penyaring untuk memisahkan cairan POC murni dari ampas padatnya. Ampas padat sisa penyaringan dapat dimanfaatkan lebih lanjut sebagai kompos padat."
+        }
+      ],
+
+      // Indikator Keberhasilan
+      successIndicatorTitle: "Indikator Keberhasilan Fermentasi",
+      indicatorHeader: "Indikator",
+      successHeader: "POC Berhasil",
+      failureHeader: "POC Gagal",
+      indicatorRows: [
+        { name: "Aroma/Bau", success: "Asam segar, mirip aroma tape/fermentasi", failure: "Busuk menyengat seperti sampah/comberan" },
+        { name: "Warna", success: "Coklat kekuningan hingga coklat kehitaman jernih", failure: "Hitam pekat kotor dan berlendir" },
+        { name: "Gas / Busa", success: "Muncul busa di awal, lalu berkurang setelah ~2 minggu", failure: "Botol terus menggembung kencang, busa berlebih" },
+        { name: "Endapan", success: "Ampas mengendap di dasar, cairan atas relatif jernih", failure: "Ampas mengembang di atas, cairan keruh pekat" }
+      ],
+
+      // Cara Pengaplikasian
+      applyTitle: "Cara & Aturan Pengaplikasian POC",
+      importantApplyNote: "Langkah Penting Sebelum Digunakan: Jangan pernah menyiramkan cairan POC murni langsung ke tanaman! Campurkan dahulu 10 - 20 ml POC (setara 1 - 2 tutup botol kemasan) ke dalam 1 Liter air bersih, lalu aduk rata.",
+      apply1Title: "1. Penyiraman Akar",
+      apply1Desc: "Siramkan larutan campuran POC di sekitar lingkar perakaran tanaman sebanyak kurang lebih 200 - 300 ml per lubang/tanaman. Pastikan media tanah basah lembab, jangan sampai tergenang air.",
+      apply2Title: "2. Penyemprotan Daun",
+      apply2Desc: "Semprotkan campuran larutan secara tipis dan merata ke bagian permukaan bawah daun. Penyerapan nutrisi tanaman akan berjalan jauh lebih efektif lewat celah stomata daun.",
+      frequency: "Frekuensi: Rutin 1 kali setiap 1 - 2 minggu.",
+      timing: "Waktu: Pagi (06:00-09:00) / Sore (16:00-18:00).",
+
+      // Pengolahan TOGA
+      togaDesc: "Bagian ini menjelaskan petunjuk pengolahan mandiri hasil panen Tanaman Obat Keluarga (TOGA) untuk mengobati keluhan penyakit ringan sehari-hari secara aman berdasarkan buku panduan bioteknologi KKN.",
+      recipes: [
+        {
+          title: "Ramuan Kencur (Obat Batuk Tradisional)",
+          badge: "Kencur",
+          content: [
+            { subtitle: "Cara 1 (Praktis):", text: "Ambil 5 gram kencur segar, cuci bersih dengan air mengalir. Kunyah rimpang kencur tersebut secara perlahan hingga halus, lalu telan langsung cairannya." },
+            { subtitle: "Cara 2 (Perasan & Madu):", text: "Parut 10 gram kencur segar yang sudah dicuci bersih, kemudian peras ampasnya menggunakan kain bersih. Campurkan air perasan kencur tersebut dengan madu secukupnya. Minum ramuan ini sekaligus 3 kali sehari secara teratur (pagi, siang, dan sore)." }
+          ]
+        },
+        {
+          title: "Rebusan Sambiloto (Obat Penurun Demam)",
+          badge: "Sambiloto",
+          text: "Ambil beberapa lembar daun sambiloto segar. Rebus daun sambiloto tersebut dengan menggunakan 2 gelas air bersih hingga airnya menyusut dan hanya menyisakan 1 gelas air saja. Saring air rebusan herbal tersebut, dinginkan hingga hangat, dan minum segera secara rutin."
+        },
+        {
+          title: "Perasan Kunyit (Obat Pegal Linu & Perut Kembung)",
+          badge: "Kunyit",
+          text: "Kupas kulit rimpang kunyit secukupnya lalu cuci hingga bersih. Parut atau haluskan kunyit tersebut. Tambahkan 2 sendok makan air panas matang ke dalam kunyit halus, aduk rata. Peras parutan menggunakan saringan kain, tampung airnya, lalu minum air perasan hangat tersebut secara teratur."
+        },
+        {
+          title: "Ramuan Air Sirih (Obat Alami Penghilang Gatal)",
+          badge: "Daun Sirih",
+          text: "Petik 5-7 lembar daun sirih segar, cuci bersih. Remas daun sirih di dalam air bersih secukupnya lalu diamkan selama kurang lebih 30 menit hingga air menyusut dan berubah warna. Basuhkan air remasan sirih tersebut ke area kulit tubuh yang gatal sehabis mandi dengan cara ditepuk-tepuk lembut."
+        },
+        {
+          title: "Rebusan Jahe & Sereh (Pegal Linu & Masuk Angin)",
+          badge: "Jahe & Sereh",
+          text: "Bahan: 1 jempol Jahe Merah + 2 batang Sereh + 1 Gelas air + 1 sdm Gula Merah + Seujung sendok Garam dapur.",
+          desc: "Cara Pengolahan: Bakar rimpang jahe sebentar lalu geprek/memarkan. Memarkan pula batang sereh. Rebus jahe geprek dan sereh dengan segelas air hingga mendidih dan menyusut sedikit. Tambahkan gula merah dan garam dapur, aduk hingga larut. Angkat, diamkan hingga suam-suam kuku, saring, dan minum selagi hangat pada waktu pagi dan sore hari."
+        }
+      ]
+    },
+    en: {
+      badge: "UNDIP KKN TINGKIR LOR 2026",
+      title: "TOGA & Liquid Organic Fertilizer Guide",
+      subtitle: "Practical knowledge base for Family Medicinal Plants (TOGA) cultivation and self-reliance on organic fertilizer in village home yards.",
+      btnPoc: "LOF GUIDE",
+      btnToga: "TOGA PROCESSING",
+      pocDesc: "Liquid Organic Fertilizer (LOF) is a liquid fertilizer derived from decomposition of organic materials with the help of microorganisms. The use of LOF is proven to increase soil fertility naturally, nourish root systems, and is safe and environmentally friendly for residents' TOGA and vegetable crops.",
+      
+      // Alat & Bahan
+      toolsTitle: "Tools & Materials for Production",
+      toolsHeader: "Main Tools:",
+      materialsHeader: "Raw Materials:",
+      toolsList: [
+        "Large plastic bottle (fermentation vessel)",
+        "Small plastic bottle (gas outlet)",
+        "Small plastic hose",
+        "Glue gun & glue sticks",
+        "Measuring cup & measuring spoon",
+        "Large container (bucket) & stirrer",
+        "Kitchen scale"
+      ],
+      materialsList: [
+        "Organic waste (fruit / vegetable scraps)",
+        "Agriculture EM4 (microbial starter)",
+        "Molasses / sugarcane juice (microbial nutrient source)",
+        "Clean water / rice washing water"
+      ],
+
+      // Takaran
+      formulaTitle: "Proportion Formulations",
+      formulaSmall: "Small Scale (1 kg):",
+      formulaSmallDesc: "1 kg Organic waste + 20 ml EM4 + 20 ml Molasses + 2 Liters of water.",
+      formulaMedium: "Medium Scale (5 kg):",
+      formulaMediumDesc: "5 kg Organic waste + 100 ml EM4 + 100 ml Molasses + 10 Liters of water.",
+      importantNote: "IMPORTANT: Always leave about 20 - 25% of empty space inside the fermentation bottle so that the fermentation gases have room and the container does not burst.",
+
+      // Langkah Pembuatan
+      stepsTitle: "LOF Production Steps",
+      steps: [
+        {
+          title: "Chopping Organic Waste",
+          desc: "Chop organic waste (leftover vegetable scraps or fruit skins) into small pieces. The smaller the chop size, the faster the decomposition process occurs."
+        },
+        {
+          title: "Filling Main Vessel",
+          desc: "Insert the chopped organic waste into the large plastic fermentation bottle."
+        },
+        {
+          title: "Preparing Nutrient Solution",
+          desc: "In a separate container (bucket), mix rice washing water, EM4, and Molasses. Stir with a paddle thoroughly until all ingredients are completely dissolved and mixed."
+        },
+        {
+          title: "Combining Materials",
+          desc: "Slowly pour the mixed water, EM4, and Molasses solution into the main bottle filled with organic waste."
+        },
+        {
+          title: "Installing Gas Hose",
+          desc: "Make a hole in the center of the large bottle cap (fermentation vessel) and the small bottle cap (gas escape bottle) using a nail or soldering iron. Insert the small plastic hose into the hole of the large cap, then seal the hose with hot glue to prevent gas leaks."
+        },
+        {
+          title: "Connecting Waste Bottle",
+          desc: "Fill the small bottle with clean water. Insert the other end of the hose coming from the large bottle into the small bottle until it is submerged in water, then close both bottles."
+        },
+        {
+          title: "Fermentation & Stirring Process",
+          desc: "Place the LOF bottle installation in a shady, cool place, away from direct sunlight. During the first week, shake the container gently on a regular basis so the fermentation process spreads evenly."
+        },
+        {
+          title: "Filtering & Usage",
+          desc: "After leaving it for 2-3 weeks, the LOF is ready to use. Filter the liquid using a strainer cloth to separate pure liquid LOF from its solid dregs. The remaining solid dregs can be further utilized as solid compost."
+        }
+      ],
+
+      // Indikator Keberhasilan
+      successIndicatorTitle: "Fermentation Success Indicators",
+      indicatorHeader: "Indicator",
+      successHeader: "Successful LOF",
+      failureHeader: "Failed LOF",
+      indicatorRows: [
+        { name: "Aroma/Smell", success: "Fresh sour, similar to tape/fermentation aroma", failure: "Pungent rotten odor like garbage/sewage" },
+        { name: "Color", success: "Yellowish brown to clear blackish brown", failure: "Dirty pitch black and slimy" },
+        { name: "Gas / Foam", success: "Foam appears at the beginning, then decreases after ~2 weeks", failure: "Bottle keeps swelling tightly, excessive long-lasting foam" },
+        { name: "Sediment", success: "Dregs settle at the bottom, top liquid is relatively clear", failure: "Dregs float at the top, thick muddy liquid" }
+      ],
+
+      // Cara Pengaplikasian
+      applyTitle: "LOF Application Method & Guidelines",
+      importantApplyNote: "Crucial Step Before Use: Never pour pure liquid LOF directly onto plants! First mix 10 - 20 ml of LOF (equivalent to 1 - 2 bottle caps) with 1 Liter of clean water, and stir well.",
+      apply1Title: "1. Root Watering",
+      apply1Desc: "Pour the mixed LOF solution around the root zone of the plant about 200 - 300 ml per hole/plant. Make sure the soil media is damp, do not let water pool.",
+      apply2Title: "2. Leaf Spraying",
+      apply2Desc: "Spray the mixed solution thinly and evenly on the underside of the leaves. Absorption of plant nutrients will run far more effectively through the leaf stomata.",
+      frequency: "Frequency: Regularly once every 1 - 2 weeks.",
+      timing: "Time: Morning (06:00-09:00) / Afternoon (16:00-18:00).",
+
+      // Pengolahan TOGA
+      togaDesc: "This section explains instructions for manual processing of harvested Family Medicinal Plants (TOGA) to safely treat everyday minor illnesses based on the KKN biotechnology handbook.",
+      recipes: [
+        {
+          title: "Kencur Remedy (Traditional Cough Medicine)",
+          badge: "Kaempferia Galanga",
+          content: [
+            { subtitle: "Method 1 (Practical):", text: "Take 5 grams of fresh kencur, wash clean under running water. Chew the kencur rhizome slowly until fine, then swallow the liquid directly." },
+            { subtitle: "Method 2 (Juice & Honey):", text: "Grate 10 grams of washed fresh kencur, then squeeze the pulp using a clean cloth. Mix the kencur juice with an appropriate amount of honey. Drink this remedy all at once 3 times a day regularly (morning, afternoon, and evening)." }
+          ]
+        },
+        {
+          title: "Sambiloto Decoction (Fever Reducer)",
+          badge: "Andrographis Paniculata",
+          text: "Take a few sheets of fresh sambiloto leaves. Boil the sambiloto leaves with 2 glasses of clean water until the water shrinks and leaves only 1 glass of water. Strain the herbal decoction, let it cool to lukewarm, and drink immediately on a regular basis."
+        },
+        {
+          title: "Kunyit Juice (Body Aches & Stomach Bloating)",
+          badge: "Turmeric",
+          text: "Peel the skin of turmeric rhizome as needed, then wash clean. Grate or mash the turmeric. Add 2 tablespoons of warm boiled water to the mashed turmeric, mix well. Squeeze the mixture using a cloth filter, collect the juice, and drink the warm juice regularly."
+        },
+        {
+          title: "Sirih Water Remedy (Natural Itch Reliever)",
+          badge: "Betel Leaf",
+          text: "Pick 5-7 sheets of fresh betel leaves, wash clean. Squeeze the betel leaves in a sufficient amount of clean water and let sit for about 30 minutes until the water shrinks and changes color. Apply the betel leaf water to the itchy area of the body after bathing by patting gently."
+        },
+        {
+          title: "Jahe & Sereh Decoction (Body Aches & Colds)",
+          badge: "Ginger & Lemongrass",
+          text: "Ingredients: 1 thumb of Red Ginger + 2 Lemongrass stalks + 1 Glass of water + 1 tbsp Brown Sugar + A pinch of Salt.",
+          desc: "Preparation: Roast the ginger rhizome briefly then crush/bruise it. Bruise the lemongrass stalks as well. Boil the crushed ginger and lemongrass with a glass of water until boiling and slightly reduced. Add brown sugar and salt, stir until dissolved. Remove, let stand until lukewarm, strain, and drink warm in the morning and evening."
+        }
+      ]
+    }
+  };
+
+  const t = language === 'en' ? content.en : content.id;
+
+  return (
+    <div className="min-h-screen bg-[#FBFCF8] text-[#1F2937] font-sans antialiased selection:bg-[#E0F2FE] selection:text-[#0369A1] pb-24 md:pb-8">
+      
+      {/* Global Navbar */}
+      <Navbar token={token} user={user} logout={logout} />
+
+      {/* MAIN CONTENT AREA */}
+      <main className="max-w-3xl mx-auto px-4 py-8">
+        
+        {/* Switch Language Panel */}
+        <div className="flex justify-end space-x-2 text-xs font-semibold font-mono tracking-wider mb-6">
+          <button 
+            onClick={() => setLanguage('en')} 
+            className={`${language === 'en' ? 'text-[#1E6BFF] font-bold' : 'text-gray-400 hover:text-gray-600'} cursor-pointer transition-colors`}
+          >
+            EN
+          </button>
+          <span className="text-gray-300">|</span>
+          <button 
+            onClick={() => setLanguage('id')} 
+            className={`${language === 'id' ? 'text-[#1E6BFF] font-bold' : 'text-gray-400 hover:text-gray-600'} cursor-pointer transition-colors`}
+          >
+            ID
+          </button>
+        </div>
+
+        {/* HERO SECTION */}
+        <div className="text-center mb-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D1FAE5] text-[#065F46] text-[10px] font-bold font-mono tracking-wide uppercase mb-3">
+            <Sparkles className="w-3 h-3" /> {t.badge}
           </span>
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#111827] leading-tight">
-            Panduan TOGA & Pupuk Organik Cair
+            {t.title}
           </h1>
-          <p className="mt-2 text-sm text-[#4B5563] max-w-xl mx-auto leading-relaxed">
-            Basis pengetahuan praktis untuk budidaya Tanaman Obat Keluarga dan mandiri pupuk organik di pekarangan rumah desa.
+          <p className="mt-3 text-xs md:text-sm text-[#4B5563] max-w-xl mx-auto leading-relaxed">
+            {t.subtitle}
           </p>
 
           {/* Sub Tab Switcher */}
           <div className="mt-8 flex justify-center p-1 bg-[#F3F4F6] rounded-xl max-w-sm mx-auto shadow-sm">
             <button
               onClick={() => setActiveSubTab('poc')}
-              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-200 uppercase tracking-wider font-mono flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 uppercase tracking-wider font-mono flex items-center justify-center gap-1.5 cursor-pointer ${
                 activeSubTab === 'poc'
                   ? 'bg-white text-[#111827] shadow-sm'
                   : 'text-[#4B5563] hover:text-[#111827]'
               }`}
             >
               <Droplets className="w-4 h-4 text-[#10B981]" />
-              Panduan POC
+              {t.btnPoc}
             </button>
             <button
               onClick={() => setActiveSubTab('toga')}
-              className={`flex-1 py-2.5 text-xs font-bold rounded-lg transition-all duration-200 uppercase tracking-wider font-mono flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 uppercase tracking-wider font-mono flex items-center justify-center gap-1.5 cursor-pointer ${
                 activeSubTab === 'toga'
                   ? 'bg-white text-[#111827] shadow-sm'
                   : 'text-[#4B5563] hover:text-[#111827]'
               }`}
             >
               <BookOpen className="w-4 h-4 text-[#3B82F6]" />
-              Pengolahan TOGA
+              {t.btnToga}
             </button>
           </div>
         </div>
-      </section>
 
-      {/* MAIN CONTENT CONTAINER */}
-      <main className="max-w-3xl mx-auto px-4 py-8 pb-20">
-        
         {/* ========================================================================= */}
         {/* PANDUAN POC (PUPUK ORGANIK CAIR) */}
         {/* ========================================================================= */}
         {activeSubTab === 'poc' && (
-          <article className="space-y-12">
+          <div className="space-y-12">
             
             {/* INTRO */}
-            <div className="prose prose-slate max-w-none text-[#4B5563] leading-relaxed text-sm">
-              <p>
-                <strong>Pupuk Organik Cair (POC)</strong> merupakan pupuk berbentuk cairan yang berasal dari dekomposisi bahan-bahan organik dengan bantuan mikroorganisme. Penggunaan POC terbukti meningkatkan kesuburan tanah secara alami, menyuburkan perakaran, serta aman dan ramah lingkungan untuk tanaman TOGA dan sayuran warga.
-              </p>
+            <div className="prose prose-slate max-w-none text-[#4B5563] leading-relaxed text-xs md:text-sm">
+              <p>{t.pocDesc}</p>
             </div>
 
             {/* ALAT DAN BAHAN */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <h2 className="text-lg font-bold text-[#111827] mb-4 flex items-center gap-2">
+              <h2 className="text-sm md:text-base font-bold text-[#111827] mb-4 flex items-center gap-2">
                 <Beaker className="w-5 h-5 text-[#10B981]" />
-                Alat & Bahan Pembuatan
+                {t.toolsTitle}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
                 <div>
-                  <h3 className="font-bold text-[#374151] mb-2 font-mono uppercase tracking-wider text-[10px]">Alat Utama:</h3>
-                  <ul className="space-y-1.5 list-disc list-inside text-[#4B5563]">
-                    <li>Botol plastik besar (wadah fermentasi)</li>
-                    <li>Botol plastik kecil (tempat keluar gas)</li>
-                    <li>Selang plastik ukuran kecil</li>
-                    <li>Lem tembak & isi lem tembak</li>
-                    <li>Gelas ukur & sendok takar</li>
-                    <li>Wadah besar (ember) & pengaduk</li>
-                    <li>Timbangan dapur</li>
+                  <h3 className="font-bold text-[#374151] mb-2.5 font-mono uppercase tracking-wider text-[10px]">{t.toolsHeader}</h3>
+                  <ul className="space-y-2 list-disc list-inside text-[#4B5563]">
+                    {t.toolsList.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
                   </ul>
                 </div>
                 <div>
-                  <h3 className="font-bold text-[#374151] mb-2 font-mono uppercase tracking-wider text-[10px]">Bahan Baku:</h3>
-                  <ul className="space-y-1.5 list-disc list-inside text-[#4B5563]">
-                    <li>Sampah organik (sisa buah / sayur)</li>
-                    <li>EM4 Pertanian (starter mikroba)</li>
-                    <li>Molase / tetes tebu (sumber nutrisi mikroba)</li>
-                    <li>Air bersih / Air cucian beras</li>
+                  <h3 className="font-bold text-[#374151] mb-2.5 font-mono uppercase tracking-wider text-[10px]">{t.materialsHeader}</h3>
+                  <ul className="space-y-2 list-disc list-inside text-[#4B5563]">
+                    {t.materialsList.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -127,193 +386,92 @@ export default function PanduanInfo({ onBack }) {
 
             {/* PERBANDINGAN TAKARAN */}
             <div className="bg-gradient-to-r from-[#F0FDF4] to-[#ECFDF5] rounded-2xl border border-[#D1FAE5] p-6">
-              <h2 className="text-lg font-bold text-[#065F46] mb-3 flex items-center gap-2">
+              <h2 className="text-sm md:text-base font-bold text-[#065F46] mb-4 flex items-center gap-2">
                 <Scale className="w-5 h-5 text-[#10B981]" />
-                Formulasi Perbandingan Takaran
+                {t.formulaTitle}
               </h2>
               <div className="space-y-4 text-xs text-[#065F46]">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-white/60 p-4 rounded-xl border border-[#A7F3D0]/50">
-                    <p className="font-bold text-xs mb-1">Skala Kecil (1 kg):</p>
-                    <p className="text-xs font-medium">1 kg Sampah organik + 20 ml EM4 + 20 ml Molase + 2 Liter air.</p>
+                    <p className="font-bold text-xs mb-1">{t.formulaSmall}</p>
+                    <p className="text-xs font-medium">{t.formulaSmallDesc}</p>
                   </div>
                   <div className="bg-white/60 p-4 rounded-xl border border-[#A7F3D0]/50">
-                    <p className="font-bold text-xs mb-1">Skala Sedang (5 kg):</p>
-                    <p className="text-xs font-medium">5 kg Sampah organik + 100 ml EM4 + 100 ml Molase + 10 Liter air.</p>
+                    <p className="font-bold text-xs mb-1">{t.formulaMedium}</p>
+                    <p className="text-xs font-medium">{t.formulaMediumDesc}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2 bg-[#FEF3C7] border border-[#FDE68A] text-[#92400E] p-4 rounded-xl text-xs mt-3">
                   <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                  <p>
-                    <strong>PENTING:</strong> Selalu sisakan ruang kosong sekitar <strong>20 - 25%</strong> dari kapasitas wadah botol fermentasi agar gas hasil fermentasi memiliki ruang dan wadah tidak meledak.
-                  </p>
+                  <p>{t.importantNote}</p>
                 </div>
               </div>
             </div>
 
             {/* LANGKAH-LANGKAH PEMBUATAN */}
             <div>
-              <h2 className="text-xl font-extrabold text-[#111827] mb-6">Langkah-Langkah Pembuatan POC</h2>
-              <ol className="space-y-6">
-                
-                {/* Step 1 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    1
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Pencacahan Sampah Organik</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Cacah sampah organik (sisa potongan sayur atau kulit buah) menjadi potongan-potongan kecil. Semakin kecil ukuran cacahan, semakin cepat proses dekomposisi terjadi.
-                    </p>
-                    <img 
-                      src="/assets/panduan_poc_step1.jpg" 
-                      onError={(e) => { e.target.src = "https://www.asterra.id/wp-content/uploads/2024/11/manfaat-sampah-organik-3-scaled.jpg"; }}
-                      alt="Cacah Sampah Organik" 
-                      className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
-                    />
-                  </div>
-                </li>
-
-                {/* Step 2 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    2
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Pengisian Botol Wadah Utama</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Masukkan cacahan sampah organik yang sudah dipotong tadi ke dalam wadah botol plastik fermentasi berukuran besar.
-                    </p>
-                  </div>
-                </li>
-
-                {/* Step 3 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    3
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Pembuatan Larutan Nutrisi</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Di dalam wadah terpisah (ember), masukkan air cucian beras, EM4, dan Molase. Aduk menggunakan pengaduk secara merata hingga seluruh bahan larut dan tercampur sempurna.
-                    </p>
-                    <img 
-                      src="/assets/panduan_poc_step3.jpg" 
-                      onError={(e) => { e.target.src = "https://sumeks.disway.id/upload/1dc58d8f919bb2c4bbf305133c7eada1.jpg"; }}
-                      alt="Pencampuran Larutan EM4 dan Molase" 
-                      className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
-                    />
-                  </div>
-                </li>
-
-                {/* Step 4 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    4
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Penyatuan Bahan</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Tuangkan campuran larutan air, EM4, dan Molase tersebut secara perlahan ke dalam botol utama yang telah berisi sampah organik.
-                    </p>
-                  </div>
-                </li>
-
-                {/* Step 5 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    5
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Pemasangan Selang Gas</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Lubangi bagian tengah tutup botol besar (wadah fermentasi) dan tutup botol kecil (botol gas pembuangan) menggunakan paku atau solder. Masukkan selang plastik kecil ke lubang tutup botol besar, lalu gunakan lem tembak untuk merekatkan selang agar tidak ada kebocoran gas.
-                    </p>
-                  </div>
-                </li>
-
-                {/* Step 6 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    6
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Menghubungkan Botol Pembuangan</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Isi botol kecil dengan air bersih. Masukkan ujung selang lainnya yang berasal dari botol besar ke dalam botol kecil tersebut hingga tercelup air, kemudian tutup kedua botol tersebut.
-                    </p>
-                    <img 
-                      src="/assets/panduan_poc_step6.jpg" 
-                      onError={(e) => { e.target.src = "https://www.researchgate.net/publication/362630579/figure/fig1/AS:11431281104178258@1669971060913/Gambar-3-a-Desain-Wadah-Fermentasi-Sampah-menjadi-Pupuk-Organik-b-Produk-cair-yang.jpg"; }}
-                      alt="Sistem Selang Pembuangan Gas POC" 
-                      className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
-                    />
-                  </div>
-                </li>
-
-                {/* Step 7 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    7
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Proses Fermentasi & Pengocokan</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Letakkan instalasi botol POC di tempat yang teduh, sejuk, dan tidak terpapar oleh sinar matahari langsung. Selama minggu pertama, lakukan pengocokan wadah secara berkala perlahan agar proses fermentasi menyebar secara merata.
-                    </p>
-                  </div>
-                </li>
-
-                {/* Step 8 */}
-                <li className="flex gap-4">
-                  <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
-                    8
-                  </div>
-                  <div className="pt-0.5">
-                    <h3 className="font-bold text-[#111827] text-sm">Penyaringan & Penggunaan</h3>
-                    <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">
-                      Setelah didiamkan selama <strong>2-3 minggu</strong>, POC siap digunakan. Saring cairan menggunakan kain penyaring untuk memisahkan cairan POC murni dari ampas padatnya. Ampas padat sisa penyaringan dapat dimanfaatkan lebih lanjut sebagai kompos padat.
-                    </p>
-                  </div>
-                </li>
-
+              <h2 className="text-base md:text-lg font-extrabold text-[#111827] mb-6">{t.stepsTitle}</h2>
+              <ol className="space-y-8">
+                {t.steps.map((step, idx) => (
+                  <li key={idx} className="flex gap-4">
+                    <div className="flex-shrink-0 bg-emerald-100 text-emerald-700 font-bold rounded-full h-8 w-8 flex items-center justify-center font-mono">
+                      {idx + 1}
+                    </div>
+                    <div className="pt-0.5 flex-grow">
+                      <h3 className="font-bold text-[#111827] text-sm">{step.title}</h3>
+                      <p className="text-xs text-[#4B5563] mt-1 leading-relaxed">{step.desc}</p>
+                      
+                      {/* Responsive Image Placeholders (Shown for steps 1, 3, 6) */}
+                      {idx === 0 && (
+                        <img 
+                          src="/assets/panduan_poc_step1.jpg" 
+                          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=800&auto=format&fit=crop&q=60"; }}
+                          alt="Step 1" 
+                          className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
+                        />
+                      )}
+                      {idx === 2 && (
+                        <img 
+                          src="/assets/panduan_poc_step3.jpg" 
+                          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592150621744-aca64f48394a?w=800&auto=format&fit=crop&q=60"; }}
+                          alt="Step 3" 
+                          className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
+                        />
+                      )}
+                      {idx === 5 && (
+                        <img 
+                          src="/assets/panduan_poc_step6.jpg" 
+                          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800&auto=format&fit=crop&q=60"; }}
+                          alt="Step 6" 
+                          className="w-full h-auto max-h-60 rounded-xl shadow-sm object-cover my-4" 
+                        />
+                      )}
+                    </div>
+                  </li>
+                ))}
               </ol>
             </div>
 
             {/* INDIKATOR KEBERHASILAN (TABEL) */}
             <div>
-              <h2 className="text-lg font-bold text-[#111827] mb-4">Indikator Keberhasilan Fermentasi</h2>
+              <h2 className="text-sm md:text-base font-bold text-[#111827] mb-4">{t.successIndicatorTitle}</h2>
               <div className="overflow-x-auto rounded-xl border border-gray-200">
                 <table className="w-full text-xs text-left text-gray-500">
                   <thead className="text-[10px] text-gray-700 uppercase bg-gray-50 font-mono">
                     <tr>
-                      <th scope="col" className="px-4 py-3">Indikator</th>
-                      <th scope="col" className="px-4 py-3 text-emerald-700 bg-emerald-50">POC Berhasil</th>
-                      <th scope="col" className="px-4 py-3 text-rose-700 bg-rose-50">POC Gagal</th>
+                      <th scope="col" className="px-4 py-3">{t.indicatorHeader}</th>
+                      <th scope="col" className="px-4 py-3 text-emerald-700 bg-emerald-50">{t.successHeader}</th>
+                      <th scope="col" className="px-4 py-3 text-rose-700 bg-rose-50">{t.failureHeader}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-150">
-                    <tr>
-                      <th className="px-4 py-3 font-semibold text-gray-900 bg-gray-50">Aroma/Bau</th>
-                      <td className="px-4 py-3 text-emerald-800 bg-emerald-50/30">Asam segar, mirip aroma tape/fermentasi</td>
-                      <td className="px-4 py-3 text-rose-800 bg-rose-50/30">Busuk menyengat seperti sampah/comberan</td>
-                    </tr>
-                    <tr>
-                      <th className="px-4 py-3 font-semibold text-gray-900 bg-gray-50">Warna</th>
-                      <td className="px-4 py-3 text-emerald-800 bg-emerald-50/30">Coklat kekuningan hingga coklat kehitaman jernih</td>
-                      <td className="px-4 py-3 text-rose-800 bg-rose-50/30">Hitam pekat kotor dan berlendir</td>
-                    </tr>
-                    <tr>
-                      <th className="px-4 py-3 font-semibold text-gray-900 bg-gray-50">Gas / Busa</th>
-                      <td className="px-4 py-3 text-emerald-800 bg-emerald-50/30">Muncul busa di awal, lalu berkurang setelah ~2 minggu</td>
-                      <td className="px-4 py-3 text-rose-800 bg-rose-50/30">Botol terus menggembung kencang, busa berlebih</td>
-                    </tr>
-                    <tr>
-                      <th className="px-4 py-3 font-semibold text-gray-900 bg-gray-50">Endapan</th>
-                      <td className="px-4 py-3 text-emerald-800 bg-emerald-50/30">Ampas mengendap di dasar, cairan atas relatif jernih</td>
-                      <td className="px-4 py-3 text-rose-800 bg-rose-50/30">Ampas mengembang di atas, cairan keruh pekat</td>
-                    </tr>
+                    {t.indicatorRows.map((row, idx) => (
+                      <tr key={idx}>
+                        <th className="px-4 py-3 font-semibold text-gray-900 bg-gray-50">{row.name}</th>
+                        <td className="px-4 py-3 text-emerald-800 bg-emerald-50/30">{row.success}</td>
+                        <td className="px-4 py-3 text-rose-800 bg-rose-50/30">{row.failure}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -321,134 +479,92 @@ export default function PanduanInfo({ onBack }) {
 
             {/* CARA PENGAPLIKASIAN */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm space-y-4">
-              <h2 className="text-lg font-bold text-[#111827] flex items-center gap-2">
+              <h2 className="text-sm md:text-base font-bold text-[#111827] flex items-center gap-2">
                 <Timer className="w-5 h-5 text-blue-500" />
-                Cara & Aturan Pengaplikasian POC
+                {t.applyTitle}
               </h2>
               
               <div className="text-xs text-[#4B5563] space-y-3 leading-relaxed">
-                <div className="p-3 bg-blue-50 border border-blue-100 text-blue-800 rounded-xl">
-                  <p className="font-bold">Langkah Penting Sebelum Digunakan:</p>
-                  <p className="mt-0.5">Jangan pernah menyiramkan cairan POC murni langsung ke tanaman! Campurkan dahulu <strong>10 - 20 ml POC</strong> (setara 1 - 2 tutup botol kemasan) ke dalam <strong>1 Liter air bersih</strong>, lalu aduk rata.</p>
+                <div className="p-3.5 bg-blue-50 border border-blue-100 text-blue-800 rounded-xl">
+                  <p className="font-bold">{t.importantApplyNote}</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                   <div className="border border-gray-100 p-4 rounded-xl">
                     <p className="font-bold text-gray-800 flex items-center gap-1.5">
                       <span className="h-2 w-2 rounded-full bg-blue-500" />
-                      1. Penyiraman Akar
+                      {t.apply1Title}
                     </p>
-                    <p className="mt-1 text-[11px]">Siramkan larutan campuran POC di sekitar lingkar perakaran tanaman sebanyak kurang lebih <strong>200 - 300 ml</strong> per lubang/tanaman. Pastikan media tanah basah lembab, jangan sampai tergenang air.</p>
+                    <p className="mt-1.5 text-[11px] leading-relaxed">{t.apply1Desc}</p>
                   </div>
                   <div className="border border-gray-100 p-4 rounded-xl">
                     <p className="font-bold text-gray-800 flex items-center gap-1.5">
                       <span className="h-2 w-2 rounded-full bg-blue-500" />
-                      2. Penyemprotan Daun
+                      {t.apply2Title}
                     </p>
-                    <p className="mt-1 text-[11px]">Semprotkan campuran larutan secara tipis dan merata ke bagian permukaan bawah daun. Penyerapan nutrisi tanaman akan berjalan jauh lebih efektif lewat celah stomata daun.</p>
+                    <p className="mt-1.5 text-[11px] leading-relaxed">{t.apply2Desc}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 font-mono text-[10px]">
                   <div className="bg-gray-50 p-3 rounded-lg flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                    <span><strong>Frekuensi:</strong> Rutin 1 kali setiap 1 - 2 minggu.</span>
+                    <span>{t.frequency}</span>
                   </div>
                   <div className="bg-gray-50 p-3 rounded-lg flex items-center gap-2">
                     <Timer className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                    <span><strong>Waktu:</strong> Pagi (06:00-09:00) / Sore (16:00-18:00).</span>
+                    <span>{t.timing}</span>
                   </div>
                 </div>
               </div>
             </div>
 
-          </article>
+          </div>
         )}
 
         {/* ========================================================================= */}
         {/* PENGOLAHAN TANAMAN OBAT KELUARGA (TOGA) */}
         {/* ========================================================================= */}
         {activeSubTab === 'toga' && (
-          <article className="space-y-12">
+          <div className="space-y-12">
             
             {/* INTRO */}
-            <div className="prose prose-slate max-w-none text-[#4B5563] leading-relaxed text-sm">
-              <p>
-                Bagian ini menjelaskan petunjuk pengolahan mandiri hasil panen Tanaman Obat Keluarga (TOGA) untuk mengobati keluhan penyakit ringan sehari-hari secara aman berdasarkan buku panduan bioteknologi KKN.
-              </p>
+            <div className="prose prose-slate max-w-none text-[#4B5563] leading-relaxed text-xs md:text-sm">
+              <p>{t.togaDesc}</p>
             </div>
 
             {/* RECIPES */}
             <div className="space-y-6">
-              
-              {/* Recipe 1 */}
-              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-[#111827] text-base">Ramuan Kencur (Obat Batuk Tradisional)</h3>
-                  <span className="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-[9px] font-bold rounded-full uppercase tracking-wider">Kencur</span>
-                </div>
-                <div className="mt-4 text-xs text-[#4B5563] space-y-3">
-                  <div>
-                    <p className="font-bold text-gray-800">Cara 1 (Praktis):</p>
-                    <p className="mt-0.5">Ambil 5 gram kencur segar, cuci bersih dengan air mengalir. Kunyah rimpang kencur tersebut secara perlahan hingga halus, lalu telan langsung cairannya.</p>
+              {t.recipes.map((recipe, idx) => (
+                <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold text-[#111827] text-sm md:text-base">{recipe.title}</h3>
+                    <span className="px-2.5 py-1 bg-blue-50 text-blue-700 font-mono text-[9px] font-bold rounded-full uppercase tracking-wider">
+                      {recipe.badge}
+                    </span>
                   </div>
-                  <div className="border-t border-gray-100 pt-3">
-                    <p className="font-bold text-gray-800">Cara 2 (Perasan & Madu):</p>
-                    <p className="mt-0.5">Parut 10 gram kencur segar yang sudah dicuci bersih, kemudian peras ampasnya menggunakan kain bersih. Campurkan air perasan kencur tersebut dengan madu secukupnya. Minum ramuan ini sekaligus 3 kali sehari secara teratur (pagi, siang, dan sore).</p>
-                  </div>
+                  
+                  {recipe.content ? (
+                    <div className="mt-4 text-xs text-[#4B5563] space-y-3">
+                      {recipe.content.map((c, cIdx) => (
+                        <div key={cIdx} className={cIdx > 0 ? "border-t border-gray-100 pt-3" : ""}>
+                          <p className="font-bold text-gray-800">{c.subtitle}</p>
+                          <p className="mt-0.5 leading-relaxed">{c.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="mt-3 text-xs text-[#4B5563] leading-relaxed space-y-2">
+                      {recipe.text && <p className="font-bold text-gray-800">{recipe.text}</p>}
+                      {recipe.desc && <p className="text-gray-600 border-t border-gray-100 pt-2">{recipe.desc}</p>}
+                      {!recipe.text && !recipe.desc && <p>{recipe.text || recipe.desc}</p>}
+                    </div>
+                  )}
                 </div>
-              </div>
-
-              {/* Recipe 2 */}
-              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-[#111827] text-base">Rebusan Sambiloto (Obat Penurun Demam)</h3>
-                  <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-mono text-[9px] font-bold rounded-full uppercase tracking-wider">Sambiloto</span>
-                </div>
-                <p className="mt-3 text-xs text-[#4B5563] leading-relaxed">
-                  Ambil beberapa lembar daun sambiloto segar. Rebus daun sambiloto tersebut dengan menggunakan <strong>2 gelas air bersih</strong> hingga airnya menyusut dan hanya menyisakan <strong>1 gelas air saja</strong>. Saring air rebusan herbal tersebut, dinginkan hingga hangat, dan minum segera secara rutin.
-                </p>
-              </div>
-
-              {/* Recipe 3 */}
-              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-[#111827] text-base">Perasan Kunyit (Obat Pegal Linu & Perut Kembung)</h3>
-                  <span className="px-2.5 py-1 bg-amber-50 text-amber-700 font-mono text-[9px] font-bold rounded-full uppercase tracking-wider">Kunyit</span>
-                </div>
-                <p className="mt-3 text-xs text-[#4B5563] leading-relaxed">
-                  Kupas kulit rimpang kunyit secukupnya lalu cuci hingga bersih. Parut atau haluskan kunyit tersebut. Tambahkan 2 sendok makan air panas matang ke dalam kunyit halus, aduk rata. Peras parutan menggunakan saringan kain, tampung airnya, lalu minum air perasan hangat tersebut secara teratur.
-                </p>
-              </div>
-
-              {/* Recipe 4 */}
-              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-[#111827] text-base">Ramuan Air Sirih (Obat Alami Penghilang Gatal)</h3>
-                  <span className="px-2.5 py-1 bg-teal-50 text-teal-700 font-mono text-[9px] font-bold rounded-full uppercase tracking-wider">Daun Sirih</span>
-                </div>
-                <p className="mt-3 text-xs text-[#4B5563] leading-relaxed">
-                  Petik 5-7 lembar daun sirih segar, cuci bersih. Remas daun sirih di dalam air bersih secukupnya lalu diamkan selama kurang lebih 30 menit hingga air menyusut dan berubah warna. Basuhkan air remasan sirih tersebut ke area kulit tubuh yang gatal sehabis mandi dengan cara ditepuk-tepuk lembut.
-                </p>
-              </div>
-
-              {/* Recipe 5 */}
-              <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-[#111827] text-base">Rebusan Jahe & Sereh (Pegal Linu & Masuk Angin)</h3>
-                  <span className="px-2.5 py-1 bg-orange-50 text-orange-700 font-mono text-[9px] font-bold rounded-full uppercase tracking-wider">Jahe & Sereh</span>
-                </div>
-                <div className="mt-3 text-xs text-[#4B5563] space-y-2">
-                  <p><strong>Bahan:</strong> 1 jempol Jahe Merah + 2 batang Sereh + 1 Gelas air + 1 sdm Gula Merah + Seujung sendok Garam dapur.</p>
-                  <p className="border-t border-gray-100 pt-2 leading-relaxed">
-                    <strong>Cara Pengolahan:</strong> Bakar rimpang jahe sebentar lalu geprek/memarkan. Memarkan pula batang sereh. Rebus jahe geprek dan sereh dengan segelas air hingga mendidih dan menyusut sedikit. Tambahkan gula merah dan garam dapur, aduk hingga larut. Angkat, diamkan hingga suam-suam kuku, saring, dan minum selagi hangat pada waktu pagi dan sore hari.
-                  </p>
-                </div>
-              </div>
-
+              ))}
             </div>
 
-          </article>
+          </div>
         )}
 
       </main>
