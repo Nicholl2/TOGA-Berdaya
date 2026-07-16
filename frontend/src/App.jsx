@@ -375,6 +375,16 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const handleDownload = (e) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = '/E-BOOKLET.pdf';
+    link.download = 'Buku_Panduan_TOGA_Berdaya.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   // Splash Screen States
   const [progress, setProgress] = useState(0);
   const [showSplash, setShowSplash] = useState(!hasLoaded);
@@ -715,6 +725,7 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
           <a 
             href="/E-BOOKLET.pdf"
             download="Buku_Panduan_TOGA_Berdaya.pdf"
+            onClick={handleDownload}
             className="w-11 h-11 rounded-full bg-[#10151C] hover:bg-[#1E6BFF] text-white flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 border border-white/5 cursor-pointer"
           >
             <BookOpen className="w-5 h-5" />
@@ -1610,6 +1621,17 @@ function UsersPage({ token, user, logout }) {
 
 function KatalogPage({ token, user, logout }) {
   const { t } = useTranslation();
+
+  const handleDownload = (e) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = '/E-BOOKLET.pdf';
+    link.download = 'Buku_Panduan_TOGA_Berdaya.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const [plants, setPlants] = useState(fallbackPlants);
   const [selectedPlant, setSelectedPlant] = useState(fallbackPlants[0]);
   const [activeTab, setActiveTab] = useState('khasiat'); // 'khasiat', 'poc', 'aturan', 'sejarah'
@@ -2028,6 +2050,7 @@ function KatalogPage({ token, user, logout }) {
               <a
                 href="/E-BOOKLET.pdf"
                 download="Buku_Panduan_TOGA_Berdaya.pdf"
+                onClick={handleDownload}
                 className="flex items-center gap-1.5 bg-[#10151C] hover:bg-[#1E6BFF] text-white px-6 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-all duration-200 active:scale-95 cursor-pointer text-center"
               >
                 {t('catalog.download_booklet')}
