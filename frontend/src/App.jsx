@@ -400,7 +400,7 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
   }, [showSplash, hasLoaded, setHasLoaded]);
 
   return (
-    <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none pb-20 md:pb-0">
+    <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none pb-24 md:pb-0">
       
       {/* Mobile App-like Onboarding & Splash Screen (Visible on mobile/tablet screens only) */}
       {location.hash !== '#monitoring' && (
@@ -683,7 +683,7 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
       )}
 
       {/* FOOTER */}
-      <footer className="w-full py-8 md:py-0 md:h-20 flex flex-col md:flex-row items-center justify-center md:justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono gap-3 md:gap-0 text-center md:text-left">
+      <footer className="hidden md:flex w-full py-8 md:py-0 md:h-20 flex-col md:flex-row items-center justify-center md:justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono gap-3 md:gap-0 text-center md:text-left">
         <div className="flex items-center justify-center md:justify-start gap-2">
           <Leaf className="w-4 h-4 text-[#14B8A6]" />
           <span>© 2026 KKN Reguler Undip - Kelurahan Tingkir Lor</span>
@@ -1135,7 +1135,7 @@ function LoginPage({ token, user, login }) {
       </main>
 
       {/* FOOTER */}
-      <footer className="w-full h-20 flex items-center justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono">
+      <footer className="hidden md:flex w-full h-20 items-center justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono">
         <div className="flex items-center gap-2">
           <Leaf className="w-4 h-4 text-[#14B8A6]" />
           <span>© 2026 KKN Reguler Undip - Kelurahan Tingkir Lor</span>
@@ -1301,7 +1301,7 @@ function UsersPage({ token, user, logout }) {
   const paginatedUsers = users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none font-sans pb-20 md:pb-0">
+    <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none font-sans pb-24 md:pb-0">
       
       {/* Decorative Top Accent Line */}
       <div className="h-[3px] bg-gradient-to-r from-[#1E6BFF] via-[#14B8A6] to-[#1E6BFF] w-full z-50 absolute top-0 left-0" />
@@ -1458,7 +1458,7 @@ function UsersPage({ token, user, logout }) {
       </main>
 
       {/* FOOTER */}
-      <footer className="w-full h-20 flex items-center justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono">
+      <footer className="hidden md:flex w-full h-20 items-center justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono">
         <div className="flex items-center gap-2">
           <Leaf className="w-4 h-4 text-[#14B8A6]" />
           <span>© 2026 KKN Reguler Undip - Kelurahan Tingkir Lor</span>
@@ -1962,7 +1962,7 @@ function KatalogPage({ token, user, logout }) {
   };
 
   return (
-    <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none font-sans pb-20 md:pb-0">
+    <div className="bg-[#FBFCF8] text-[#111827] min-h-screen flex flex-col justify-between relative overflow-hidden select-none font-sans pb-24 md:pb-0">
       
       {/* Decorative Top Accent Line */}
       <div className="h-[3px] bg-gradient-to-r from-[#1E6BFF] via-[#14B8A6] to-[#1E6BFF] w-full z-50 absolute top-0 left-0" />
@@ -2176,7 +2176,7 @@ function KatalogPage({ token, user, logout }) {
       </main>
 
       {/* FOOTER */}
-      <footer className="w-full h-20 flex items-center justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono">
+      <footer className="hidden md:flex w-full h-20 items-center justify-between px-8 max-w-7xl mx-auto z-40 relative border-t border-[#E5E7EB]/50 text-xs text-[#4B5563] font-mono">
         <div className="flex items-center gap-2">
           <Leaf className="w-4 h-4 text-[#14B8A6]" />
           <span>© 2026 KKN Reguler Undip - Kelurahan Tingkir Lor</span>
