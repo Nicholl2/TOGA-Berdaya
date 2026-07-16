@@ -712,12 +712,13 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
 
         {/* E-Booklet Button */}
         <div className="relative group flex items-center justify-end">
-          <button 
-            onClick={() => alert("Mengunduh E-Booklet Pengetahuan TOGA")}
+          <a 
+            href="/E-BOOKLET.pdf"
+            download="Buku_Panduan_TOGA_Berdaya.pdf"
             className="w-11 h-11 rounded-full bg-[#10151C] hover:bg-[#1E6BFF] text-white flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 border border-white/5 cursor-pointer"
           >
             <BookOpen className="w-5 h-5" />
-          </button>
+          </a>
           <div className="absolute right-14 px-2.5 py-1.5 bg-[#10151C] text-white text-[10px] font-bold font-mono uppercase tracking-wider rounded-[4px] shadow-md opacity-0 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 translate-x-1.5 transition-all duration-200 whitespace-nowrap">
             E-Booklet
           </div>
@@ -2024,12 +2025,13 @@ function KatalogPage({ token, user, logout }) {
 
             {/* Actions */}
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => alert("Mengunduh E-Booklet Pengetahuan TOGA...")}
-                className="flex items-center gap-1.5 bg-[#10151C] hover:bg-[#1E6BFF] text-white px-6 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-all duration-200 active:scale-95 cursor-pointer"
+              <a
+                href="/E-BOOKLET.pdf"
+                download="Buku_Panduan_TOGA_Berdaya.pdf"
+                className="flex items-center gap-1.5 bg-[#10151C] hover:bg-[#1E6BFF] text-white px-6 py-3.5 rounded-[5px] text-xs font-bold font-mono uppercase tracking-wider transition-all duration-200 active:scale-95 cursor-pointer text-center"
               >
                 {t('catalog.download_booklet')}
-              </button>
+              </a>
 
               {token && user && (user.role === 'admin' || user.role === 'staff') && selectedPlant && (
                 <button
