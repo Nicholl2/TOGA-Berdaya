@@ -15,7 +15,8 @@ import {
   Search,
   Eye,
   EyeOff,
-  Droplets
+  Droplets,
+  Calculator
 } from 'lucide-react';
 
 // KKN Student Profile Images
@@ -28,6 +29,7 @@ import togaLogo from './assets/TOGA-Logo.png';
 import loadingGif from './assets/Loading.gif';
 import Monitoring from './Monitoring';
 import AuditMandiri from './AuditMandiri';
+import PricingCalculator from './PricingCalculator';
 import PanduanInfo from './PanduanInfo';
 import Navbar from './Navbar';
 
@@ -40,6 +42,8 @@ const fallbackPlants = [
     latinName: "Zingiber officinale var. rubrum",
     type: "toga",
     image: "https://d4tlm.umsida.ac.id/wp-content/uploads/2025/09/ChatGPT-Image-Sep-29-2025-11_05_41-AM_11zon.jpg",
+    pricePolybag: 15000,
+    priceSimplisia100g: 6000,
     modules: {
       khasiat: "Jahe merah kaya akan kandungan gingerol dan shogaol yang tinggi. Bermanfaat besar untuk meningkatkan daya tahan tubuh (imunomodulator), meredakan peradangan sendi (anti-inflamasi), meredakan batuk kering, serta menghangatkan tubuh.",
       poc: "Gunakan Formula POC Fermentasi Urin Kelinci: Campurkan 1 liter POC dengan 15 liter air bersih. Tambahkan EM4 pertanian 10 ml sebagai agen mikroba aktif untuk memaksimalkan nutrisi nitrogen.",
@@ -53,6 +57,8 @@ const fallbackPlants = [
     latinName: "Curcuma longa",
     type: "toga",
     image: "https://www.masjidalakbar.or.id/wp-content/uploads/2024/09/kunyit.jpg",
+    pricePolybag: 10000,
+    priceSimplisia100g: 4500,
     modules: {
       khasiat: "Kandungan kurkumin yang melimpah memberikan warna kuning khas dan bertindak sebagai antioksidan kuat. Efektif meredakan gangguan pencernaan (maag/dispepsia), memelihara fungsi hati, serta menurunkan kolesterol jahat.",
       poc: "Formula POC Air Cucian Beras (Leri): Campurkan 500ml POC leri yang difermentasi dengan 10 liter air. Larutan ini kaya unsur fosfor untuk merangsang rimpang kunyit agar tumbuh lebat.",
@@ -66,6 +72,8 @@ const fallbackPlants = [
     latinName: "Aloe vera",
     type: "toga",
     image: "https://images.alodokter.com/dk0z4ums3/image/upload/v1653967589/attached_image/kenali-manfaat-lidah-buaya-untuk-jerawat-dan-cara-penggunaannya-0-alodokter.jpg",
+    pricePolybag: 12000,
+    priceSimplisia100g: 4000,
     modules: {
       khasiat: "Gel lidah buaya mengandung aloin, enzim pembantu pencernaan, serta asam amino esensial. Sangat baik untuk mempercepat penyembuhan luka bakar ringan, meredakan iritasi kulit, serta melembapkan rambut secara alami.",
       poc: "Formula POC Berbasis Sabut Kelapa: Encerkan 1 liter POC sabut kelapa (tinggi kalium) dengan 20 liter air. Sangat baik untuk mempertebal jaringan gel pada pelepah lidah buaya.",
@@ -79,6 +87,8 @@ const fallbackPlants = [
     latinName: "Curcuma xanthorrhiza",
     type: "toga",
     image: "https://almaata.ac.id/wp-content/uploads/2025/05/assortment-ginger-wooden-board-1-1536x1025.jpg",
+    pricePolybag: 12000,
+    priceSimplisia100g: 5000,
     modules: {
       khasiat: "Temulawak merupakan herba asli Indonesia yang mengandung kurkuminoid dan xanthorrhizol. Bermanfaat untuk meningkatkan nafsu makan (terutama pada anak-anak), mengatasi gangguan empedu, serta mencegah radang lambung.",
       poc: "Formula POC Kotoran Kambing & Kompos Hijau: Campurkan 1 liter POC dengan 10 liter air. Kaya akan kalium dan nitrogen organik untuk mengoptimalkan pertumbuhan daun lebar temulawak.",
@@ -92,11 +102,13 @@ const fallbackPlants = [
     latinName: "Kaempferia galanga",
     type: "toga",
     image: "https://umsu.ac.id/health/wp-content/uploads/2023/08/Manfaat-Kencur-untuk-Kesehatan-1140x570.jpg",
+    pricePolybag: 13000,
+    priceSimplisia100g: 7000,
     modules: {
       khasiat: "Kencur memiliki kandungan minyak atsiri (sineol dan asam metil kanil) yang memberikan aroma harum yang khas. Berkhasiat meredakan batuk berdahak, mengatasi masuk angin, menghilangkan pegal linu, serta melegakan tenggorokan.",
       poc: "Formula POC Kulit Bawang Merah & Air Kelapa: Encerkan 500ml POC kulit bawang (kaya ZPT alami/auksin) dengan 12 liter air bersih untuk mempercepat pertumbuhan tunas kencur.",
       aturan: "Siramkan ke area media tumbuh kencur sebanyak 150ml per rumpun tanaman kecil. Lakukan penyiraman setiap 7-10 hari sekali.",
-      sejarah: "Menjadi bahan utama ramuan beras kencur, minuman penyegar tradisional yang biasa dijajakan oleh penjual jamu gendong sejak zaman Kerajaan Majapahit untuk memulihkan kebugaran para petani."
+      sejarah: "Menjadi bahan utama ramuan beras kencur, minuman penyegar tradisional yang biasa dijajakan oleh penjual jamu gendong sejak zaman Kerajaan Majapahit untuk memulihkan kebugaran para prophet."
     }
   },
   {
@@ -105,6 +117,8 @@ const fallbackPlants = [
     latinName: "Alpinia galanga",
     type: "toga",
     image: "https://r2media.ciputrahospital.com/2026/01/11080725/Manfaat-Lengkuas-1024x683.jpg",
+    pricePolybag: 10000,
+    priceSimplisia100g: 4000,
     modules: {
       khasiat: "Mengandung senyawa galangin, beta-sitosterol, dan flavonoid. Berguna sebagai antijamur alami (mengobati penyakit kulit seperti panu), meredakan diare, serta mencegah infeksi bakteri patogen dalam tubuh.",
       poc: "Formula POC Jerami & Kompos Daun Bambu: Campurkan 1 liter POC jerami (kaya silika) dengan 15 liter air bersih. Berguna mengokohkan batang lengkuas agar tumbuh tegak dan tidak mudah rebah.",
@@ -118,6 +132,8 @@ const fallbackPlants = [
     latinName: "Andrographis paniculata",
     type: "toga",
     image: "https://cnc-magazine.oramiland.com/parenting/images/suplemen_daun_sambiloto.width-800.format-webp.webp",
+    pricePolybag: 8000,
+    priceSimplisia100g: 6000,
     modules: {
       khasiat: "Sambiloto dikenal sebagai 'Raja Pahit' yang sangat efektif menurunkan demam (antipiretik), meredakan peradangan tenggorokan, meningkatkan sistem imun, serta menstabilkan kadar gula darah.",
       poc: "Formula POC Berbasis Daun Kelor: Campurkan 1 liter POC kelor yang tinggi asam amino dengan 12 liter air untuk merangsang kekebalan alami daun sambiloto dari serangan hama ulat daun.",
@@ -131,6 +147,8 @@ const fallbackPlants = [
     latinName: "Orthosiphon aristatus",
     type: "toga",
     image: "https://akcdn.detik.net.id/community/media/visual/2019/07/12/04f04fa3-0bd6-4be6-a202-319a985df583_43.jpeg?w=700&q=90",
+    pricePolybag: 9000,
+    priceSimplisia100g: 5000,
     modules: {
       khasiat: "Memiliki sifat diuretik alami yang kuat. Sangat membantu melancarkan pembuangan air kecil, meluruhkan batu ginjal, meredakan gejala asam urat, serta menurunkan tekanan darah tinggi.",
       poc: "Formula POC Cangkang Telur & Kompos: Campurkan 1 liter air rendaman cangkang telur fermentasi (tinggi kalsium) dengan 15 liter air bersih untuk memperkuat struktur batang kumis kucing.",
@@ -144,6 +162,8 @@ const fallbackPlants = [
     latinName: "Piper betle",
     type: "toga",
     image: "https://mentengfarma.com/cdn/shop/articles/089444400_1706924920-shutterstock_2312516329.jpg?v=1738056722",
+    pricePolybag: 11000,
+    priceSimplisia100g: 5500,
     modules: {
       khasiat: "Memiliki sifat diuretik alami yang kuat. Sangat membantu melancarkan pembuangan air kecil, meluruhkan batu ginjal, meredakan gejala asam urat, serta menurunkan tekanan darah tinggi.",
       poc: "Formula POC Cangkang Telur & Kompos: Campurkan 1 liter air rendaman cangkang telur fermentasi (tinggi kalsium) dengan 15 liter air bersih untuk memperkuat struktur batang kumis kucing.",
@@ -157,6 +177,8 @@ const fallbackPlants = [
     latinName: "Cymbopogon nardus",
     type: "toga",
     image: "https://puskesmasmeninting-dikes.lombokbaratkab.go.id/media/crop/2025/03/12/57-20250312-133446-273518.jpg",
+    pricePolybag: 8500,
+    priceSimplisia100g: 3500,
     modules: {
       khasiat: "Memiliki sifat diuretik alami yang kuat. Sangat membantu melancarkan pembuangan air kecil, meluruhkan batu ginjal, meredakan gejala asam urat, serta menurunkan tekanan darah tinggi.",
       poc: "Formula POC Cangkang Telur & Kompos: Campurkan 1 liter air rendaman cangkang telur fermentasi (tinggi kalsium) dengan 15 liter air bersih untuk memperkuat struktur batang kumis kucing.",
@@ -1451,6 +1473,7 @@ function KatalogPage({ token, user, logout }) {
 
   // CRUD States
   const [isCrudModalOpen, setIsCrudModalOpen] = useState(false);
+  const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
   const [crudMode, setCrudMode] = useState('create'); // 'create' or 'edit'
   const [crudError, setCrudError] = useState('');
   const [isSubmittingCrud, setIsSubmittingCrud] = useState(false);
@@ -1523,6 +1546,8 @@ function KatalogPage({ token, user, logout }) {
                 latinName: item.latin_name || (match ? match.latinName : "Toga Herbal"),
                 type: item.type,
                 image: item.image_url || storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
+                pricePolybag: item.price_polybag || (match ? match.pricePolybag : 0),
+                priceSimplisia100g: item.price_simplisia_100g || (match ? match.priceSimplisia100g : 0),
                 modules: {
                   khasiat: item.medical_benefit,
                   poc: item.formula_poc || (match ? match.modules.poc : "Formula POC khusus TOGA."),
@@ -1574,6 +1599,8 @@ function KatalogPage({ token, user, logout }) {
               latinName: item.latin_name || (match ? match.latinName : "Toga Herbal"),
               type: item.type,
               image: item.image_url || storedImage || (match ? match.image : "https://images.unsplash.com/photo-1596547609652-9cf5d8d76921?w=600"),
+              pricePolybag: item.price_polybag || (match ? match.pricePolybag : 0),
+              priceSimplisia100g: item.price_simplisia_100g || (match ? match.priceSimplisia100g : 0),
               modules: {
                 khasiat: item.medical_benefit,
                 poc: item.formula_poc || (match ? match.modules.poc : "Formula POC khusus TOGA."),
@@ -1826,6 +1853,24 @@ function KatalogPage({ token, user, logout }) {
               {selectedPlant.name}
             </h1>
 
+            {/* Price Badges */}
+            {(selectedPlant.pricePolybag > 0 || selectedPlant.priceSimplisia100g > 0) && (
+              <div className="mt-4 flex flex-wrap gap-2.5 animate-in fade-in duration-200">
+                {selectedPlant.pricePolybag > 0 && (
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Polybag: Rp {selectedPlant.pricePolybag.toLocaleString('id-ID')}</span>
+                  </div>
+                )}
+                {selectedPlant.priceSimplisia100g > 0 && (
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                    <span>Simplisia 100g: Rp {selectedPlant.priceSimplisia100g.toLocaleString('id-ID')}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Tab Switcher (4 KKN Modules) */}
             <div className="mt-8 flex flex-wrap gap-2 border-b border-[#E5E7EB] pb-3">
               {Object.keys(tabLabels).map((tab) => (
@@ -1910,6 +1955,14 @@ function KatalogPage({ token, user, logout }) {
               {t('catalog.title')}
             </p>
             <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsPricingModalOpen(true)}
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-[28px] border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-semibold transition-all duration-200 shadow-sm active:scale-95 cursor-pointer animate-pulse"
+              >
+                <Calculator className="w-3.5 h-3.5 text-emerald-700" />
+                <span>{t('calc.btn_trigger', 'Simulasi Harga')}</span>
+              </button>
+
               {token && user && (user.role === 'admin' || user.role === 'staff') && (
                 <button
                   onClick={handleAddNewPlant}
@@ -1964,9 +2017,27 @@ function KatalogPage({ token, user, logout }) {
                   </div>
 
                   {/* Info */}
-                  <div className="mt-3.5 text-left">
-                    <h4 className="text-sm font-bold text-[#111827] truncate">{plant.name}</h4>
-                    <p className="text-[10px] font-medium text-[#6B7280] font-mono italic truncate">{plant.latinName}</p>
+                  <div className="mt-3.5 text-left flex-grow flex flex-col justify-between">
+                    <div>
+                      <h4 className="text-sm font-bold text-[#111827] truncate">{plant.name}</h4>
+                      <p className="text-[10px] font-medium text-[#6B7280] font-mono italic truncate">{plant.latinName}</p>
+                    </div>
+                    
+                    {/* Prices */}
+                    {(plant.pricePolybag > 0 || plant.priceSimplisia100g > 0) && (
+                      <div className="mt-2.5 flex flex-wrap gap-1">
+                        {plant.pricePolybag > 0 && (
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-100/50">
+                            Pb: Rp {plant.pricePolybag.toLocaleString('id-ID')}
+                          </span>
+                        )}
+                        {plant.priceSimplisia100g > 0 && (
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-100/50">
+                            100g: Rp {plant.priceSimplisia100g.toLocaleString('id-ID')}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -2188,6 +2259,12 @@ function KatalogPage({ token, user, logout }) {
           </div>
         </div>
       )}
+
+      {/* PRICING CALCULATOR MODAL */}
+      <PricingCalculator 
+        isOpen={isPricingModalOpen} 
+        onClose={() => setIsPricingModalOpen(false)} 
+      />
 
     </div>
   );

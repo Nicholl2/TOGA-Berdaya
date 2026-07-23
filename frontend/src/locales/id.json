@@ -77,5 +77,26 @@
     },
     "download_btn": "UNDUH LEMBAR AUDIT & LOGBOOK (PDF)",
     "checked_count": "{{count}} dari 6 indikator terpenuhi"
+  },
+  "calc": {
+    "title": "Kalkulator Simulasi Harga TOGA",
+    "subtitle": "Metode Cost-Plus Pricing untuk penetapan harga jual produk TOGA.",
+    "preset_jahe": "Gunakan Preset Jahe Merah",
+    "preset_lidah": "Gunakan Preset Lidah Buaya",
+    "label_bibit": "Biaya Bibit",
+    "label_media": "Media Tanam",
+    "label_polybag": "Polybag",
+    "label_poc": "Pupuk Organik Cair (POC)",
+    "label_label": "Stiker Label / Kemasan",
+    "label_markup": "Target Markup Laba (%)",
+    "summary_title": "Hasil Perhitungan Real-Time",
+    "total_vc": "Total Biaya Variabel (VC)",
+    "total_fc": "Biaya Tetap / Penyusutan (FC)",
+    "hpp": "HPP per Unit (VC + FC)",
+    "margin": "Margin Laba (Markup)",
+    "rec_price": "Harga Jual Rekomendasi",
+    "rounded_price": "Pembulatan Ribuan Terdekat",
+    "reset": "Atur Ulang",
+    "btn_trigger": "Simulasi Kalkulator Harga"
   }
 }
