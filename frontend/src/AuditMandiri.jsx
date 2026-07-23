@@ -122,6 +122,7 @@ export default function AuditMandiri({ token, user, logout }) {
           <p className="text-sm md:text-base text-gray-500 mt-3 leading-relaxed">
             {t('audit.subtitle', 'Instrumen pengawasan mandiri tata kelola pembuatan POC dan perawatan tanaman obat di rumah.')}
           </p>
+
         </div>
 
         {/* Audit Form Container */}
