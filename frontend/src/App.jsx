@@ -25,6 +25,11 @@ import ayunImg from './assets/Ayun.JPG';
 import nicholasImg from './assets/Nicholas.JPG';
 import raditImg from './assets/Radit.png';
 import revinaImg from './assets/Revina.JPG';
+import nailaImg from './assets/Naila.JPG';
+import joshuaImg from './assets/Joshua.JPG';
+import rizalImg from './assets/Rizal.JPG';
+import elsaImg from './assets/Elsa.JPG';
+import nandaImg from './assets/Dian.JPG';
 import togaLogo from './assets/TOGA-Logo.png';
 import loadingGif from './assets/Loading.gif';
 import Monitoring from './Monitoring';
@@ -447,9 +452,9 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
                   </div>
                 </div>
 
-                {/* FLOATING AVATARS COMPOSITION (KKN MEMBERS WITH ACADEMIC ROLES - Expanded Offsets) */}
+                {/* FLOATING AVATARS COMPOSITION (KKN MEMBERS WITH ACADEMIC ROLES - 10 Members Circular Composition) */}
                 
-                {/* 1. Allya (Bioteknologi) - Top Left of Card 1 */}
+                {/* 1. Allya (Bioteknologi) - Top Left */}
                 <div className="absolute top-[-110px] left-[-90px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
                   <img 
                     src={allyaImg} 
@@ -462,7 +467,7 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
                   </div>
                 </div>
 
-                {/* 2. Nicholas (Teknik Komputer) - Right of Card 1 */}
+                {/* 2. Nicholas (Teknik Komputer) - Right */}
                 <div className="absolute top-[0px] right-[-170px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
                   <img 
                     src={nicholasImg} 
@@ -488,13 +493,13 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
                   </div>
                 </div>
 
-                {/* 4. Ayun (Keperawatan) - Left side of Card 2 */}
+                {/* 4. Ayun (Keperawatan) - Left bottom */}
                 <div className="absolute top-[230px] left-[-80px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
                   <img 
                     src={ayunImg} 
                     alt="Ayun" 
                     className="w-7 h-7 rounded-full object-cover border border-gray-155" 
-                />
+                  />
                   <div className="text-left leading-tight">
                     <div className="text-[11px] font-bold text-[#111827]">Ayun</div>
                     <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Keperawatan</div>
@@ -511,6 +516,71 @@ function LandingPage({ token, user, logout, hasLoaded, setHasLoaded }) {
                   <div className="text-left leading-tight">
                     <div className="text-[11px] font-bold text-[#111827]">Radit</div>
                     <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Sejarah</div>
+                  </div>
+                </div>
+
+                {/* 6. Naila (Manajemen Administrasi Logistik) - Top Right */}
+                <div className="absolute top-[-120px] right-[-30px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={nailaImg} 
+                    alt="Naila" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Naila</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Manajemen Logistik</div>
+                  </div>
+                </div>
+
+                {/* 7. Joshua (Akuntansi) - Top Center */}
+                <div className="absolute top-[-130px] left-[130px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={joshuaImg} 
+                    alt="Joshua" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Joshua</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Akuntansi</div>
+                  </div>
+                </div>
+
+                {/* 8. Rizal (Akuntansi Perpajakan) - Upper Right Side */}
+                <div className="absolute top-[-60px] right-[-120px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={rizalImg} 
+                    alt="Rizal" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Rizal</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Akuntansi Perpajakan</div>
+                  </div>
+                </div>
+
+                {/* 9. Elsa (Antropologi Sosial) - Bottom Left */}
+                <div className="absolute bottom-[-110px] left-[-170px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={elsaImg} 
+                    alt="Elsa" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Elsa</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Antropologi Sosial</div>
+                  </div>
+                </div>
+
+                {/* 10. Nanda (Hukum) - Bottom Right Center */}
+                <div className="absolute bottom-[-140px] right-[130px] flex items-center gap-2.5 bg-white rounded-full pl-2.5 pr-4.5 py-1.5 shadow-xl border border-gray-100/80 z-30 transform hover:scale-105 transition-transform duration-300">
+                  <img 
+                    src={nandaImg} 
+                    alt="Nanda" 
+                    className="w-7 h-7 rounded-full object-cover border border-gray-155" 
+                  />
+                  <div className="text-left leading-tight">
+                    <div className="text-[11px] font-bold text-[#111827]">Nanda</div>
+                    <div className="text-[9px] font-bold text-[#14B8A6] font-mono">Hukum</div>
                   </div>
                 </div>
 

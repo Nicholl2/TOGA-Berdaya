@@ -122,16 +122,6 @@ export default function AuditMandiri({ token, user, logout }) {
           <p className="text-sm md:text-base text-gray-500 mt-3 leading-relaxed">
             {t('audit.subtitle', 'Instrumen pengawasan mandiri tata kelola pembuatan POC dan perawatan tanaman obat di rumah.')}
           </p>
-
-          {/* PIC Section Card */}
-          <div className="inline-flex items-center gap-2 mt-5 bg-white border border-gray-150 rounded-full px-4 py-2 shadow-sm text-xs text-gray-600 hover:shadow-md transition-shadow duration-300">
-            <User className="w-3.5 h-3.5 text-[#14B8A6]" />
-            <span className="font-medium">
-              {currentLang.startsWith('en') 
-                ? 'Rizal Krisnadhi - Tax Accounting UNDIP 2026' 
-                : 'Rizal Krisnadhi - Akuntansi Perpajakan UNDIP 2026'}
-            </span>
-          </div>
         </div>
 
         {/* Audit Form Container */}
