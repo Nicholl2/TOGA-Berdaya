@@ -4,6 +4,7 @@
     "users": "Users",
     "monitoring": "Monitoring",
     "panduan": "Guide",
+    "audit": "Self Audit",
     "login": "Login",
     "logout": "Logout"
   },
@@ -52,5 +53,29 @@
     "status": "Under Development",
     "title": "Under Development",
     "subtitle": "The KKN agenda monitoring feature is currently being prepared for you."
+  },
+  "audit": {
+    "title": "Self-Audit & TOGA Control Card",
+    "subtitle": "Self-monitoring instrument for liquid organic fertilizer (POC) production management and medicinal plant care at home.",
+    "pic": "Project Officer: Rizal Krisnadhi - Tax Accounting UNDIP 2026",
+    "checklist_title": "POC Compliance Audit Checklist Form",
+    "checklist_desc": "Check each operational step that you have routinely carried out at home.",
+    "indicators": {
+      "0": "Organic kitchen waste is chopped into small pieces before putting it into the container.",
+      "1": "20-25% headspace is available in the fermentation container for gas.",
+      "2": "Container is shaken periodically during the first week.",
+      "3": "Harvested liquid organic fertilizer (POC) smells fresh and acidic (similar to fermented cassava/tape aroma).",
+      "4": "Watered with a liquid organic fertilizer (POC) solution mixture regularly once every 1-2 weeks.",
+      "5": "Watering is done at the optimal time (Morning 06:00-09:00 / Afternoon 16:00-18:00)."
+    },
+    "score_bar": {
+      "title": "Compliance Level",
+      "status_100": "100% Compliance - Excellent",
+      "status_good": "{{percent}}% Compliance - Good",
+      "status_fair": "{{percent}}% Compliance - Fair",
+      "status_poor": "{{percent}}% Compliance - Needs Improvement"
+    },
+    "download_btn": "DOWNLOAD AUDIT SHEET & LOGBOOK (PDF)",
+    "checked_count": "{{count}} of 6 indicators met"
   }
 }

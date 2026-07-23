@@ -27,6 +27,7 @@ import revinaImg from './assets/Revina.JPG';
 import togaLogo from './assets/TOGA-Logo.png';
 import loadingGif from './assets/Loading.gif';
 import Monitoring from './Monitoring';
+import AuditMandiri from './AuditMandiri';
 import PanduanInfo from './PanduanInfo';
 import Navbar from './Navbar';
 
@@ -2328,6 +2329,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage token={token} user={user} login={login} />} />
         <Route path="/katalog" element={<KatalogPage token={token} user={user} logout={logout} />} />
         <Route path="/panduan" element={<PanduanInfo token={token} user={user} logout={logout} />} />
+        <Route path="/audit" element={<AuditMandiri token={token} user={user} logout={logout} />} />
         <Route 
           path="/users" 
           element={

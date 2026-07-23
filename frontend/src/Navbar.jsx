@@ -7,7 +7,8 @@ import {
   BookOpen, 
   LogOut, 
   Shield, 
-  Droplets 
+  Droplets,
+  ClipboardCheck
 } from 'lucide-react';
 import togaLogo from './assets/TOGA-Logo.png';
 
@@ -75,6 +76,18 @@ export default function Navbar({ token, user, logout }) {
             }
           >
             {t('navbar.panduan')}
+          </NavLink>
+
+          <NavLink 
+            to="/audit" 
+            className={({ isActive }) => 
+              `transition-all duration-200 uppercase tracking-wider font-mono text-[11px] relative py-1 ` +
+              (isActive 
+                ? 'text-[#111827] font-bold after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-[#1E6BFF] after:rounded-full' 
+                : 'text-[#4B5563] font-normal hover:text-[#111827]')
+            }
+          >
+            {t('navbar.audit')}
           </NavLink>
         </nav>
 
@@ -210,6 +223,17 @@ export default function Navbar({ token, user, logout }) {
         >
           <Droplets className="w-4.5 h-4.5" />
           <span className="text-[9px] font-semibold uppercase tracking-wider font-mono">{t('navbar.panduan')}</span>
+        </NavLink>
+
+        <NavLink 
+          to="/audit" 
+          className={({ isActive }) => 
+            `flex flex-col items-center justify-center gap-1 transition-colors duration-150 ` + 
+            (isActive ? 'text-[#1E6BFF] font-bold' : 'text-gray-500 hover:text-[#111827]')
+          }
+        >
+          <ClipboardCheck className="w-4.5 h-4.5" />
+          <span className="text-[9px] font-semibold uppercase tracking-wider font-mono">{t('navbar.audit')}</span>
         </NavLink>
 
         {token && user ? (

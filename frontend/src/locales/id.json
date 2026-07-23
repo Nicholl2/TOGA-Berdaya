@@ -4,6 +4,7 @@
     "users": "Pengguna",
     "monitoring": "Monitoring",
     "panduan": "Panduan",
+    "audit": "Audit Mandiri",
     "login": "Login",
     "logout": "Keluar"
   },
@@ -52,5 +53,29 @@
     "status": "Dalam Pengembangan",
     "title": "Halaman Masih dalam Pengembangan",
     "subtitle": "Fitur monitoring agenda KKN sedang dipersiapkan untuk Anda."
+  },
+  "audit": {
+    "title": "Audit Mandiri & Kartu Kendali TOGA",
+    "subtitle": "Instrumen pengawasan mandiri tata kelola pembuatan POC dan perawatan tanaman obat di rumah.",
+    "pic": "Rizal Krisnadhi - Akuntansi Perpajakan UNDIP 2026",
+    "checklist_title": "Formulir Checklist Audit Kepatuhan POC",
+    "checklist_desc": "Centang setiap langkah operasional yang telah Anda lakukan secara rutin di rumah.",
+    "indicators": {
+      "0": "Sampah organik dapur dicacah kecil sebelum dimasukkan ke wadah.",
+      "1": "Tersedia ruang kosong 20-25% di wadah fermentasi untuk gas.",
+      "2": "Wadah dikocok berkala pada minggu pertama.",
+      "3": "Hasil panen POC berbau asam segar (mirip aroma tape).",
+      "4": "Disiram dengan campuran larutan POC rutin 1 kali tiap 1-2 minggu.",
+      "5": "Penyiraman dilakukan waktu optimal (Pagi 06.00-09.00 / Sore 16.00-18.00)."
+    },
+    "score_bar": {
+      "title": "Tingkat Kepatuhan",
+      "status_100": "Kepatuhan 100% - Sangat Baik",
+      "status_good": "Kepatuhan {{percent}}% - Baik",
+      "status_fair": "Kepatuhan {{percent}}% - Cukup",
+      "status_poor": "Kepatuhan {{percent}}% - Perlu Ditingkatkan"
+    },
+    "download_btn": "UNDUH LEMBAR AUDIT & LOGBOOK (PDF)",
+    "checked_count": "{{count}} dari 6 indikator terpenuhi"
   }
 }
