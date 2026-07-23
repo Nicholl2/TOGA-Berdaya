@@ -150,7 +150,7 @@ export default function PanduanInfo({ token, user, logout }) {
           desc: "Cara Pengolahan: Bakar rimpang jahe sebentar lalu geprek/memarkan. Memarkan pula batang sereh. Rebus jahe geprek dan sereh dengan segelas air hingga mendidih dan menyusut sedikit. Tambahkan gula merah dan garam dapur, aduk hingga larut. Angkat, diamkan hingga suam-suam kuku, saring, dan minum selagi hangat pada waktu pagi dan sore hari."
         }
       ],
-      btnHalal: "PANDUAN HALAL",
+      btnHalal: "KEHALALAN BAHAN BAKU",
       halalTitle1: "Titik Kritis Kehalalan Bahan Baku TOGA & POC",
       halalTitle2: "Panduan Pendaftaran Sertifikasi Halal Gratis (SEHATI 2026)",
       halalDesc: "Bagian ini menjelaskan petunjuk standardisasi kehalalan dalam budidaya tanaman obat keluarga serta tata cara pendaftaran sertifikasi halal bagi warga Kelurahan Tingkir Lor berdasarkan program SEHATI BPJPH.",
